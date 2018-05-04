@@ -1,0 +1,7 @@
+---
+layout: post
+title:  "JuliaCon 2018"
+date:   2018-05-04 8:58AM
+categories: general
+---
+We'll be at [JuliaCon 2018](http://juliacon.org/2018/) from August 7th to 11th in London to learn more about this exciting language and community. Let us know if you'll be there - we'd love to chat over a pint!
