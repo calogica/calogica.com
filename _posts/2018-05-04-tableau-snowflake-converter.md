@@ -2,7 +2,7 @@
 layout: post
 title:  "Tableau Redshift to Snowflake Converter"
 date:   2018-05-04 10:00AM
-categories: tableau
+categories: [tableau, snowflake]
 ---
 Working with clients on migrating their Tableau dashboards from Redshift to **Snowflake**, I ended up writing this little helper in Python that does much of the boring work for us.
 
