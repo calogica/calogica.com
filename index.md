@@ -4,7 +4,7 @@
 
 layout: home
 ---
-Calogica provides data and analytics consulting for small to medium-size business in the Southern California region.
+Calogica provides data and analytics consulting for small to medium-size businesses in the Southern California region.
 
 We work with relational databases, such as MySql, PostgreSQL and SQL Server, and enjoy working with data warehouse platforms such as AWS Redshift and Snowflake.
 
