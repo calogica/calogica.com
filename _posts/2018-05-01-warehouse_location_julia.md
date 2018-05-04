@@ -98,7 +98,7 @@ $$ \begin{alignat*}{1}\min\quad & y_{1} + y_{2} + y_{3} + y_{4} + y_{5}\\
 
 
 
-We have an additional constraint that at least 1 warehouse should be within 10 miles of distribution center 1, but our activity matrix $A$ already covers that, so technically we do not need this explicit constraint.
+We have an additional constraint that at least 1 warehouse should be within 10 miles of distribution center 1, but our activity matrix $$A$$ already covers that, so technically we do not need this explicit constraint.
 
 
 ```julia
