@@ -2,6 +2,7 @@
 layout: post
 title:  "Wedding Table Assignment Problem using Julia"
 date:   2018-04-30 9:00AM
+read_time: true
 categories: [julia, optimization]
 ---
 

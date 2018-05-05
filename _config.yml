@@ -13,28 +13,56 @@
 # you will see them accessed via {{ site.title }}, {{ site.email }}, and so on.
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
+lang: en-US
 title: Calogica.com
 email: info@calogica.com
 description: >- # this means to ignore newlines until "baseurl:"
   Calogica Data & Analytics Consulting, Los Angeles.
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
-github_username:  clausherther
+# github_username:  clausherther
+linkedin_username: clausherther
+
+author:
+  name: Claus Herther
+  twitter: d8asci
+  picture: /assets/images/headshot.png
+
+
+twitter_username: d8asci
+github_username: clausherther
+logo: "/assets/images/calogica_logo_100.png"
+# search: false
+# search_full_content: false # true, false (default)
+# search_provider: # lunr (default), algolia
+# algolia:
+#   application_id: # YOUR_APPLICATION_ID
+#   index_name: # YOUR_INDEX_NAME
+#   search_only_api_key: # YOUR_SEARCH_ONLY_API_KEY
+#   powered_by: # true (default), false
 
 # Build settings
 markdown: kramdown
-theme: minima
-plugins:
+theme: jekyll-theme-basically-basic
+plugins: # previsously gems
   - jekyll-feed
+  - jekyll-seo-tag
+  - jekyll-sitemap
+  - jekyll-paginate
+feed:
+  path: atom.xml
 
-# Exclude from processing.
-# The following items will not be processed, by default. Create a custom list
-# to override the default setting.
-# exclude:
-#   - Gemfile
-#   - Gemfile.lock
-#   - node_modules
-#   - vendor/bundle/
-#   - vendor/cache/
-#   - vendor/gems/
-#   - vendor/ruby/
+# # Pagination - https://jekyllrb.com/docs/pagination/
+paginate: 2
+paginate_path: /page:num/
+
+
+# Front Matter Defaults
+defaults:
+  # _posts
+  - scope:
+      path: "_posts"
+      type: posts
+    values:
+      layout: post
+      read_time: true

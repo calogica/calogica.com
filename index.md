@@ -1,8 +1,6 @@
 ---
-# Feel free to add content and custom Front Matter to this file.
-# To modify the layout, see https://jekyllrb.com/docs/themes/#overriding-theme-defaults
-
 layout: home
+image: assets/images/hero.png
 ---
 Calogica provides data and analytics consulting for small to medium-size businesses in the Southern California region.
 
@@ -12,4 +10,4 @@ In Business Intelligence tools, we have extensive experience building dashboards
 
 We also help our clients build predictive models for Customer Retention, Lifetime Value, Campaign Attribution and Performance, probabilistic Demand Prediction, as well as custom Machine Learning applications in Python or R. (We're also very excited about Julia...!)
 
-We'd love to [chat](mailto:info@calogica.com) with you about how we can help you with your data challenges!   
+We'd love to [chat](mailto:info@calogica.com) with you about how we can help you with your data challenges!
