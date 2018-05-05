@@ -1,6 +1,13 @@
 ---
-layout: home
-image: assets/images/hero.png
+layout: splash
+title: Calogica
+excerpt: "Data & Analytics Consulting"
+header:
+  overlay_color: "#000"
+  overlay_filter: "0.5"
+  overlay_image: /assets/images/hero.png
+  show_overlay_excerpt: true
+intro:
 ---
 Calogica provides data and analytics consulting for small to medium-size businesses in the Southern California region.
 
@@ -10,4 +17,4 @@ We work with relational databases, such as MySql, PostgreSQL and SQL Server, and
 
 We also help our clients build predictive models for Customer Retention, Lifetime Value, Campaign Attribution and Performance, probabilistic Demand Prediction, as well as custom Machine Learning applications in Python or R. (We're also very excited about Julia...!)
 
-We'd love to [chat](mailto:info@calogica.com) with you about how we can help you with your data challenges!
+We'd love to [chat](/about/) with you about how we can help you with your data challenges!

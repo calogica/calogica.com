@@ -1,5 +1,4 @@
 ---
-layout: post
 title:  "Tableau Redshift to Snowflake Converter"
 date:   2018-05-04 10:00AM
 categories: [tableau, snowflake]

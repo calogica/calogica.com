@@ -16,6 +16,7 @@
 lang: en-US
 title: Calogica.com
 email: info@calogica.com
+name: Claus Herther
 description: >- # this means to ignore newlines until "baseurl:"
   Calogica Data & Analytics Consulting, Los Angeles.
 baseurl: "" # the subpath of your site, e.g. /blog
@@ -23,16 +24,25 @@ url: "" # the base hostname & protocol for your site, e.g. http://example.com
 # github_username:  clausherther
 linkedin_username: clausherther
 
+google_analytics: UA-118767562-1
+
+twitter:
+  username               : &twitter "d8asci"
+
 author:
-  name: Claus Herther
-  twitter: d8asci
-  picture: /assets/images/headshot.png
+  name             : *name # *name is a YAML reference pointing to the &anchor earlier
+  avatar           : "/assets/images/headshot.jpg"
+  bio              : "Data & Analytics Consulting"
+  location         : "Los Angeles, CA"
+  email            :
+  uri              : "http://calogica.com"
+  home             : "http://calogica.com"
+  github           : "clausherther"
+  linkedin         : "clausherther"
+  twitter          : *twitter
 
-
-twitter_username: d8asci
-github_username: clausherther
 logo: "/assets/images/calogica_logo_100.png"
-# search: false
+search: true
 # search_full_content: false # true, false (default)
 # search_provider: # lunr (default), algolia
 # algolia:
@@ -43,8 +53,12 @@ logo: "/assets/images/calogica_logo_100.png"
 
 # Build settings
 markdown: kramdown
-theme: jekyll-theme-basically-basic
-remote_theme: "mmistakes/jekyll-theme-basically-basic"
+# theme: jekyll-theme-basically-basic
+theme: minimal-mistakes-jekyll
+minimal_mistakes_skin: "mint"
+remote_theme: "mmistakes/minimal-mistakes"
+layout: single
+# remote_theme: "mmistakes/jekyll-theme-basically-basic"
 plugins: # previsously gems
   - jekyll-feed
   - jekyll-seo-tag
@@ -54,16 +68,30 @@ feed:
   path: atom.xml
 
 # # Pagination - https://jekyllrb.com/docs/pagination/
-paginate: 2
+paginate: 5
 paginate_path: /page:num/
 
+include: ["_pages"]
 
 # Front Matter Defaults
 defaults:
   # _posts
   - scope:
-      path: "_posts"
+      path: ""
       type: posts
     values:
-      layout: post
+      layout: single
+      mathjax: true
+      author_profile: true
       read_time: true
+      comments: true
+      share: true
+      related: true
+      sidebar:
+          image: "/assets/images/headshot.jpg"
+  - scope:
+      path: "_pages"
+      type: pages
+    values:
+      layout: single
+      author_profile: true
