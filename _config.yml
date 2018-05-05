@@ -44,6 +44,7 @@ logo: "/assets/images/calogica_logo_100.png"
 # Build settings
 markdown: kramdown
 theme: jekyll-theme-basically-basic
+remote_theme: "mmistakes/jekyll-theme-basically-basic"
 plugins: # previsously gems
   - jekyll-feed
   - jekyll-seo-tag
