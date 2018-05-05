@@ -4,6 +4,7 @@ title:  "Wedding Table Assignment Problem using Julia"
 date:   2018-04-30 9:00AM
 read_time: true
 categories: [julia, optimization]
+mathjax: true
 ---
 
 This is a port from Python of the Wedding Table Assignment example from [PuLP](https://github.com/coin-or/pulp/blob/master/examples/wedding.py).
