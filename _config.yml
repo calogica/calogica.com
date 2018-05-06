@@ -34,7 +34,7 @@ twitter:
   username               : &twitter "d8asci"
 
 author:
-  name             : *name # *name is a YAML reference pointing to the &anchor earlier
+  name             : Claus Herther # *name is a YAML reference pointing to the &anchor earlier
   avatar           : "/assets/images/headshot.jpg"
   bio              : "Data & Analytics Consulting"
   location         : "Los Angeles, CA"
