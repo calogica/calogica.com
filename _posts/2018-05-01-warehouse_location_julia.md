@@ -6,7 +6,7 @@ mathjax: true
 ---
 
 ## Location of Warehouses
-This is based on _Example 5.1 (Location of Warehouses)_ from [Applied Linear Programming](https://www.wiley.com/en-us/Applied+Integer+Programming%3A+Modeling+and+Solution-p-9780470373064)
+This is based on _Example 5.1 (Location of Warehouses)_ from [Applied Linear Programming](https://www.wiley.com/en-us/Applied+Integer+Programming%3A+Modeling+and+Solution-p-9780470373064){:target="_blank"}
 
 A firm has 5 distribution centers and we want to determine which subset of these should serve as a site for a warehouse. The goal is the build a minimum number of warehouses that can cover all distribution centers so that every warehouse is within 10 miles of each distribution center.
 

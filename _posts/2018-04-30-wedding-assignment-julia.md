@@ -5,7 +5,7 @@ categories: [julia, optimization]
 excerpt: "A Julia port from Python of the Wedding Table Assignment example from [PuLP](https://github.com/coin-or/pulp/blob/master/examples/wedding.py)."
 ---
 
-This is a port from Python of the Wedding Table Assignment example from [PuLP](https://github.com/coin-or/pulp/blob/master/examples/wedding.py).
+This is a port from Python of the Wedding Table Assignment example from [PuLP](https://github.com/coin-or/pulp/blob/master/examples/wedding.py){:target="_blank"}.
 
 
 This is an example of a **set partitioning** problem. We have a _universe_ of guests and subsets of tables that have to _exactly_ cover our universe, i.e. the guests.

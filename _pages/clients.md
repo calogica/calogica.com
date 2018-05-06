@@ -12,14 +12,14 @@ After leading the Data & Analytics team for 2 years and building out its core an
 
 Some of our favorite projects:
 - Machine-learned Fit Algorithm (Python, xgboost)
-(see [https://theblacktux.com/blog/2017/11/machine-learning-jacket-size](https://theblacktux.com/blog/2017/11/machine-learning-jacket-size))
+(see [https://theblacktux.com/blog/2017/11/machine-learning-jacket-size](https://theblacktux.com/blog/2017/11/machine-learning-jacket-size){:target="_blank"})
 - Inventory Forecasting Monte-Carlo Simulation (PyMC3)
 - Probabilistic Demand Planning Model
 - Marketing attribution modeling
 - Interactive dashboards in Tableau/Periscope/Mode
-- ETL pipelines in Airflow/Python and [dbt](https://www.getdbt.com)
+- ETL pipelines in Airflow/Python and [dbt](https://www.getdbt.com){:target="_blank"}
 - Data Warehouse v1 in Redshift
-- Data Warehouse Migration to [Snowflake](https://www.snowflake.net/)
+- Data Warehouse Migration to [Snowflake](https://www.snowflake.net/){:target="_blank"}
 
 ### Netflix
 As part of the Content Programming team, our work focused primarily on partnering with the Originals team on building analytical tools to help drive programming and content acquisition decisions for Netflix Originals.
