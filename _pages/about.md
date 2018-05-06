@@ -1,6 +1,6 @@
 ---
 layout: single
-title: Contact Us
+title: About
 permalink: /about/
 author_profile: true
 ---

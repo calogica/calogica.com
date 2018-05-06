@@ -3,7 +3,7 @@ main:
     url: /services
   - title: "Clients"
     url: /clients
-  - title: "Contact Us"
+  - title: "About"
     url: /about
   - title: "Blog"
     url: /blog/
