@@ -1,7 +1,9 @@
 main:
-  - title: "Blog"
-    url: /blog/
+  - title: "Services"
+    url: /services
+  - title: "Clients"
+    url: /clients
   - title: "Contact Us"
     url: /about
-  - title: "Categories"
-    url: /categories/
+  - title: "Blog"
+    url: /blog/

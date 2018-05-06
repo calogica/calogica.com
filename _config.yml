@@ -24,7 +24,11 @@ url: "" # the base hostname & protocol for your site, e.g. http://example.com
 # github_username:  clausherther
 linkedin_username: clausherther
 
-google_analytics: UA-118767562-1
+analytics:
+  provider               : "google-universal"
+  google:
+    tracking_id          : UA-118767562-1
+    anonymize_ip         : true
 
 twitter:
   username               : &twitter "d8asci"
