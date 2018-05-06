@@ -39,7 +39,7 @@ author:
   bio              : "Data & Analytics Consulting"
   location         : "Los Angeles, CA"
   email            : "info@calogica.com"
-  uri              : "http://calogica.com"
+  # uri              : "http://calogica.com"
   home             : "http://calogica.com"
   github           : "clausherther"
   linkedin         : "clausherther"
