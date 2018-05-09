@@ -59,7 +59,7 @@ A = [Int(D[i, j] <= max_miles) for i=1:m, j=1:m]
 
 
 
-Now we can model this problem using the [JuMP](https://www.juliaopt.org/) package and the (open source) Cbc solver:
+Now we can model this problem using the [JuMP](https://www.juliaopt.org/) package and the (open source) `Cbc` solver:
 
 (First we import the relevant packages)
 ```julia

@@ -9,7 +9,7 @@ header:
   show_overlay_excerpt: true
 intro:
 ---
-Calogica provides data and analytics consulting for small to medium-size businesses in the Southern California region.
+Calogica provides data and analytics consulting for small to medium-size businesses.
 
 Working with [clients](/clients) in a variety of industries over the last 15 years, we have extensive experience integrating disparate data sources and developing data warehouses from scratch. We understand "small" to "big" data and can help you build out a scalable data analytics platform.
 

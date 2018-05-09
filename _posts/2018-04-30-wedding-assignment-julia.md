@@ -71,7 +71,7 @@ for i in 1:length(table_combos)
 end
 ```
 
-We end up with 3,213 possible tables. Time to run an optimizer to pick the best combos!
+We end up with `3,213` possible tables. Time to run an optimizer to pick the best combos!
 ```julia
 length(possible_tables)
 ```
@@ -79,7 +79,7 @@ length(possible_tables)
 
 
 
-3213
+`3213`
 
 
 
