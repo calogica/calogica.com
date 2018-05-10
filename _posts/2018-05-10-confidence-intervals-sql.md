@@ -92,7 +92,7 @@ $$\hat{p} \pm z \sqrt \frac{\hat{p}(1-\hat{p})}{n}$$
 
 (where $$n$$ is the sample size for the period we're looking at and $\hat{p}$ is the proportion we're reporting, with $z$ as our z-score, e.g. [1.96 to represent a 95% CI](http://www.ltcconline.net/greenl/courses/201/estimation/smallConfLevelTable.htm){:target="_blank"})
 
-Given that we have data for exchange rates in tabular form like so,
+Given that we have data for exchange rates in tabular form like so:
 
 **my_order_and_exchanges_table**
 
@@ -112,8 +112,9 @@ Given that we have data for exchange rates in tabular form like so,
 
 
 !["Orders and Exchanges by Week"](/assets/plots/weekly_orders_exchanges.png "Orders and Exchanges by Week")
+_(Orders on left y-axis, Exchanges on right y-axis)_
 
-we can create approximate confidence intervals in SQL as follows:
+We can then create approximate confidence intervals in SQL as follows:
 
 ```sql
 -- We'll first aggregate our order and exchange data to a weekly level
