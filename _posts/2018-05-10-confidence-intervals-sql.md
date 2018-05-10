@@ -15,7 +15,7 @@ Empirically, a ratio like _exchange rate_ follows a $$beta$$ [distribution](http
 
 Using the canonical coin toss example, we can parameterize a $$beta$$ distribution using $\alpha$ and $\beta$, representing heads and tails, respectively.
 
-In R, we'll simulate 100,000 tosses of a fair coin and draw the resulting distribution of values:
+Using R, let's simulate 100,000 tosses of a fair coin and draw the resulting distribution of values:
 
 ```r
 library(ggplot2)
