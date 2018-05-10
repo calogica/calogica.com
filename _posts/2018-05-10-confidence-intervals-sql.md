@@ -4,11 +4,13 @@ date:   2018-05-09 10:00AM
 categories: [sql]
 ---
 ## Our business issue  
-Often times we want to display confidence intervals for a proportion/probability (i.e. a percentage between 0% and 100%) in a report or dashboard but don't have the luxury of computing them using a statistical package like R or `scipy` in Python.
+Often times we want to display confidence intervals for a proportion/probability (i.e. a percentage between 0% and 100%) in a report or dashboard.
 
 For example, in an eCommerce setting we may want to show exchange rates of products (expressed as $\frac{exchanges}{orders}$) from week to week. However, since we don't really know the _true_ exchange rate of our customer population at large, each week represents a _sample_, if you will, drawn from the distribution of exchange rates for our business. Thus, because of the stochastic nature of weekly sales pattern, comparing exchange rates across weeks requires that we take the _sample size_ of each weekly purchase cohort into account.
 
 As a result, exchange rates for weeks with lower overall sales volume have **higher implied sampling error** than weeks with high purchase volume.
+
+While tools like **Python**, **R** or even **Excel** can help us here, we don't always have the luxury of computing them using a statistical package like R or `scipy`, so we'll also explore an alternative using **SQL**.
 
 ## Proportions as a Beta distribution
 Empirically, a ratio like _exchange rate_ follows a $$beta$$ [distribution](https://stats.stackexchange.com/questions/47771/what-is-the-intuition-behind-beta-distribution){:target="_blank"}, which is often used to describe probabilities such as % heads in a coin toss, or % clicked in an online [A/B testing](https://www.optimizely.com/optimization-glossary/ab-testing/){:target="_blank"} scenario. We can think of the exchange rate as the probability of getting an exchange out all possible tries (sales).
