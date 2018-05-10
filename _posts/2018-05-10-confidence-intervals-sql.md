@@ -38,7 +38,7 @@ p + geom_vline(aes(xintercept=mean(heads)), color="blue", linetype="dashed", siz
 )
 !["Coin Toss Beta Distribution"](/assets/plots/coin_toss_beta.png "Coin Toss Beta Distribution")
 
-We'll note that a 50/50 distribtution of coin tosses is centered around 0.50 and looks like quite symmetrical, meaning there seems to be an even amount of probability that a fair coin tossed 100 times comes up heads more or less than 50 of the time.
+We'll note that a 50/50 distribtution of coin tosses is centered around 0.50 and looks quite symmetrical, meaning there seems to be an even amount of probability that a fair coin tossed 100 times comes up heads more or less than 50 of the time.
 
 Even without simulation, we can calculate confidence intervals for a $$beta$$ distribution quite easily using R or even Excel / Google Sheets:
 
