@@ -11,7 +11,7 @@ For example, in an eCommerce setting we may want to show exchange rates of produ
 As a result, exchange rates for weeks with lower overall sales volume have **higher implied sampling error** than weeks with high purchase volume.
 
 ## Proportions as a Beta distribution
-Empirically, a ratio like _exchange rate_ follows a $$beta$$ [distribution](https://stats.stackexchange.com/questions/47771/what-is-the-intuition-behind-beta-distribution){:target="_blank"}, which is often used to describe probabilities such as % heads in a roll of dice, or % clicked in an online [A/B testing](https://www.optimizely.com/optimization-glossary/ab-testing/){:target="_blank"} scenario. We can think of the exchange rate as the probability of getting an exchange out all possible tries (sales).
+Empirically, a ratio like _exchange rate_ follows a $$beta$$ [distribution](https://stats.stackexchange.com/questions/47771/what-is-the-intuition-behind-beta-distribution){:target="_blank"}, which is often used to describe probabilities such as % heads in a coin toss, or % clicked in an online [A/B testing](https://www.optimizely.com/optimization-glossary/ab-testing/){:target="_blank"} scenario. We can think of the exchange rate as the probability of getting an exchange out all possible tries (sales).
 
 Using the canonical coin toss example, we can parameterize a $$beta$$ distribution using $\alpha$ and $\beta$, representing heads and tails, respectively.
 
