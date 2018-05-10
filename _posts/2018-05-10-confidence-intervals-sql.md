@@ -3,22 +3,44 @@ title:  "Confidence Intervals for Proportions (Approximation) in SQL"
 date:   2018-05-09 10:00AM
 categories: [sql]
 ---
-### Our business issue  
+## Our business issue  
 Often times we want to display confidence intervals for a proportion (i.e. a percentage between 0% and 100%) in a report or dashboard but don't have the luxury of computing them using a statistical package like R or `scipy` in Python.
 
 For example, in an eCommerce setting we may want to show exchange rates of products (expressed as $\frac{exchanges}{orders}$) from week to week. However, since we don't really know the _true_ exchange rate of our customer population at large, each week represents a _sample_, if you will, drawn from the distribution of exchange rates for our business. Thus, because of the stochastic nature of weekly sales pattern, comparing exchange rates across weeks requires that we take the _sample size_ of each weekly purchase cohort into account.
 
 As a result, exchange rates for weeks with lower overall sales volume have **higher implied sampling error** than weeks with high purchase volume.
 
-### Proportions as a Beta distribution
+## Proportions as a Beta distribution
 Empirically, a ratio like _exchange rate_ follows a $$beta$$ [distribution](https://stats.stackexchange.com/questions/47771/what-is-the-intuition-behind-beta-distribution){:target="_blank"}, which is often used to describe probabilities such as % heads in a roll of dice, or % clicked in an online [A/B testing](https://www.optimizely.com/optimization-glossary/ab-testing/){:target="_blank"} scenario. We can think of the exchange rate as the probability of getting an exchange out all possible tries (sales).
+
 Using the canonical coin toss example, we can parameterize a $$beta$$ distribution using $\alpha$ and $\beta$, representing heads and tails, respectively.
 
-(Plot)
+In R, we'll simulate 100,000 tosses of a fair coin and draw the resulting distribution of values:
 
-We can then calculate confidence intervals for a beta distribution quite easily using R or even Excel / Google Sheets:
+```r
+library(ggplot2)
 
-#### R:
+simulations = 100000
+
+trials = 100
+heads = 50
+
+alpha = heads
+beta = trials - heads
+
+coin_toss_sim = rbeta(simulations, alpha, beta)
+
+df = data.frame(heads=coin_toss_sim)
+
+p = ggplot(df, aes(x=heads)) + geom_density(color="darkblue", fill="lightblue")
+p + geom_vline(aes(xintercept=mean(heads)), color="blue", linetype="dashed", size=1)
+```
+)
+!["Coin Toss Beta Distribution"](/assets/plots/coin_toss_beta.png "Coin Toss Beta Distribution")
+
+Even without simulation, we can calculate confidence intervals for a beta distribution quite easily using R or even Excel / Google Sheets:
+
+### R:
 Using the built-in `qbeta()` function to extract quantiles from the $$beta$$ distribution,
 we compute a 95% confidence interval for a beta distribution centered around 50%, where we've observed 50 heads out of 100 coin tosses:
 
@@ -41,7 +63,7 @@ c(lb, md, ub)
 [1] 0.4026979 0.5000000 0.5973021
 ```
 
-#### Excel/Google Sheets:
+### Excel/Google Sheets:
 Here we can use the built-in `BETAINV()` formula to extract quantiles from a parameterized $$beta$$ distribution:
 
 E.g.
@@ -61,7 +83,7 @@ md	0.50
 ub	0.5973021
 ```
 
-### But what about if the only tool at our disposal is good old SQL?
+## But what about if the only tool at our disposal is good old SQL?
 In that case, we turn to the Central Limit Theorem for help and use a $$Normal$$ [approximation](https://en.wikipedia.org/wiki/Binomial_proportion_confidence_interval#Normal_approximation_interval){:target="_blank"} of the $$beta$$ distribution, provided our sample is sufficiently large.
 
 Using the normal approximation, we can express a confidence internal given $$p$$ and $$n$$ like this:
@@ -143,7 +165,9 @@ order by
     z.z_value_name,
     s.week
 ```
+
 Plotting this against the exchange rate given by orders and exchanges from above, we can see that the upper and lower bounds of our approximated confidence interval, here plotted as a [Bollinger Band](https://en.wikipedia.org/wiki/Bollinger_Bands){:target="_blank"}, neatly track the upper & lower bounds computed from quantiles of the beta distribution:
+
 !["Exchange Rate by Week"](/assets/plots/exchange_rate_bollinger_band.png "Exchange Rate by Week")
 
 Note though that in the week of `2018-04-23`, where our order volume dropped off drastically, the confidence interval is gets noticeably larger, while the approximation deviates the most from the excact confidence interval. In cases like this, where our sample size gets small, the normal approximation does not hold up as well anymore.
