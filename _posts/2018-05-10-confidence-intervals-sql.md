@@ -88,12 +88,12 @@ lb	0.4026979
 md	0.50
 ub	0.5973021
 ```
-We confirm that those are the same results as we got from our **R** experiment earlier
+We confirm that those are the same results as we got from our **R** experiment earlier.
 
-Let's turn back to the original business problem we presented earlier, how to calculate confidence intervals for something like a weekly exchange rate of orders.
+Let's turn back to the original business problem we presented earlier - how to calculate confidence intervals for something like a weekly exchange rate of orders.
 
 ## But what about if the only tool at our disposal is good old SQL?
-In that case, we turn to the **Central Limit Theorem** for help and use a $$Normal$$ [approximation](https://en.wikipedia.org/wiki/Binomial_proportion_confidence_interval#Normal_approximation_interval){:target="_blank"} of the $$beta$$ distribution, provided our sample is sufficiently large.
+Since SQL (*generally*) lacks a built-in way to access $$beta$$ distribution values, we turn to the **Central Limit Theorem** for help and use a $$Normal$$ [approximation](https://en.wikipedia.org/wiki/Binomial_proportion_confidence_interval#Normal_approximation_interval){:target="_blank"} of the $$beta$$ distribution, provided our sample is sufficiently large.
 
 Using the normal approximation, we can express a confidence internal given $$p$$ and $$n$$ like this:
 
@@ -176,7 +176,7 @@ order by
     s.week
 ```
 
-Plotting this against the exchange rate given by orders and exchanges from above, we can see that the upper and lower bounds of our approximated confidence interval, here plotted as a [Bollinger Band](https://en.wikipedia.org/wiki/Bollinger_Bands){:target="_blank"}, neatly track the upper & lower bounds computed from quantiles of the $$beta$$ distribution:
+Plotting this against the exchange rate given by orders and exchanges from above, we can see that the upper and lower bounds of our approximated confidence interval, here plotted as a [Bollinger Band](https://en.wikipedia.org/wiki/Bollinger_Bands){:target="_blank"}, neatly track the upper & lower bounds computed from exact quantiles drawn from the $$beta$$ distribution:
 
 !["Exchange Rate by Week"](/assets/plots/exchange_rate_bollinger_band.png "Exchange Rate by Week")
 
