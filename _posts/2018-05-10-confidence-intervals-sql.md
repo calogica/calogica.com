@@ -178,4 +178,4 @@ Plotting this against the exchange rate given by orders and exchanges from above
 
 !["Exchange Rate by Week"](/assets/plots/exchange_rate_bollinger_band.png "Exchange Rate by Week")
 
-Note though that in the week of `2018-04-23`, where our order volume dropped off drastically, the confidence interval is gets noticeably larger, while the approximation deviates the most from the excact confidence interval. In cases like this, where our sample size gets small, the normal approximation does not hold up as well anymore.
+Note though that in the week of `2018-04-23`, where our order volume dropped off drastically, the confidence interval is noticeably larger, while the approximation deviates the most from the exact confidence interval. In cases like this, where our sample size gets small, the normal approximation does not hold up as well anymore.
