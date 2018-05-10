@@ -107,17 +107,17 @@ Given that we have data for exchange rates in tabular form like so:
 
 | Week       | Orders | Exchanges |
 |------------|-------:|----------:|
-| 2018-02-26 |  10000 |      1089 |
-| 2018-03-05 |  10431 |      1108 |
-| 2018-03-12 |   4472 |       447 |
-| 2018-03-19 |  11567 |      1172 |
-| 2018-03-26 |  17864 |      1918 |
-| 2018-04-02 |  16078 |      1702 |
-| 2018-04-09 |  13459 |      1451 |
-| 2018-04-16 |   1122 |       114 |
-| 2018-04-23 |    515 |        56 |
-| 2018-04-30 |  10349 |      1061 |
-| 2018-05-07 |   7595 |       832 |
+| 2018-02-25 |  10000 |      1089 |
+| 2018-03-04 |  10431 |      1108 |
+| 2018-03-11 |   4472 |       447 |
+| 2018-03-18 |  11567 |      1172 |
+| 2018-03-25 |  17864 |      1918 |
+| 2018-04-01 |  16078 |      1702 |
+| 2018-04-08 |  13459 |      1451 |
+| 2018-04-15 |   1122 |       114 |
+| 2018-04-22 |    515 |        56 |
+| 2018-04-29 |  10349 |      1061 |
+| 2018-05-06 |   7595 |       832 |
 
 
 !["Orders and Exchanges by Week"](/assets/plots/weekly_orders_exchanges.png "Orders and Exchanges by Week")
@@ -180,4 +180,4 @@ Plotting this against the exchange rate given by orders and exchanges from above
 
 !["Exchange Rate by Week"](/assets/plots/exchange_rate_bollinger_band.png "Exchange Rate by Week")
 
-Note though that in the week of `2018-04-23`, where our order volume dropped off drastically, the confidence interval is noticeably larger, while the approximation deviates the most from the exact confidence interval. In cases like this, where our sample size gets small, the normal approximation does not hold up as well anymore.
+Note though that in the week of `2018-04-22`, where our order volume dropped off drastically, the confidence interval is noticeably larger, while the approximation deviates the most from the exact confidence interval. In cases like this, where our sample size gets small, the normal approximation does not hold up as well anymore.
