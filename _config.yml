@@ -85,6 +85,7 @@ defaults:
       type: posts
     values:
       layout: single
+      classes: wide
       mathjax: true
       author_profile: true
       read_time: true
