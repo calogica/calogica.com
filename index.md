@@ -17,6 +17,6 @@ We have successfully implemented business intelligence tools like Tableau, Looke
 
 We work with relational databases, such as PostgreSQL, MySQL and SQL Server, and really enjoy working with data warehouse platforms such as AWS Redshift and Snowflake.
 
-We also help our clients build predictive models for Customer Retention, Lifetime Value, Campaign Attribution and Performance, probabilistic Demand Prediction, as well as custom Machine Learning applications in Python or R. (We're also very excited about Julia...!)
+We also help our clients build predictive models for Customer Retention, Lifetime Value, Campaign Attribution and Performance, probabilistic Demand Prediction, as well as custom Machine Learning applications in Python or R.
 
 We'd love to [chat](/about) with you about how we can help you with your [data challenges](/services)!
