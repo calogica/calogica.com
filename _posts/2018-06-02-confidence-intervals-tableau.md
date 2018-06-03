@@ -1,6 +1,7 @@
 ---
 title:  "Confidence Intervals, when no real mathematicians are looking - Tableau Edition"
 date:   2018-06-02 10:00AM
+excerpt: "How to calculate approximations of confidence intervals for proportions & probabilities in Tableau"
 categories: [tableau]
 ---
 In our last [post](https://calogica.github.io/sql/2018/05/09/confidence-intervals-sql.html), we discussed calculating approximate confidence intervals for proportions in SQL when we don't have access to statistical distributions, like the $$beta$$ distribution. If you haven't read that one yet, I recommend you head [over there](https://calogica.github.io/sql/2018/05/09/confidence-intervals-sql.html) now to get more context on what we're trying to do.
