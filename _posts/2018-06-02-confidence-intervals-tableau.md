@@ -4,9 +4,9 @@ date:   2018-06-02 10:00AM
 categories: [tableau]
 ---
 ## Confidence Intervals, when no real mathematicians are looking
-In our last [post](https://calogica.github.io/sql/2018/05/09/confidence-intervals-sql.html), we discussed calculating approximate confidence intervals for proportions in SQL when we don't have access to statistical distributions, like the $$beta$$ distribution.
+In our last [post](https://calogica.github.io/sql/2018/05/09/confidence-intervals-sql.html), we discussed calculating approximate confidence intervals for proportions in SQL when we don't have access to statistical distributions, like the $$beta$$ distribution. If you haven't read that one yet, I recommend you head [over there](https://calogica.github.io/sql/2018/05/09/confidence-intervals-sql.html now to get more context on what we're trying to do.
 
-Calculating this approximation in SQL is helpful, for example, when we need to use this confidence interval in downstream data pipelines or models.
+As we saw, calculating this approximation in SQL is helpful, for example, when we need to use this confidence interval in downstream data pipelines or models.
 Many times though, we just want to display the confidence interval on a dashboard in our BI tool of choice, e.g. in Tableau. In that case, it'd be better if we could dynamically calculate the CI in our BI tool.
 
 Turns out we can apply the same technique as in the earlier post to accomplish just that. We'll use Tableau to illustrate how to do this, but most other BI tools that allow you to create custom formulas in your metric (e.g. MicroStrategy) would work here.
@@ -47,7 +47,7 @@ However, as we know from last time, we should take that with a slight grain of s
 
 To do that, we'll create a few more calculated fields to mirror the calculations we did in SQL in our last post.
 
-First, we define the standard error metric **Exchange Rate % SE** (again, using the Normal Approximation):
+First, we define the standard error metric **Exchange Rate % SE** (again, using the [Normal Approximation](https://en.wikipedia.org/wiki/Binomial_proportion_confidence_interval#Normal_approximation_interval)):
 ```
 SQRT(
     [Exchange Rate %] *
@@ -55,7 +55,7 @@ SQRT(
 )
 ```
 
-Then using 1.96 as our z-value of choice (for a 95% confidence interval), we create metrics for the upper and lower bounds, like so:
+Then using 1.96 as our z-value of choice (for a (95% confidence interval)[http://www.ltcconline.net/greenl/courses/201/estimation/smallConfLevelTable.htm]), we create metrics for the upper and lower bounds, like so:
 
 **Exchange Rate % (Lower Bound)**
 
@@ -65,7 +65,7 @@ Then using 1.96 as our z-value of choice (for a 95% confidence interval), we cre
 
 `[Exchange Rate %]+1.96*[Exchange Rate % SE]`
 
-If we're feeling fancy, we might even make the z-value a parameter in Tableau and use that instead, e.g.
+If we're feeling fancy, we might even make the z-value a (parameter)[https://onlinehelp.tableau.com/current/pro/desktop/en-us/parameters_create.html] in Tableau and use that instead, e.g.
 `[Exchange Rate %]+[Z-Value]*[Exchange Rate % SE]`
 
 Plotting all three shows us, again, that the low order volume during the week of April 22 should make us more suspicious in trusting the exchange rate for that week.
