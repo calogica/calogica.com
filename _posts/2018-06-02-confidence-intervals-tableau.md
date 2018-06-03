@@ -55,7 +55,7 @@ SQRT(
 )
 ```
 
-Then using 1.96 as our z-value of choice (for a [95% confidence interval](http://www.ltcconline.net/greenl/courses/201/estimation/smallConfLevelTable.htm]){:target="_blank"}, we create metrics for the upper and lower bounds, like so:
+Then using 1.96 as our z-value of choice (for a [95% confidence interval](http://www.ltcconline.net/greenl/courses/201/estimation/smallConfLevelTable.htm){:target="_blank"}, we create metrics for the upper and lower bounds, like so:
 
 **Exchange Rate % (Lower Bound)**
 
