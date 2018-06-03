@@ -1,5 +1,5 @@
 ---
-title:  "Confidence Intervals for Proportions & Probabilities (Approximation) in SQL"
+title:  "Confidence Intervals in SQL, when no real mathematicians are looking"
 date:   2018-05-09 10:00AM
 categories: [sql]
 ---
