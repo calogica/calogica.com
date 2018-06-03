@@ -55,7 +55,7 @@ SQRT(
 )
 ```
 
-Then using 1.96 as our z-value of choice (for a [95% confidence interval](http://www.ltcconline.net/greenl/courses/201/estimation/smallConfLevelTable.htm]), we create metrics for the upper and lower bounds, like so:
+Then using 1.96 as our z-value of choice (for a [95% confidence interval](http://www.ltcconline.net/greenl/courses/201/estimation/smallConfLevelTable.htm]){:target="_blank"}, we create metrics for the upper and lower bounds, like so:
 
 **Exchange Rate % (Lower Bound)**
 
@@ -65,7 +65,7 @@ Then using 1.96 as our z-value of choice (for a [95% confidence interval](http:/
 
 `[Exchange Rate %]+1.96*[Exchange Rate % SE]`
 
-If we're feeling fancy, we might even make the z-value a [parameter](https://onlinehelp.tableau.com/current/pro/desktop/en-us/parameters_create.html) in Tableau and use that instead, e.g.
+If we're feeling fancy, we might even make the z-value a [parameter](https://onlinehelp.tableau.com/current/pro/desktop/en-us/parameters_create.html){:target="_blank"} in Tableau and use that instead, e.g.
 `[Exchange Rate %]+[Z-Value]*[Exchange Rate % SE]`
 
 Plotting all three shows us, again, that the low order volume during the week of April 22 should make us more suspicious in trusting the exchange rate for that week.
