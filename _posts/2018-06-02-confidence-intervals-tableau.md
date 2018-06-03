@@ -46,7 +46,7 @@ However, as we know from last time, we should take that with a slight grain of s
 
 To do that, we'll create a few more calculated fields to mirror the calculations we did in SQL in our last post.
 
-First, we define the standard error metric **Exchange Rate % SE** (again, using the [Normal Approximation](https://en.wikipedia.org/wiki/Binomial_proportion_confidence_interval#Normal_approximation_interval)):
+First, we define the standard error metric **Exchange Rate % SE** (again, using the [Normal Approximation](https://en.wikipedia.org/wiki/Binomial_proportion_confidence_interval#Normal_approximation_interval){:target="_blank"}):
 ```
 SQRT(
     [Exchange Rate %] *
@@ -54,7 +54,7 @@ SQRT(
 )
 ```
 
-Then using 1.96 as our z-value of choice (for a [95% confidence interval](http://www.ltcconline.net/greenl/courses/201/estimation/smallConfLevelTable.htm){:target="_blank"}, we create metrics for the upper and lower bounds, like so:
+Then using 1.96 as our z-value of choice (for a [95% confidence interval](http://www.ltcconline.net/greenl/courses/201/estimation/smallConfLevelTable.htm){:target="_blank"}), we create metrics for the upper and lower bounds, like so:
 
 **Exchange Rate % (Lower Bound)**
 
@@ -67,6 +67,6 @@ Then using 1.96 as our z-value of choice (for a [95% confidence interval](http:/
 If we're feeling fancy, we might even make the z-value a [parameter](https://onlinehelp.tableau.com/current/pro/desktop/en-us/parameters_create.html){:target="_blank"} in Tableau and use that instead, e.g.
 `[Exchange Rate %]+[Z-Value]*[Exchange Rate % SE]`
 
-Plotting all three shows us, again, that the low order volume during the week of April 22 should make us more suspicious in trusting the exchange rate for that week.
+Plotting all three shows us, again, that the low order volume during the week of April 22 should make us more suspicious in trusting the exchange rate for that week. If you're seeing spikes or drops in your ratio metrics, it's always helpful to look at them in the context of overall volume to guard against reacting to noise in your weekly sample.
 
 !["Exchange Rate by Week with CI"](/assets/plots/exchange_rate_conf_int.png "Exchange Rate by Week with CI")
