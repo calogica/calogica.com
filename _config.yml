@@ -58,6 +58,13 @@ search: true
 #   powered_by: # true (default), false
 
 # Build settings
+
+comments:
+  provider: "disqus"
+  disqus:
+    shortname: "calogica"
+
+
 markdown: kramdown
 
 theme: minimal-mistakes-jekyll
