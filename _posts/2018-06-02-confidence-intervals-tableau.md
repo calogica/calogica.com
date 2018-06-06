@@ -72,6 +72,6 @@ Plotting all three shows us, again, that the low order volume during the week of
 
 !["Exchange Rate by Week with CI"](/assets/plots/exchange_rate_conf_int.png "Exchange Rate by Week with CI")
 
-Next time we'll look at how we can create proper error bars using a lollipop chart, like so:
+Next time we'll look at how we can create proper error bars using a dumbbell chart, like so:
 
 !["Exchange Rate by Week with Error Lollipops"](/assets/plots/exchange_rate_error_bars_tableau.png "Exchange Rate by Week with Error Lollipops")
