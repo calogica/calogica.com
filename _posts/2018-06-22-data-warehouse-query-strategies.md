@@ -126,7 +126,7 @@ The simple fix is to rearrange your query. In databases, 3 right turns don't mak
 
 ## Filter Early, Filter Often
 In most cases, we're interested in a subset of facts, typically for a certain time period or date range. Thus, we want to filter our, typically, very large fact table as efficiently as possible to just work with that slice of data downstream.
-For partitioned tables - and really all your fact tables should be partitioned - filtering on the partition key (`sort key` in [Redshift lingo](https://docs.aws.amazon.com/redshift/latest/dg/t_Sorting_data.html)) can have big performance benefits.
+For partitioned tables - and really all your fact tables should be partitioned - filtering on the partition key (`sortkey` in [Redshift lingo](https://docs.aws.amazon.com/redshift/latest/dg/t_Sorting_data.html)) can have big performance benefits.
 To get the most gain out of this, we need to filter as early as possible, as close to the fact table as possible.
 
 #### Do :)
