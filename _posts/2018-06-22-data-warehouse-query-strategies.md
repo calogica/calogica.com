@@ -16,7 +16,7 @@ Joining large fact tables (such as an `Orders` and a `Shipments` fact table in a
 select
     o.order_date,
     sum(o.order_cnt) as order_cnt,
-    sum(shipment_cnt) as shipment_cnt
+    sum(s.shipment_cnt) as shipment_cnt
 from
     fct_orders o
     join
