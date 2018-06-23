@@ -62,7 +62,7 @@ search: true
 comments:
   provider: "disqus"
   disqus:
-    shortname: "calogica"
+    shortname: "calogica-blog"
 
 
 markdown: kramdown
