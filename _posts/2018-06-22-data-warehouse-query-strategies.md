@@ -44,7 +44,7 @@ with orders as
  	from fct_orders
  	group by 1
 ),
-with shipments as
+shipments as
 (
 	select order_date, sum(shipment_cnt) as shipment_cnt
 	from fct_shipments
@@ -75,13 +75,13 @@ with complicated_logic as
 (
 	...
 ),
-with metric_a as
+metric_a as
 (
 	select ...
 	from complicated_logic
 	where some_parameter = 'something'
 ),
-with metric_b as
+metric_b as
 (
 	select ...
 	from complicated_logic
@@ -143,7 +143,7 @@ with metric_a as
         txn_date between '2018-01-01' and '2018-05-31'
     group by 1
 ),
-with metric_b as
+metric_b as
 (
     ...
 )
