@@ -150,8 +150,8 @@ select
 )
 -- then pick out the top N products (you could even do this in the BI layer)
 select
-    sales_rank,
     store_name,
+    sales_rank,
     product_name,
     sales_qty
 from
