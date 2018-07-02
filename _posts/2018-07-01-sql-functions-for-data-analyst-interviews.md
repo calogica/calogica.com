@@ -313,7 +313,7 @@ from
 where
     f.txn_date >= '2018-01-01'
 group by
-    1,2
+    1
 ),
 select
     week_start_date,
@@ -375,7 +375,7 @@ from
 where
     f.txn_date >= '2018-01-01'
 group by
-    1,2
+    1
 ),
 moving_functions as
 (
