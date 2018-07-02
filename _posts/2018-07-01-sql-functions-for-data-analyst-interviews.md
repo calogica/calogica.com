@@ -189,8 +189,8 @@ from
 
 The `sum()` window function here includes a key statement: `rows unbounded preceding`, which tells our db to to sum over _all_ (`unbounded`) rows `preceding` the current one. The `order by` clause makes sure we're tallying up sales cumulatively in chronological order.
 
-Since we added a `where` clause specifying we're only interested in sales data from `Jan 1, 2018` on, this would constitute a YTD cumulative total.
-Note that there are better, more robust ways to construct that date logic, which we will "leave as an exercise for the reader".
+Since we added a `where` clause specifying we're only interested in sales data from `Jan 1, 2018` on, this would constitute a YTD cumulative total, assuming we're still in 2018.
+[Note that there are better, more robust ways to construct that date logic, which we will "leave as an exercise for the reader".]
 
 
 If we wanted to compare YTD performance by day **by store**, we can specify `store_name` as a partition, like so:
