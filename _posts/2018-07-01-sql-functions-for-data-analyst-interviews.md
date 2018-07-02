@@ -22,7 +22,7 @@ All of these examples are drawn from real examples I've used in projects. Many t
 
 (If you're looking for more SQL for data warehouse queries or a refresher, I have something [here](/sql/2018/06/22/data-warehouse-query-strategies.html) for you.)
 
-For all examples, let's assume we're working with a [Kimball style dimensional data warehouse](https://www.kimballgroup.com/data-warehouse-business-intelligence-resources/kimball-techniques/){:target="_blank"}, where have some sales data in a table called `fct_sales`, product data in `dim_product` and store data in `dim_store`.
+For all examples, let's assume we're working with a [Kimball style dimensional data warehouse](https://www.kimballgroup.com/data-warehouse-business-intelligence-resources/kimball-techniques/){:target="_blank"}, where we have some sales data in a table called `fct_sales`, product data in `dim_product` and store data in `dim_store`.
 
 !["Sample Star Schema"](/assets/images/sample_star_schema.png "Sample Star Schema")
 
