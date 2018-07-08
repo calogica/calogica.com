@@ -40,15 +40,21 @@ Use **Common-Table-Expressions** ([CTE](https://docs.aws.amazon.com/redshift/lat
 ```sql
 with orders as
 (
-	select order_date, sum(order_cnt) as order_cnt
- 	from fct_orders
- 	group by 1
+    select
+        order_date,
+        sum(order_cnt) as order_cnt
+    from
+        fct_orders
+    group by 1
 ),
 shipments as
 (
-	select order_date, sum(shipment_cnt) as shipment_cnt
-	from fct_shipments
-	group by 1
+    select     
+        order_date,
+        sum(shipment_cnt) as shipment_cnt
+    from
+        fct_shipments
+    group by 1
 )
 select
     o.order_date as order_date,
@@ -77,15 +83,15 @@ with complicated_logic as
 ),
 metric_a as
 (
-	select ...
-	from complicated_logic
-	where some_parameter = 'something'
+    select ...
+    from complicated_logic
+    where some_parameter = 'something'
 ),
 metric_b as
 (
-	select ...
-	from complicated_logic
-	where some_parameter = 'something else'
+    select ...
+    from complicated_logic
+    where some_parameter = 'something else'
 )
 select
     coalesce(ma.txn_date, mb.txn_date) as txn_date,
@@ -137,7 +143,7 @@ with metric_a as
     select
         txn_date,
         sum(fct_col) as metric_a
- 	from
+	from
         fct_table_a
     where
         txn_date between '2018-01-01' and '2018-05-31'
