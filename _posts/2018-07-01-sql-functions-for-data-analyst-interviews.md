@@ -75,28 +75,28 @@ As handy as it is to do Top N in the BI layer, it's not always an option on ever
 -- (because we always want a date in DW World)
 with sales as
 (
-select
-    p.product_name,
-    sum(f.sales_qty) as sales_qty
-from
-    fct_sales f
-    join
-    dim_product p on f.product_key = p.product_key
-where
-    f.txn_date between
-        'some_date' and
-        'some_other_date'
-group
-    1
+    select
+        p.product_name,
+        sum(f.sales_qty) as sales_qty
+    from
+        fct_sales f
+        join
+        dim_product p on f.product_key = p.product_key
+    where
+        f.txn_date between
+            'some_date' and
+            'some_other_date'
+    group
+        1
 ),
 -- then we rank the products using a dense_rank() to avoid ties
 -- (experiment with different ranking functions here, use your own business rules)
 ranked as
 (
-select
-    s.product_name,
-    s.sales_qty,
-    dense_rank() over(order by s.sales_qty desc) as sales_rank
+    select
+        s.product_name,
+        s.sales_qty,
+        dense_rank() over(order by s.sales_qty desc) as sales_rank
 )
 -- then pick out the top N products (you could even do this in the BI layer)
 select
@@ -119,34 +119,34 @@ This is where the `limit N` approach usually falls apart, but using the more gen
 -- (because we always want a date in DW World)
 with sales as
 (
-select
-    p.product_name,
-    s.store_name,
-    sum(f.sales_qty) as sales_qty
-from
-    fct_sales f
-    join
-    dim_product p on f.product_key = p.product_key
-    join
-    dim_store s on f.store_key = s.store_key
-where
-    f.txn_date between
-        'some_date' and
-        'some_other_date'
-group
-    1,2
+    select
+        p.product_name,
+        s.store_name,
+        sum(f.sales_qty) as sales_qty
+    from
+        fct_sales f
+        join
+        dim_product p on f.product_key = p.product_key
+        join
+        dim_store s on f.store_key = s.store_key
+    where
+        f.txn_date between
+            'some_date' and
+            'some_other_date'
+    group
+        1,2
 ),
 -- then we rank the products for each store using a dense_rank() to avoid ties
 -- (use your own business rules here)
 ranked as
 (
-select
-    s.product_name,
-    s.store_name,
-    s.sales_qty,
-    dense_rank() over(
-            partition by s.store_name
-            order by s.sales_qty desc) as sales_rank
+    select
+        s.product_name,
+        s.store_name,
+        s.sales_qty,
+        dense_rank() over(
+                partition by s.store_name
+                order by s.sales_qty desc) as sales_rank
 )
 -- then pick out the top N products (you could even do this in the BI layer)
 select
@@ -168,15 +168,15 @@ Let's try a simple case first:
 -- Again, first we want to pre-aggregate to the grain we're interested in:
 with daily_sales as
 (
-select
-    txn_date,
-    sum(sales_amt) as sales_amt
-from
-    fct_sales
-where
-    txn_date >= '2018-01-01'
-group by
-    1
+    select
+        txn_date,
+        sum(sales_amt) as sales_amt
+    from
+        fct_sales
+    where
+        txn_date >= '2018-01-01'
+    group by
+        1
 ),
 select
     txn_date,
@@ -200,18 +200,18 @@ If we wanted to compare YTD performance by day **by store**, we can specify `sto
 -- As always, first we pre-aggregate to the grain we're interested in:
 with daily_sales as
 (
-select
-    f.txn_date,
-    s.store_name,
-    sum(f.sales_amt) as sales_amt
-from
-    fct_sales f
-    join
-    dim_store s on f.store_key = s.store_key
-where
-    f.txn_date >= '2018-01-01'
-group by
-    1,2
+    select
+        f.txn_date,
+        s.store_name,
+        sum(f.sales_amt) as sales_amt
+    from
+        fct_sales f
+        join
+        dim_store s on f.store_key = s.store_key
+    where
+        f.txn_date >= '2018-01-01'
+    group by
+        1,2
 ),
 select
     txn_date,
@@ -241,18 +241,18 @@ Let's stick with our example of cumulative totals by store and see if each store
 -- As always, first we pre-aggregate to the grain we're interested in:
 with daily_sales as
 (
-select
-    f.txn_date,
-    s.store_name,
-    sum(f.sales_amt) as sales_amt
-from
-    fct_sales f
-    join
-    dim_store s on f.store_key = s.store_key
-where
-    f.txn_date >= '2018-01-01'
-group by
-    1,2
+    select
+        f.txn_date,
+        s.store_name,
+        sum(f.sales_amt) as sales_amt
+    from
+        fct_sales f
+        join
+        dim_store s on f.store_key = s.store_key
+    where
+        f.txn_date >= '2018-01-01'
+    group by
+        1,2
 ),
 select
     txn_date,
@@ -303,17 +303,17 @@ In SQL, moving averages can be constructed by adding a window to the `avg()` fun
 -- As always, first we pre-aggregate to the grain we're interested in:
 with weekly_sales as
 (
-select
-    d.week_start_date,
-    sum(f.sales_amt) as sales_amt
-from
-    fct_sales f
-    join
-    dim_date d on f.txn_date = d.calendar_date
-where
-    f.txn_date >= '2018-01-01'
-group by
-    1
+    select
+        d.week_start_date,
+        sum(f.sales_amt) as sales_amt
+    from
+        fct_sales f
+        join
+        dim_date d on f.txn_date = d.calendar_date
+    where
+        f.txn_date >= '2018-01-01'
+    group by
+        1
 ),
 select
     week_start_date,
@@ -365,31 +365,31 @@ Let's start with the full query, then break it down later:
 -- As always, first we pre-aggregate to the grain we're interested in:
 with weekly_sales as
 (
-select
-    d.week_start_date,
-    sum(f.sales_amt) as sales_amt
-from
-    fct_sales f
-    join
-    dim_date d on f.txn_date = d.calendar_date
-where
-    f.txn_date >= '2018-01-01'
-group by
-    1
+    select
+        d.week_start_date,
+        sum(f.sales_amt) as sales_amt
+    from
+        fct_sales f
+        join
+        dim_date d on f.txn_date = d.calendar_date
+    where
+        f.txn_date >= '2018-01-01'
+    group by
+        1
 ),
 moving_functions as
 (
-select
-    week_start_date,
-    sales_amt,
-    avg(sales_amt) over(
-        order by week_start_date
-        rows between 4 preceding and 1 preceding) as sales_4wma,
-    stddev(sales_amt) over(
-        order by week_start_date
-        rows between 4 preceding and 1 preceding) as sales_4wstd
-from
-    weekly_sales
+    select
+        week_start_date,
+        sales_amt,
+        avg(sales_amt) over(
+            order by week_start_date
+            rows between 4 preceding and 1 preceding) as sales_4wma,
+        stddev(sales_amt) over(
+            order by week_start_date
+            rows between 4 preceding and 1 preceding) as sales_4wstd
+    from
+        weekly_sales
 )
 select
     week_start_date,
