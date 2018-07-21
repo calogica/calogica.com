@@ -4,10 +4,6 @@ date:   2018-07-01 10:00AM
 excerpt: "An opinionated introduction to 'advanced' SQL for data warehouse platforms, such as Redshift, Snowflake and Teradata, Part 2 of N"
 categories: [sql]
 comments: true
-toc: false
-toc_label: "Cheat Sheet"
-toc_icon: "bars"
-toc_sticky: true
 ---
 I've phone screened and interviewed a lot of candidates that have gone through data analytics or data science coursework, and rate themselves quite highly on their SQL skills, but then manage to not be able to construct a simple Top N query. This is typically an automatic pass.
 
