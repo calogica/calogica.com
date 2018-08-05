@@ -90,9 +90,11 @@ with sales as
 ranked as
 (
     select
-        s.product_name,
-        s.sales_qty,
-        dense_rank() over(order by s.sales_qty desc) as sales_rank
+        product_name,
+        sales_qty,
+        dense_rank() over(order by sales_qty desc) as sales_rank
+    from
+        sales
 )
 -- then pick out the top N products (you could even do this in the BI layer)
 select
@@ -137,12 +139,14 @@ with sales as
 ranked as
 (
     select
-        s.product_name,
-        s.store_name,
-        s.sales_qty,
+        product_name,
+        store_name,
+        sales_qty,
         dense_rank() over(
-                partition by s.store_name
-                order by s.sales_qty desc) as sales_rank
+                partition by store_name
+                order by sales_qty desc) as sales_rank
+    from
+        sales
 )
 -- then pick out the top N products (you could even do this in the BI layer)
 select
@@ -173,7 +177,7 @@ with daily_sales as
         txn_date >= '2018-01-01'
     group by
         1
-),
+)
 select
     txn_date,
     sales_amt,
@@ -208,7 +212,7 @@ with daily_sales as
         f.txn_date >= '2018-01-01'
     group by
         1,2
-),
+)
 select
     txn_date,
     store_name,
@@ -249,7 +253,7 @@ with daily_sales as
         f.txn_date >= '2018-01-01'
     group by
         1,2
-),
+)
 select
     txn_date,
     store_name,
@@ -282,10 +286,10 @@ sum(sales_amt) over(partition by store_name)
 We then apply a lazy `::float` conversion to the numerator to avoid integer division issues, before we divide to get the % contribution.
 
 ```sql
-    sum(sales_amt) over(
-        partition by store_name
-        order by txn_date rows unbounded preceding)::float/
-    sum(sales_amt) over(partition by store_name)
+sum(sales_amt) over(
+    partition by store_name
+    order by txn_date rows unbounded preceding)::float/
+sum(sales_amt) over(partition by store_name)
 ```
 So, effectively, this tells how each day incrementally contributed to the store's total sales over time since Jan 1.
 
@@ -310,7 +314,7 @@ with weekly_sales as
         f.txn_date >= '2018-01-01'
     group by
         1
-),
+)
 select
     week_start_date,
     sales_amt,
