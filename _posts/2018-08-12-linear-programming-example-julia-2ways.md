@@ -39,7 +39,7 @@ To make things more interesting, and to highlight a couple of cool things about 
 
 Let's dive in!
 
-### Direct Method
+## Direct Method
 From the book we learn that we want to end up with this model formulation:
 
 $$ \begin{alignat*}{1}\max\quad & 5 x_{1} + 7 x_{2} + 3 x_{3}\\
@@ -68,7 +68,7 @@ We choose $M$ to be `1,000`, although according to the book, 9-10 seems to be en
 ```julia
 M = 10e3
 ```
-#### Now the Model:
+### Now the Model:
 
 Before we start, let's make sure we have all the required packages installed, via:
 ```julia
@@ -120,7 +120,7 @@ And we make sure we only make 2 of the 3 products, as required:
 @constraint(m, y[1]+ y[2] + y[3] <= 2)
 ```
 
-Lastly, we make sure we make those 2 products only at 1 plant, again employing "Big M": 
+Lastly, we make sure we make those 2 products only at 1 plant, again employing "Big M":
 ```julia
 for i=1:3
     @constraint(m, x[i] <= M*y[i])
@@ -173,7 +173,7 @@ Thus, we make `5.5` units of `Product 1` and `9` units of `product 3` at `Plant 
 
 While this was fun, it's easy to see how explicitly coding each variable gets tedious quickly and certainly won't scale well. So, let's see how we can improve this implementation using matix notation!
 
-### Matrix Method
+## Matrix Method
 Using the Matrix-based approach, we use Linear Algebra to multiply a matrix of (decision) variables by a matrix of cost or profit variables.
 Since we can construct matrices easily programmatically or from data stored in databases or data files, this makes dealing with a large number of variables much more feasible.
 
@@ -195,7 +195,7 @@ sales_potential = [7, 5, 9]
 
 Notice how we simply translate the rows and columns from the table into our matrix rows and columns. (Actually, I'm lying, it took me about half an hour or more to get this right, but it is pretty obvious in hindsight.)
 
-#### Model
+### Model
 Again, we set up our base model and variables. Here I'm using a slightly different approach, using a variable to denote the upper bound for our product variables, and I've implemented the $plant$ variable as a standalone variable instead of $y_4$.
 "Big M" remains at `1,000`.
 
@@ -277,6 +277,7 @@ x 2 qty: 0.0
 x 3 qty: 9.0
 ```
 
+## Conclusion
 Hopefully this all made sense and highlighted a few things:
 - JuMP is an amazing package to implement LP problems since it allows us to write Julia code matching the mathematical notation almost line by line
 - The Matrix Method, while maybe a little harder to untuitively grasp initially provides a robust and scalable approach to solving large liner models
