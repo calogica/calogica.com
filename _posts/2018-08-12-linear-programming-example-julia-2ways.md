@@ -229,7 +229,7 @@ Lastly, we add the remaining constraints using [vecorized dot operators](https:/
 @constraint(m2, x .<= sales_potential)
 @constraint(m2, x .<= M * y)
 ```
-{This last bit uses the Julia broadcast inequality operator `.<=` so we don't have to write a loop to implement this constraint, which makes sure we make the two products at the same plant.)
+(This last bit uses the Julia broadcast inequality operator `.<=` so we don't have to write a loop to implement this constraint, which makes sure we make the two products at the same plant.)
 
 Lastly, we make sure that we don't make more than 2 products, as required:
 ```julia
