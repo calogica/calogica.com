@@ -119,9 +119,12 @@ And we make sure we only make 2 of the 3 products, as required:
 # Only make 2 products
 @constraint(m, y[1]+ y[2] + y[3] <= 2)
 ```
-This last bit uses the Julia broadcast inequality operator `.<=` so we don't have to write a loop to implement this constraint, which makes sure we make the two products at the same plant.
+
+Lastly, we make sure we make those 2 products only at 1 plant, again employing "Big M": 
 ```julia
-@constraint(m, x .<= M*y[1:3])
+for i=1:3
+    @constraint(m, x[i] <= M*y[i])
+end
 ```
 
 Print the entire model and make sure it matches your requirements before solving:
@@ -226,10 +229,13 @@ Lastly, we add the remaining constraints using [vecorized dot operators](https:/
 @constraint(m2, x .<= sales_potential)
 @constraint(m2, x .<= M * y)
 ```
+{This last bit uses the Julia broadcast inequality operator `.<=` so we don't have to write a loop to implement this constraint, which makes sure we make the two products at the same plant.)
+
 Lastly, we make sure that we don't make more than 2 products, as required:
 ```julia
 @constraint(m2, sum(y) <= 2)
 ```
+
 And, behold, here's the full model, which you better believe matches the model we implemented using the direct method:
 
 $$
