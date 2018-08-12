@@ -59,7 +59,7 @@ $$ \begin{alignat*}{1}\max\quad & 5 x_{1} + 7 x_{2} + 3 x_{3}\\
 \end{alignat*}
 $$
 
-Where $x_1$ through $x_3$ represent the production quantities of products 1 through 3, and $y_1$ through $y_3$ are decision variables representing whether or not we should even produce that product. Variable $y_4$ is another binary decision variable indicating whether these products will be produced at Plant 1 or 1.
+Where $x_1$ through $x_3$ represent the production quantities of products 1 through 3, and $y_1$ through $y_3$ are decision variables representing whether or not we should even produce that product. Variable $y_4$ is another binary decision variable indicating whether these products will be produced at Plant 1 or 2.
 
 Also, notice that we're using the concept of "Big M" here as a way to implement the _Either/Or_ constraint mentioned earlier. A value of _M_ chosen to be "large enough" will ensure that only constraints 1 _or_ 2 are true depending on the value of $y_4$.
 
@@ -90,7 +90,7 @@ Now, we set up the model using the open source `Cbc` solver, although for this p
 ```julia
 m = Model(solver=CbcSolver())
 ```
-Then set up the `x` and `y` constraints, along with our profit objective that we'd like to maximize:
+Then we set up the `x` and `y` constraints, along with our profit objective that we'd like to maximize:
 ```julia
 # Product quantity variables
 @variable(m, x[1:3] >= 0)
