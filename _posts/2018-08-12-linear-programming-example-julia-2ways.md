@@ -169,9 +169,9 @@ x 1 qty: 5.500000000000061
 x 2 qty: 0.0
 x 3 qty: 9.0
 ```
-Thus, we make `5.5` units of `Product 1` and `9` units of `product 3` at `Plant 2` for a total profict of `$54,500`, which matches the solution provided in the book. Nicely done!
+Thus, we make `5.5` units of `Product 1` and `9` units of `product 3` at `Plant 2` for a total profit of `$54,500`, which matches the solution provided in the book. Nicely done!
 
-While this was fun, it's easy to see how explicitly coding each variable gets tedious quickly and certainly won't scale well. So, let's see how we can improve this implementation using matix notation!
+While this was fun, it's easy to see how explicitly coding each variable gets tedious quickly and certainly won't scale well. So, let's see how we can improve this implementation using matrices!
 
 ## Matrix Method
 Using the Matrix-based approach, we use Linear Algebra to multiply a matrix of (decision) variables by a matrix of cost or profit variables.
