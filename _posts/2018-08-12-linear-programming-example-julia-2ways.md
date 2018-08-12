@@ -27,7 +27,7 @@ Here's the setup (from pg. 617):
 
 We also get this data table:
 
-!["Orders and Exchanges by Week"](/assets/plots/hillier_lieberman_page_617_of_1_237_.png "Table 12.2")
+!["Table 12.2"](/assets/plots/hillier_lieberman_page_617_of_1_237_.png "Table 12.2")
 
 So, we learn from the problem setup that we are to **maximize** profits with respect to a number of **production constraints**, some of which are quite tricky. Also, notice this is a Mixed Integer Program ([MIP](https://www.solver.com/integer-constraint-programming)), since our production rates are decimals, while some of our constraints are going to be integers.
 
@@ -68,7 +68,7 @@ Since I probably butchered that explanation of "Big M", I recommend you consult 
 We choose $M$ to be `10,000`, although according to the book, 9-10 seems to be enough in this case. How "big" $M$ needs to get depends on the context, and you don't want to choose a value too big to avoid numerical issues.
 
 ```julia
-M = 10e3
+M = 1e4
 ```
 ### Now the Model:
 
@@ -202,7 +202,7 @@ Again, we set up our base model and variables. Here I'm using a slightly differe
 "Big M" remains at `10,000`.
 
 ```julia
-M = 10e3
+M = 1e4
 
 m2 = Model(solver=CbcSolver())
 
