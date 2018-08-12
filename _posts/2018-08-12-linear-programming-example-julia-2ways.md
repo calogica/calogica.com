@@ -63,7 +63,7 @@ Also, notice that we're using the concept of "Big M" here as a way to implement 
 
 Since I probably butchered that explanation of "Big M", I recommend you consult Hillier & Lieberman for a better review of the concept, but definitely file that under "stupid optimization math tricks".
 
-We choose $M$ to be `1,000`, although according to the book, 9-10 seems to be enough in this case. How "big" $M$ needs to get depends on the context, and you don't want to choose a value too big to avoid numerical issues.
+We choose $M$ to be `10,000`, although according to the book, 9-10 seems to be enough in this case. How "big" $M$ needs to get depends on the context, and you don't want to choose a value too big to avoid numerical issues.
 
 ```julia
 M = 10e3
@@ -197,7 +197,7 @@ Notice how we simply translate the rows and columns from the table into our matr
 
 ### Model
 Again, we set up our base model and variables. Here I'm using a slightly different approach, using a variable to denote the upper bound for our product variables, and I've implemented the $plant$ variable as a standalone variable instead of $y_4$.
-"Big M" remains at `1,000`.
+"Big M" remains at `10,000`.
 
 ```julia
 M = 10e3
