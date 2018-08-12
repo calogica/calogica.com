@@ -267,7 +267,8 @@ for i=1:3
     println("x $i qty: ", getvalue(x[i]))
 end
 ```
-```Profit: 54.50000000000114
+```
+Profit: 54.50000000000114
 Warehouse: Plant 2
 y 1: 1.0
 y 2: 0.0
