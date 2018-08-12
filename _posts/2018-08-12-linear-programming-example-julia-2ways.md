@@ -184,8 +184,6 @@ First, we translate the problem set up from the book in Table 12.2 into a set of
 ```julia
 n_products = 3
 
-capacity = 10
-
 profit = [5 7 3]
 
 production_time = [[3 4 2], [4 6 2]]
