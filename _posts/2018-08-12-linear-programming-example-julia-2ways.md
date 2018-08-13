@@ -106,6 +106,7 @@ Now we're going to add constraints that make sure that a) we're not exceeding ou
 In the case of $y_4 = 0$, the first constraint reduces back to the original constraint, which means that Plant 1's production constraint is in effect. At the same time, the right side of Plant 2's production constraint gets very large ($10040$ in our case), which has the effect of eliminating the original constraint.
 
 The inverse is tue for $y_4 = 1$ and we effectively get the required _either/or_ constraint. As I said, "stupid optimization math trick".
+
 ```julia
 # Production Restriction Plant 1
 @constraint(m, 3x[1] + 4x[2] + 2x[3] <= 30 + M*y[4])
