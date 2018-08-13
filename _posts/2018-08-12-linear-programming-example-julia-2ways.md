@@ -122,7 +122,7 @@ And we make sure we only make 2 of the 3 products, as required:
 @constraint(m, y[1]+ y[2] + y[3] <= 2)
 ```
 
-Lastly, we make sure we make those 2 products only at 1 plant, again employing "Big M":
+Lastly, we make sure we calculate production rates for products we actually intend to make, again employing "Big M". So, if $y_i$ is 0, i.e. we don't make the product, we shouldn't calculate a value for $x_i$.
 ```julia
 for i=1:3
     @constraint(m, x[i] <= M*y[i])
@@ -209,7 +209,7 @@ m2 = Model(solver=CbcSolver())
 
 @variable(m2, plant >= 0, Bin)
 ```
-Then we simply multiply the profict vector by the vector of `x` variables and `sum` across.
+Then we multiply the profict vector by the vector of `x` variables and `sum` across.
 ```julia
 # Objective: maximize profit
 @objective(m2, Max, sum(profit * x))
@@ -229,7 +229,7 @@ Lastly, we add the remaining constraints using [vecorized dot operators](https:/
 @constraint(m2, x .<= sales_potential)
 @constraint(m2, x .<= M * y)
 ```
-(This last bit uses the Julia broadcast inequality operator `.<=` so we don't have to write a loop to implement this constraint, which makes sure we make the two products at the same plant.)
+(This last bit uses the Julia broadcast inequality operator `.<=` so we don't have to write a loop to implement this constraint, which makes sure we don't calculate production rates for any products we're not actually planning on making.)
 
 Lastly, we make sure that we don't make more than 2 products, as required:
 ```julia
