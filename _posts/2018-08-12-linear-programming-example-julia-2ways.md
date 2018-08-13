@@ -65,6 +65,9 @@ Also, notice that we're using the concept of "Big M" here as a way to implement 
 
 Since I probably butchered that explanation of "Big M", I recommend you consult Hillier & Lieberman for a better review of the concept, but definitely file that under "stupid optimization math tricks".
 
+From the book (_Chapter 12.3, pg. 587_):
+> note that $y_i = 0$ makes $My_i = 0$, which reduces the new constraint $i$ to the original constraint $i$. On the other hand, $y_i=1$ makes $(d_i+My_i)$ so large that (again assuming a bounded feasible region) the new constraint $i$ is automatically satisfied by any solution that satisfies the other new constraints, which has the effect of eliminating the original constraint $i$.
+
 We choose $M$ to be `10,000`, although according to the book, 9-10 seems to be enough in this case. How "big" $M$ needs to get depends on the context, and you don't want to choose a value too big to avoid numerical issues.
 
 ```julia
