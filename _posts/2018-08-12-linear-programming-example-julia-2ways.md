@@ -101,7 +101,11 @@ Then we set up the `x` and `y` constraints, along with our profit objective that
 @objective(m, Max, 5x[1] + 7x[2] + 3x[3])
 ```
 
-Now we're going to add constraints that make sure that a) we're not exceeding our plants' production capacities, and b) we're only producing at **1** plant, made possible by the "Big M" trick:
+Now we're going to add constraints that make sure that a) we're not exceeding our plants' production capacities, and b) we're only producing at **1** plant, made possible by the "Big M" trick.
+
+In the case of $y_4 = 0$, the first constraint reduces back to the original constraint, which means that Plant 1's production constraint is in effect. At the same time, the right side of Plant 2's production constraint gets very large ($10040$ in our case), which has the effect of eliminating the original constraint.
+
+The inverse is tue for $y_4 = 1$ and we effectively get the required _either/or_ constraint. As I said, "stupid optimization math trick".
 ```julia
 # Production Restriction Plant 1
 @constraint(m, 3x[1] + 4x[2] + 2x[3] <= 30 + M*y[4])
@@ -122,7 +126,8 @@ And we make sure we only make 2 of the 3 products, as required:
 @constraint(m, y[1]+ y[2] + y[3] <= 2)
 ```
 
-Lastly, we make sure we calculate production rates for products we actually intend to make, again employing "Big M". So, if $y_i$ is 0, i.e. we don't make the product, we shouldn't calculate a value for $x_i$.
+Lastly, we make sure we calculate production rates for products we actually intend to make, again employing "Big M".
+So, if $y_i$ is 0, i.e. we don't make the product, we shouldn't calculate a value for $x_i$ which is enforced by $x_i <= 0$. However, for $y_i = 1$, the constraint becomes $x_i <= 10,000$ and is always satisfied in our example.
 ```julia
 for i=1:3
     @constraint(m, x[i] <= M*y[i])
