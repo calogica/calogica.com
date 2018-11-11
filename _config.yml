@@ -72,11 +72,14 @@ remote_theme: "mmistakes/minimal-mistakes"
 minimal_mistakes_skin: "mint"
 layout: single
 
-plugins: # previsously gems
-  - jekyll-feed
-  - jekyll-seo-tag
-  - jekyll-sitemap
+plugins:
   - jekyll-paginate
+  - jekyll-sitemap
+  - jekyll-gist
+  - jekyll-feed
+  - jemoji
+  - jekyll-include-cache
+
 feed:
   path: atom.xml
 
