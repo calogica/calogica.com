@@ -5,7 +5,17 @@ permalink: /clients
 author_profile: true
 ---
 
-Some of our past and currents consulting clients include:
+Some of our past and current consulting clients include:
+
+### Forever 21
+We are very excited to be helping the Forever 21 eCommerce team build out their analytics data warehouse.
+
+### Wag Walking, Inc.
+We worked with the Wag data services team on designing a logical data model for their data warehouse, using Kimball-style design principles. As a Snowflake partner, we provided guidance on standing up their Snowflake cloud data warehouse instance and on how to best implement a modern data warehouse stack.
+
+### Hush, Inc (shophush.com)
+We worked with the Hush data team on designing a logical data model for their data warehouse, using Kimball-style design principles.
+While migrating the team to the Snowflake cloud data warehouse  platform we also helped implement the physical model, using our favorite data transformation tool, [dbt](https://www.getdbt.com/){:target="_blank"}. 
 
 ### The Black Tux
 After leading the Data & Analytics team for 2 years and building out its core analytics capabilities, we'll now be focused on taking TBT to the next stage of a data-driven organization.
