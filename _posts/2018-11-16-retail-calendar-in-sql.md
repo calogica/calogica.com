@@ -26,20 +26,20 @@ Let's start with our base `dates` model, `dates.sql`:
 (This intentionally leaves out a ton of otherwise useful attributes such as Week, Month, Quarter etc. to help us focus.)
 
 ```sql
-{{
+{
     config(
         materialized = 'ephemeral'
     )
-}}
+}
 with dates as
 (
     -- we arbitrarily start on 1/1/2016 and end 53 weeks from now:
-    {{ dbt_utils.date_spine(
+    { dbt_utils.date_spine(
         datepart="day",
         start_date="to_date('01/01/2016', 'mm/dd/yyyy')",
         end_date="dateadd(week, 53, current_date)"
        )
-    }}
+    }
 )
 select
     d.calendar_date,
@@ -112,7 +112,9 @@ retail_dates as
     from
         {{ ref('dates') }} d
         join
-        retail_year_range m on d.calendar_date between m.retail_year_start_date and m.retail_year_end_date
+        retail_year_range m on 
+            d.calendar_date between m.retail_year_start_date and 
+                                    m.retail_year_end_date
     
 ),
 retail_periods as 
