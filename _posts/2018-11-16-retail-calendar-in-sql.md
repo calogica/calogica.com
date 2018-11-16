@@ -11,6 +11,11 @@ Working with clients in retail eCommerce, we're often asked to analyze transacti
 From the **National Retail Federation** [https://nrf.com/resources/4-5-4-calendar](https://nrf.com/resources/4-5-4-calendar):
 > The 4-5-4 calendar is a guide for retailers that ensures sales comparability between years by dividing the year into months based on a 4 weeks – 5 weeks – 4 weeks format. The layout of the calendar lines up holidays and ensures the same number of Saturdays and Sundays in comparable months. Hence, like days are compared to like days for sales reporting purposes. The 4-5-4 Calendar also establishes Sales Release dates, which have historically been on the first Thursday following the month’s end. In recent years, however, as the flow of information has improved, more companies are releasing sales data earlier in the week.
 
+For example, this retail year started on February 2, 2018 and grouped the first few weeks of the year like so:
+
+
+!["4-5-4 Calendar"](/assets/plots/cal454.png "4-5-4 Calendar")
+
 As good data warehouse practitioners, we of course already have a date dimension that contains past and future dates relevant to our business, along with descriptive attributes (Day of Week etc) and groupings (Week, Month, Quarter, Year) that help us create actionable analysis. 
 
 As an extension, it's quite common to add attributes such as holidays, as well non-calendar based attributes such as fiscal calendar based groupings.
@@ -19,27 +24,29 @@ Let's explore how to create a 4-5-4 calendar using SQL for our data warehouse (w
 
 Side note: if you're not already using **[dbt](https://www.getdbt.com/){:target="_blank"}.** to manage your data transformations, we highly recommend you take a look at it for your Redshift, Snowflake or Big Query data warehouse projects. It's been an indispensable tool for us over the last 18 months! 
 
+### Date Dimension
 First off, we need to create a date dimension for our project. We will use the helpful `date_spine` macro from the `dbt_utils` package to create a sequence of dates. Then, we use standard SQL functions to attach a number of attributes we'll use to create the 4-5-4 calendar.
 
 Let's start with our base `dates` model, `dates.sql`:
 
-(This intentionally leaves out a ton of otherwise useful attributes such as Week, Month, Quarter etc. to help us focus.)
+(This intentionally leaves out a **ton** of otherwise useful attributes such as Week, Month, Quarter etc. to help us focus.)
 
+{% raw %}
 ```sql
-\{\{
+{{
     config(
         materialized = 'ephemeral'
     )
-\}\}
+}}
 with dates as
 (
     -- we arbitrarily start on 1/1/2016 and end 53 weeks from now:
-    \{\{ dbt_utils.date_spine(
+    {{ dbt_utils.date_spine(
         datepart="day",
         start_date="to_date('01/01/2016', 'mm/dd/yyyy')",
         end_date="dateadd(week, 53, current_date)"
        )
-    /}\}
+    }}
 )
 select
     d.calendar_date,
@@ -55,10 +62,13 @@ from
     dates d
 order by 1
 ```
+{% endraw %}
 
+### 4-5-4 Periods
 Then using this `ephemeral` model (i.e. we chose to not materialize this as a table or view at the moment), we can calculate the 4-5-4 attributes in a separate **dbt** model (thus, separating the 2 models in 2 files for better organization and reusabilty).
 
 `retail_calendar.sql`
+{% raw %}
 ```sql
 {{
     config(
@@ -132,7 +142,7 @@ retail_periods as
             when w13num between 4 and 8 then 2
             when w13num between 9 and 12 then 3
         end as period_of_quarter,
-        -- Chop weeks into 13 week merch quarters
+        -- Chop weeks into 13 week retail quarters
         trunc(week_num/13) as qrt_num,
         (qrt_num * 3) + period_of_quarter as retail_period_number
     from
@@ -155,5 +165,7 @@ from
 order by 1
 
 ```
+{% endraw %}
 
-Some retailers use versions of this, such as 5-4-4, which we can implement with minor adjustments using this approach.  
+This then hopefully leaves us with dates and weeks properly grouped into their respective 4-5-4 periods. In production, we'd also add the relevant retail holidays, which will leave for a future post.
+Also, some retailers and corporate finance departments use other variations of this, such as 5-4-4, which you should be able to implement with minor adjustments using this approach.  
