@@ -167,4 +167,9 @@ order by 1
 {% endraw %}
 
 This then hopefully leaves us with dates and weeks properly grouped into their respective 4-5-4 periods. In production, we'd also add the relevant retail holidays, which will leave for a future post.
-Also, some retailers and corporate finance departments use other variations of this, such as 5-4-4, which you should be able to implement with minor adjustments using this approach.  
+
+Let's take a quick look at the output of this in **Tableau**, which matches up nicely with the "official" NRF calendar we saw earlier:
+!["4-5-4 Calendar in Tableau"](/assets/plots/cal454_tableau.png "4-5-4 Calendar in Tableau")
+
+
+Lastly, some retailers and corporate finance departments use other variations of this, such as 5-4-4, which you should be able to implement with minor adjustments using this approach.  
