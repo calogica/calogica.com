@@ -8,7 +8,7 @@ comments: true
 
 Working with clients in retail eCommerce, we're often asked to analyze transactions along a type of fiscal calendar optimized for retail and merchandising. This is commonly known as the "4-5-4 Calendar", because it groups weeks (Sun-Sat) into periods of 4, 5 and 4 weeks lengths.
 
-From the National Retail Federation:
+From the **National Retail Federation** (https://nrf.com/resources/4-5-4-calendar):
 > The 4-5-4 calendar is a guide for retailers that ensures sales comparability between years by dividing the year into months based on a 4 weeks – 5 weeks – 4 weeks format. The layout of the calendar lines up holidays and ensures the same number of Saturdays and Sundays in comparable months. Hence, like days are compared to like days for sales reporting purposes. The 4-5-4 Calendar also establishes Sales Release dates, which have historically been on the first Thursday following the month’s end. In recent years, however, as the flow of information has improved, more companies are releasing sales data earlier in the week.
 
 As good data warehouse practitioners, we of course already have a date dimension that contains past and future dates relevant to our business, along with descriptive attributes (Day of Week etc) and groupings (Week, Month, Quarter, Year) that help us create actionable analysis. 
