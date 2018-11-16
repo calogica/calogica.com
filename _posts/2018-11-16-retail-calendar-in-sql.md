@@ -11,7 +11,7 @@ Working with clients in retail eCommerce, we're often asked to analyze transacti
 From the **National Retail Federation** [https://nrf.com/resources/4-5-4-calendar](https://nrf.com/resources/4-5-4-calendar):
 > The 4-5-4 calendar is a guide for retailers that ensures sales comparability between years by dividing the year into months based on a 4 weeks – 5 weeks – 4 weeks format. The layout of the calendar lines up holidays and ensures the same number of Saturdays and Sundays in comparable months. Hence, like days are compared to like days for sales reporting purposes. The 4-5-4 Calendar also establishes Sales Release dates, which have historically been on the first Thursday following the month’s end. In recent years, however, as the flow of information has improved, more companies are releasing sales data earlier in the week.
 
-For example, this retail year started on February 2, 2018 and grouped the first few weeks of the year like so:
+For example, the retail year 2019 will start on February 3, 2019 and group the first few weeks of the year like so:
 
 
 !["4-5-4 Calendar"](/assets/plots/cal454.png "4-5-4 Calendar")
