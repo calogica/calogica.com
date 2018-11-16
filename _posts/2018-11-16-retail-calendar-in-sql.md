@@ -57,6 +57,7 @@ select
     end as week_start_date_sun,
     dateadd('day', 6, date_trunc('week', d.calendar_date))::date as week_end_date,
     dateadd('day', 6, week_start_date_sun) as week_end_date_sat,
+    date_part('month', d.calendar_date)::int as month_of_year,
     date_part('year', d.calendar_date)::int as year_number
 from
     dates d
@@ -86,8 +87,6 @@ with retail_year as
         {{ ref('dates') }}
     where 
         month_of_year = 2 
-        and 
-        calendar_date >= '2016-02-01'
     group by 1
 ),
 retail_year_range as 
