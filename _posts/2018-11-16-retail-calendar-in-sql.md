@@ -25,8 +25,8 @@ Let's start with our base `dates` model, `dates.sql`:
 
 (This intentionally leaves out a ton of otherwise useful attributes such as Week, Month, Quarter etc. to help us focus.)
 
-```sql
-{
+```
+{{
     config(
         materialized = 'ephemeral'
     )
@@ -59,7 +59,7 @@ order by 1
 Then using this `ephemeral` model (i.e. we chose to not materialize this as a table or view at the moment), we can calculate the 4-5-4 attributes in a separate **dbt** model (thus, separating the 2 models in 2 files for better organization and reusabilty).
 
 `retail_calendar.sql`
-```sql
+```
 {{
     config(
         materialized = 'table'
