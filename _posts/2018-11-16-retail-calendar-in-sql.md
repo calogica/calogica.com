@@ -238,7 +238,9 @@ select
     week_start_date,
     week_end_date,
     retail_week_of_year, 
-    dense_rank() over(partition by retail_period_number order by retail_week_of_year) as retail_week_of_period,
+    dense_rank() over(
+        partition by retail_year_number, retail_period_number 
+        order by retail_week_of_year) as retail_week_of_period,
     retail_period_number,
     quarter_number+1 as retail_quarter_number,
     period_of_quarter as retail_period_of_quarter
