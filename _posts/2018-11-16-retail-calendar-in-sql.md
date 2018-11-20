@@ -256,7 +256,7 @@ This then hopefully leaves us with dates and weeks properly grouped into their r
 Let's take a quick look at the output of this in **Tableau**, which matches up nicely with the "official" NRF calendar we saw earlier:
 !["4-5-4 Calendar in Tableau"](/assets/plots/cal454_tableau.png "4-5-4 Calendar in Tableau")
 
-We''l also check to make sure years with 53 weeks, such as 2017, roll up that week into period 12 as expected.
+We'll also check to make sure years with 53 weeks, such as 2017, roll up that week into period 12 as expected.
 !["4-5-4 Calendar in Tableau (W53)"](/assets/plots/cal454_tableau_w53.png "4-5-4 Calendar in Tableau (W53")
 
 Note: some retailers rectroactively restate years with 53 weeks. You can see an example of the effect of that on the NRF website [here](https://6a83cd4f6d8a17c1b6dd-0490b3ba35823e24e2c50ce7533598b0.ssl.cf1.rackcdn.com/454%20Calendars/3%20Year%20Calendar%2017-19%20with%202017%20Restated.pdf), where 2017 has been restated with only 52 weeks.
