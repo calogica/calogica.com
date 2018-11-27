@@ -39,7 +39,7 @@ $$p \sim Beta(\alpha, \beta)$$
 $$y \sim Binomial(n, p)$$
 
 ### Gamma-Poisson
-Another often-used conjugate distribution is the _Gamma-Poisson_ distribution, so named because the rate parameter $\lambda$ that parameterizes the _Poisson_ distributed is modeled as a _Gamma_ distribution:
+Another often-used conjugate distribution is the _Gamma-Poisson_ distribution, so named because the rate parameter $\lambda$ that parameterizes the _Poisson_ distribution is modeled as a _Gamma_ distribution:
 
 $$\lambda \sim Gamma(k, \theta)$$
 
