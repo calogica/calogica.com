@@ -30,7 +30,7 @@ Conjugate distributions are a very important concept in probability theory, owin
 ### Beta-Binomial
 One of the better known examples of conjugate distributions is the [Beta-Binomial](https://www.statisticshowto.datasciencecentral.com/beta-binomial-distribution/) distribution, which is often used to model series of coin flips (the ever present topic in posts about probability). 
 
-While the _Binomial_ distribution represents the probability of success in a series of Bernoulli trials, the _Beta_ distribution here represents the prior probability distribtution of the probability of success for each trial. 
+While the _Binomial_ distribution represents the probability of success in a series of Bernoulli trials, the _Beta_ distribution here represents the prior probability distribution of the probability of success for each trial. 
 
 Thus, the probability $p$ of a coin landing on _head_ is modeled to be _Beta_ distributed (with parameters $\alpha$ and $\beta$), while the likelihood of _heads_ and _tails_ is assumed to follow a _Binomial_ distribution with parameters $n$ (representing the number of flips) and the _Beta_-distributed $p$, thus creating the link.
 
