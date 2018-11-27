@@ -45,11 +45,11 @@ $$\lambda \sim Gamma(k, \theta)$$
 
 $$y \sim Poisson(\lambda)$$
 
-While the discrete _Poisson_ distribution is often used in applications of count data, such as store customers, eCommerce orders, website visits, the _Gamma_ distribution serves as a useful distribution to model the rate at which these events occur ($\lambda$), since the _Gamma_ distribution models positive continuous values only but is otherwise quite flexible:
+While the discrete _Poisson_ distribution is often used in applications of count data, such as store customers, eCommerce orders, website visits, the _Gamma_ distribution serves as a useful distribution to model the rate at which these events occur ($\lambda$), since the _Gamma_ distribution models positive continuous values only, but is otherwise quite flexible in its parameterization:
 
 ![gamma distribution](https://upload.wikimedia.org/wikipedia/commons/e/e6/Gamma_distribution_pdf.svg)
 
-This distribution is also known as the [Negative-Binomial distribution](https://en.wikipedia.org/wiki/Negative_binomial_distribution#Gamma%E2%80%93Poisson_mixture), which we can think of as a mixture of Poission distributions.
+This distribution is also known as the [Negative-Binomial distribution](https://en.wikipedia.org/wiki/Negative_binomial_distribution#Gamma%E2%80%93Poisson_mixture), which we can think of as a _mixture_ of Poission distributions.
 
 If you find this confusing, you're not alone, and maybe you'll start to appreciate why so often we try to approximate things using the good old Normal distribution...
 
@@ -207,6 +207,7 @@ In section 3.4 of BDA3 on multivariate models and, specifically the section on _
 **Spoiler alert** for those not following politics back then: Bush won by a huge margin. Since 1988, no candidate in a Presidential election has managed to equal or surpass Bush's share of the electoral or popular vote.
 
 ![election results 1988](/assets/plots/dirichlet-multinomial/election_results.png)
+
 (Image credit: https://commons.wikimedia.org/wiki/File:ElectoralCollege1988-Large.png)
 
 Anyway, back to the data problem! Here's the setup:
@@ -432,6 +433,7 @@ with pm.Model() as polling_model_debates:
     theta = pm.Dirichlet("theta", a=a, shape=shape)
     
     # get the "Bush" theta for each debate, at index=0
+    # and normalize across supporters for the 2 major candidates
     bush_pref = pm.Deterministic("bush_pref", theta[:, 0] * n / m)
     
     # to calculate probability that support for Bush shifted from debate 1 [0] to 2 [1]
@@ -613,6 +615,6 @@ print(f'P(Shift Towards Bush) = {perc_shift:.1%}')
     P(Shift Towards Bush) = 19.9%
 
 
-While that was a sort of round-about way to show that Bush lost support during the debate, hopefully this illustrated the flexibility and robustness of probabilistic models (and PyMC3).
+While that was a sort of round-about way to show that Bush lost support during the September debate, hopefully this illustrated the flexibility and robustness of probabilistic models (and PyMC3).
 
 This post is also available as a [Jupyter Notebook on Github](http://nbviewer.jupyter.org/github/clausherther/public/blob/master/probabilistic_programming/Dirichlet%20Multinomial%20Example.ipynb). If you have any thoughts or feedback on this post, please let me know!
