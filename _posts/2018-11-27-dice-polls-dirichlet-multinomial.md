@@ -207,6 +207,7 @@ In section 3.4 of BDA3 on multivariate models and, specifically the section on _
 **Spoiler alert** for those not following politics back then: Bush won by a huge margin. Since 1988, no candidate in a Presidential election has managed to equal or surpass Bush's share of the electoral or popular vote.
 
 ![election results 1988](/assets/plots/dirichlet-multinomial/election_results.png)
+(Image credit: https://commons.wikimedia.org/wiki/File:ElectoralCollege1988-Large.png)
 
 Anyway, back to the data problem! Here's the setup:
 
