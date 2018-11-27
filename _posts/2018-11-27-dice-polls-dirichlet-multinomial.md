@@ -30,38 +30,44 @@ Conjugate distributions are a very important concept in probability theory, owin
 ### Beta-Binomial
 One of the better known examples of conjugate distributions is the [Beta-Binomial](https://www.statisticshowto.datasciencecentral.com/beta-binomial-distribution/) distribution, which is often used to model series of coin flips (the ever present topic in posts about probability). 
 
-While the $Binomial$ distribution represents the probability of success in a series of Bernoulli trials, the Beta distribution here represents the prior probability distribtution of the probability of success for each trial. 
+While the _Binomial_ distribution represents the probability of success in a series of Bernoulli trials, the _Beta_ distribution here represents the prior probability distribtution of the probability of success for each trial. 
 
-Thus, the probability $p$ of a coin landing on _head_ is modeled to be $Beta$ distributed (with parameters $\alpha$ and $\beta$), while the likelihood of _heads_ and _tails_ is assumed to follow a $Binomial$ distribution with parameters $n$ (representing the number of flips) and the $Beta$ distributed $p$, thus creating the link.
+Thus, the probability $p$ of a coin landing on _head_ is modeled to be _Beta_ distributed (with parameters $\alpha$ and $\beta$), while the likelihood of _heads_ and _tails_ is assumed to follow a _Binomial_ distribution with parameters $n$ (representing the number of flips) and the _Beta_-distributed $p$, thus creating the link.
 
 $$p \sim Beta(\alpha, \beta)$$
 
 $$y \sim Binomial(n, p)$$
 
 ### Gamma-Poisson
-Another often-used conjugate distribution is the Gamma-Poisson distribution, so named because the rate parameter $\lambda$ that parameterizes the Poisson distributed is modeled as a Gamma distribution:
+Another often-used conjugate distribution is the _Gamma-Poisson_ distribution, so named because the rate parameter $\lambda$ that parameterizes the _Poisson_ distributed is modeled as a _Gamma_ distribution:
+
 $$\lambda \sim Gamma(k, \theta)$$
+
 $$y \sim Poisson(\lambda)$$
 
-While the discrete $Poisson$ distributed is often used in applications of count data, such as store customers, eCommerce orders, website visits, the $Gamma$ distribution serves as a useful distribution to model the rate at which these events occur ($\lambda$), since the $Gamma$ distribution models positive continuous values only but is otherwise quite flexible:
+While the discrete _Poisson_ distribution is often used in applications of count data, such as store customers, eCommerce orders, website visits, the _Gamma_ distribution serves as a useful distribution to model the rate at which these events occur ($\lambda$), since the _Gamma_ distribution models positive continuous values only but is otherwise quite flexible:
 
 ![gamma distribution](https://upload.wikimedia.org/wikipedia/commons/e/e6/Gamma_distribution_pdf.svg)
 
-### Dirichlet-Multinomial
-A perhaps more interesting and seemingly less talked-about example of conjugate distributions is the [Dirichlet-Multinomial](https://en.wikipedia.org/wiki/Dirichlet-multinomial_distribution) distribution, introduced in chapter 3 of BDA3. 
+This distribution is also known as the [Negative-Binomial distribution](https://en.wikipedia.org/wiki/Negative_binomial_distribution#Gamma%E2%80%93Poisson_mixture), which we can think of as a mixture of Poission distributions.
 
-One way of think about the Dirichlet-Multinomial distribution is that while the _Multinomial_ (i.e. multiple choices) distribution is a generalization of the _Binomial_ distribution (i.e. binary choice), the _Dirichlet_ distribution is a generalization of the _Beta_ distribution. 
+If you find this confusing, you're not alone, and maybe you'll start to appreciate why so often we try to approximate things using the good old Normal distribution...
+
+### Dirichlet-Multinomial
+A perhaps even more interesting yet seemingly less talked-about example of conjugate distributions is the [Dirichlet-Multinomial](https://en.wikipedia.org/wiki/Dirichlet-multinomial_distribution) distribution, introduced in chapter 3 of BDA3. 
+
+One way of think about the _Dirichlet-Multinomial_ distribution is that while the _Multinomial_ (i.e. multiple choices) distribution is a generalization of the _Binomial_ distribution (i.e. binary choice), the _Dirichlet_ distribution is a generalization of the _Beta_ distribution. 
 That is, while the _Beta_ distribution models the probability of a _single_ probability $p$, the _Dirichlet_ models the probabilities of _multiple_, mutually exclusive choices, parameterized by $a$ which is referred to as the _concentration_ parameter and represents the weights for each choice (we'll see more on that later). 
 
-In other words, think **coins** for $Beta-Binomial$ and **dice** for $Dirichlet-Multinomial$.
+In other words, think of **coins** for the _Beta-Binomial_ distribution and **dice** for the _Dirichlet-Multinomial_ distribution.
 
 $$\theta \sim Dirichlet(a)$$
 
 $$y \sim Multinomial(n, \theta)$$
 
-In the wild, we might encounter the Dirichlet distribution these days often in the context of topic modeling in natural language processing, where it's commonly used as part of a [Latent Dirichlet Allocation](https://en.wikipedia.org/wiki/Latent_Dirichlet_allocation) (or LDA) model, which is fancy way of saying we're trying to figure out the probability of an article belonging to a certain topic given its text.
+In the wild, we might encounter the _Dirichlet_ distribution these days often in the context of topic modeling in natural language processing, where it's commonly used as part of a [Latent Dirichlet Allocation](https://en.wikipedia.org/wiki/Latent_Dirichlet_allocation) (or LDA) model, which is fancy way of saying we're trying to figure out the probability of an article belonging to a certain topic given its text.
 
-However, for our purposes, let's look at the Dirichlet-Multinomial in the context of multiple choices, and let's start by throwing dice as a motivating example:
+However, for our purposes, let's look at the _Dirichlet-Multinomial_ in the context of multiple choices, and let's start by throwing dice as a motivating example:
 
 ## Throwing Dice
 
@@ -96,9 +102,9 @@ sns.barplot(x=np.arange(1, k+1), y=y);
 However, students of Bayesian statistics that we are, we'd like to go further and quantify our uncertainty in the fairness of the die and calculate the probability that someone slipped us loaded dice.
 
 Let's set up a simple model in PyMC3 that not only calculates the posterior probability for $theta$ (i.e. the probability for each side of the die), but also estimates the bias for throwing a $6$. 
-We will use `Deterministic` variable for that purpose, in addition to our unobserved (`theta`) and observed (`results`) variables.
+We will use a `Deterministic` variable for that purpose, in addition to our unobserved (`theta`) and observed (`results`) random variables.
 
-For the prior on $theta$, we'll use a non-informative uniform distribution, by initializing the $Dirichlet$ prior with a series of 1s for the parameter `a`, one for each of the `k` possible outcomes. This is similar to initializing a $Beta$ distribution as $Beta(1, 1)$, which corresponds to the Uniform distribution.
+For the prior on $theta$, we'll assume a non-informative _Uniform_ distribution, by initializing the _Dirichlet_ prior with a series of 1s for the parameter `a`, one for each of the `k` possible outcomes. This is similar to initializing a _Beta_ distribution as $Beta(1, 1)$, which corresponds to the _Uniform_ distribution (more on this [here](https://en.wikipedia.org/wiki/Beta_distribution#Bayes'_prior_probability_(Beta(1,1)))).
 
 ```python
 with pm.Model() as dice_model:
@@ -251,7 +257,7 @@ with polling_model:
 
 Looking at the % difference between respondents for Bush vs Dukakis, we can see that most of the density is greater than 0%, signifying a strong advantage for Bush in this poll.
 
-We've also fit a $Beta$ distribution to this data via `scipy.stats`, and we can see that posterior of the difference of the 2 $theta$ values is a pretty good match.
+We've also fit a $Beta$ distribution to this data via `scipy.stats`, and we can see that the posterior of the difference of the 2 $theta$ values fits a _Beta_ distribution very nicely (which is to be expected given the properties of the Dirichlet distribution as a multivariate generalisation of the _Beta_ distribution).
 
 
 ```python
