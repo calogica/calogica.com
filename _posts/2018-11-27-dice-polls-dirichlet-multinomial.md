@@ -65,13 +65,13 @@ $$\theta \sim Dirichlet(a)$$
 
 $$y \sim Multinomial(n, \theta)$$
 
-In the wild, we might encounter the _Dirichlet_ distribution these days often in the context of topic modeling in natural language processing, where it's commonly used as part of a [Latent Dirichlet Allocation](https://en.wikipedia.org/wiki/Latent_Dirichlet_allocation) (or LDA) model, which is fancy way of saying we're trying to figure out the probability of an article belonging to a certain topic given its text.
+In the wild, we might encounter the _Dirichlet_ distribution these days often in the context of topic modeling in natural language processing, where it's commonly used as part of a [Latent Dirichlet Allocation](https://en.wikipedia.org/wiki/Latent_Dirichlet_allocation) (or LDA) model, which is a fancy way of saying we're trying to figure out the probability of an article belonging to a certain topic given its content.
 
-However, for our purposes, let's look at the _Dirichlet-Multinomial_ in the context of multiple choices, and let's start by throwing dice as a motivating example:
+However, for our purposes, let's look at the _Dirichlet-Multinomial_ in the context of simple multiple choices, and let's start by throwing dice as a motivating example:
 
 ## Throwing Dice
 
-Let's first create some data representing 122 rolls of six-sided die, where $p$ represents the expected probability for each side, $1/6$
+Let's first create some data representing 122 rolls of six-sided die, where $p$ represents the expected probability for each side of a fair die, i.e. $1/6$
 
 
 ```python
@@ -90,7 +90,7 @@ n, p
 ```
 
 
-Just looking at a simple bar plot, we suspect that we might not be dealing with a fair die! 
+Just looking at a simple bar plot of the data, we suspect that we might not be dealing with a fair die! 
 
 ```python
 sns.barplot(x=np.arange(1, k+1), y=y);
@@ -101,7 +101,7 @@ sns.barplot(x=np.arange(1, k+1), y=y);
 
 However, students of Bayesian statistics that we are, we'd like to go further and quantify our uncertainty in the fairness of the die and calculate the probability that someone slipped us loaded dice.
 
-Let's set up a simple model in PyMC3 that not only calculates the posterior probability for $theta$ (i.e. the probability for each side of the die), but also estimates the bias for throwing a $6$. 
+Let's set up a simple model in PyMC3 that not only calculates the posterior probability for $theta$ (i.e. the probability for each side of the die), but also estimates the die's bias for returning a $6$. 
 We will use a `Deterministic` variable for that purpose, in addition to our unobserved (`theta`) and observed (`results`) random variables.
 
 For the prior on $theta$, we'll assume a non-informative _Uniform_ distribution, by initializing the _Dirichlet_ prior with a series of 1s for the parameter `a`, one for each of the `k` possible outcomes. This is similar to initializing a _Beta_ distribution as $Beta(1, 1)$, which corresponds to the _Uniform_ distribution (more on this [here](https://en.wikipedia.org/wiki/Beta_distribution#Bayes'_prior_probability_(Beta(1,1)))).
@@ -259,7 +259,7 @@ with polling_model:
 
 Looking at the % difference between respondents for Bush vs Dukakis, we can see that most of the density is greater than 0%, signifying a strong advantage for Bush in this poll.
 
-We've also fit a $Beta$ distribution to this data via `scipy.stats`, and we can see that the posterior of the difference of the 2 $theta$ values fits a _Beta_ distribution very nicely (which is to be expected given the properties of the Dirichlet distribution as a multivariate generalisation of the _Beta_ distribution).
+We've also fit a $Beta$ distribution to this data via `scipy.stats`, and we can see that the posterior of the difference of the 2 $theta$ values fits a _Beta_ distribution very nicely (which is to be expected given the properties of the Dirichlet distribution as a multivariate generalization of the _Beta_ distribution).
 
 
 ```python
