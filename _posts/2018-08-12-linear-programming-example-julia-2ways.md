@@ -5,13 +5,14 @@ excerpt: "We try to solve a plant production example problem using linear progra
 categories: [julia, optimization]
 comments: true
 ---
-I've been trying to teach myself Julia and Linear Programming/Optimization via Julia, so I've been reading a number of books on both topics. Among them is the excellent [Introduction to Operations Research](https://smile.amazon.com/gp/product/9339221850/ref=oh_aui_search_detailpage?ie=UTF8&psc=1) by Hillier & Lieberman. It presents a range of Operations Research issues and is implementation agnostic, but has a number of examples drawn from business that make for good projects to implement on your own.
+I've been trying to teach myself **Julia** and **Linear Programming/Optimization** via Julia, so I've been reading a number of books on both topics. Among them is the excellent [Introduction to Operations Research](https://smile.amazon.com/gp/product/9339221850/ref=oh_aui_search_detailpage?ie=UTF8&psc=1) by Hillier & Lieberman. It presents a range of Operations Research issues and is implementation agnostic, but has a number of examples drawn from business that make for good projects to implement on your own.
 
 Surprisingly, there aren't a lot of practical examples out there implementing business problems using [JuMP](https://www.juliaopt.org/) or other packages (e.g. PuLP in Python). Given the immense business value of Linear Programming, I can only ascribe this to the current fascination with ML and Deep Learning taking up otherwise valuable blog real estate.
 
 So, to add to the small canon of LP example posts, I've taken an example from pg. 617, "Making Choices When the Decision Variables Are Continuous" about a production challenge faced by the _Good Products Company_ that I attempted to implement in Julia, using the JuMP package.
 
-[Note: JuMP is getting a major [API overhaul](https://discourse.julialang.org/t/mathoptinterface-and-upcoming-breaking-changes-in-jump-0-19/4874), along with the rest of Julia and package ecosystem. However, for purpose of this blog post, I'm sticking with **Julia 0.64** and **JuMP 0.18**. When the dust settles and packages are fully ported to Julia 1.0, I'll be sure to revisit the post.]
+{: .notice--info}
+Note: JuMP is getting a major [API overhaul](https://discourse.julialang.org/t/mathoptinterface-and-upcoming-breaking-changes-in-jump-0-19/4874), along with the rest of Julia and package ecosystem. However, for purpose of this blog post, I'm sticking with **Julia 0.64** and **JuMP 0.18**. When the dust settles and packages are fully ported to Julia 1.0, I'll be sure to revisit the post.
 
 Here's the setup (from pg. 617):
 
@@ -223,7 +224,7 @@ Then we multiply the profict vector by the vector of `x` variables and `sum` acr
 # Objective: maximize profit
 @objective(m2, Max, sum(profit * x))
 ```
-In this next section, we loop through all available plants and evaluate which plants' constraint we're adding via Julia's [ternary operator](https://docs.julialang.org/en/stable/manual/control-flow/index.html). We _could_ easily extend this to any number of plants and adjust our logic accordingly.
+In this next section, we loop through all available plants and evaluate which plants' constraint we're adding via Julia's [ternary operator](https://docs.julialang.org/en/v1.0/manual/control-flow/#man-conditional-evaluation-1). We _could_ easily extend this to any number of plants and adjust our logic accordingly.
 
 ```julia
 # Constraint: don't exceeed production time
@@ -232,7 +233,7 @@ for c = 1:size(production_time,1)
     @constraint(m2, production_time[c,1] * x .<= (available_production_time[c] + M*v))
 end
 ```
-Lastly, we add the remaining constraints using [vecorized dot operators](https://docs.julialang.org/en/v0.6.1/manual/mathematical-operations/#man-dot-operators-1).
+Lastly, we add the remaining constraints using [vecorized dot operators](https://docs.julialang.org/en/v1.0/manual/mathematical-operations/#man-dot-operators-1).
 
 ```julia
 @constraint(m2, x .<= sales_potential)
