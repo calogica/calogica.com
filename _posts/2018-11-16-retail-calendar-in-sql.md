@@ -6,7 +6,8 @@ categories: [sql, dbt]
 comments: true
 ---
 
-**Note: this post has been updated to include handling of 53-week years and refactors some of the calendar logic into a dbt macro for flexibility. Thanks for everyone's feedback!**
+{: .notice--info}
+Note: this post has been updated to include handling of 53-week years and refactors some of the calendar logic into a dbt macro for flexibility. Thanks for everyone's feedback!
 
 Working with clients in retail eCommerce, we're often asked to analyze transactions along a type of fiscal calendar optimized for retail and merchandising. This is commonly known as the "4-5-4 Calendar", because it groups weeks (Sun-Sat) into periods of 4, 5 and 4 weeks lengths.
 

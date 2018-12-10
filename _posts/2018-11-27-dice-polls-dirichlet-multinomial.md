@@ -5,6 +5,9 @@ excerpt: "We explore a few applications of the Dirichlet Multinomial distributio
 categories: [python, pymc3]
 comments: true
 ---
+{: .notice--info}
+This post is also available as a [Jupyter Notebook on Github](http://nbviewer.jupyter.org/github/clausherther/public/blob/master/probabilistic_programming/Dirichlet%20Multinomial%20Example.ipynb). 
+
 As part of a longer term project to learn Bayesian Statistics, I'm currently reading [Bayesian Data Analysis, 3rd Edition](http://www.stat.columbia.edu/~gelman/book/) by Andrew Gelman, John Carlin, Hal Stern, David Dunson, Aki Vehtari, and Donald Rubin, commonly known as **BDA3**.
 Although I've been using Bayesian statistics and probabilistic programming languages, like [PyMC3](https://docs.pymc.io/), in projects for the last year or so, this book forces me to go beyond a pure practioner's approach to modeling, while still delivering very practical value.
 
@@ -617,4 +620,7 @@ print(f'P(Shift Towards Bush) = {perc_shift:.1%}')
 
 While that was a sort of round-about way to show that Bush lost support during the September debate, hopefully this illustrated the flexibility and robustness of probabilistic models (and PyMC3).
 
-This post is also available as a [Jupyter Notebook on Github](http://nbviewer.jupyter.org/github/clausherther/public/blob/master/probabilistic_programming/Dirichlet%20Multinomial%20Example.ipynb). If you have any thoughts or feedback on this post, please let me know!
+If you have any thoughts or feedback on this post, please let me know!
+
+{: .notice--info}
+This post is also available as a [Jupyter Notebook on Github](http://nbviewer.jupyter.org/github/clausherther/public/blob/master/probabilistic_programming/Dirichlet%20Multinomial%20Example.ipynb). 
