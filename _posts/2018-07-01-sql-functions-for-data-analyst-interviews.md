@@ -20,7 +20,7 @@ All of these examples are drawn from real examples I've used in projects. Many t
 
 For all examples, let's assume we're working with a [Kimball style dimensional data warehouse](https://www.kimballgroup.com/data-warehouse-business-intelligence-resources/kimball-techniques/){:target="_blank"}, where we have some sales data in a table called `fct_sales`, product data in `dim_product` and store data in `dim_store`.
 
-!["Sample Star Schema"](/assets/images/sample_star_schema.png "Sample Star Schema")
+!["Sample Star Schema"](/assets/plots/sample_star_schema.png "Sample Star Schema")
 
 `fct_sales` sample data:
 

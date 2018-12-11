@@ -3,13 +3,13 @@ layout: splash
 title: Calogica
 excerpt: "Data & Analytics Consulting"
 header:
-  overlay_color: "#000"
-  overlay_filter: "0.5"
-  overlay_image: /assets/images/hero.png
+  overlay_color: "#FFF"
+  overlay_filter: "0.8"
+  overlay_image: /assets/images/bayes.jpg
   show_overlay_excerpt: true
 intro:
 ---
-Calogica provides data and analytics consulting for small to medium-size businesses.
+**Calogica** provides data and analytics consulting for small to medium-size businesses.
 
 Working with [clients](/clients) in a variety of industries over the last 15 years, we have extensive experience integrating disparate data sources and developing data warehouses from scratch. We understand "small" to "big" data and can help you build out a scalable data analytics platform.
 
