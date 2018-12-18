@@ -1,5 +1,5 @@
 ---
-title:  "Creating a 4-5-4 Retail Calendar using SQL and dbt (UPDATED)"
+title:  "Creating a 4-5-4 Retail Calendar using SQL and dbt"
 date:   2018-11-15 7:00PM
 excerpt: "Using SQL and dbt, we create a date dimension table using a retail/merchandising calendar known as a 4-5-4 calendar."
 categories: [sql, dbt]
