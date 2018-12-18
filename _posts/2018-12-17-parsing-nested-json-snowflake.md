@@ -5,19 +5,19 @@ excerpt: "How to parse nested dictionaries in Snowflake table columns using SQL"
 categories: [sql]
 comments: true
 ---
-Over the last couple of months working with clients, we've been working with a few new datasets containing nested JSON.
+Over the last couple of months working with clients, we've been working with a few new datasets containing [nested JSON](https://www.stitchdata.com/docs/data-structure/nested-data-structures-row-count-impact).
 In many cases, clients are looking to us to pre-process this data in Python or R to flatten out these nested structures into tabular data before loading to a data warehouse platform, such as Snowflake.
 
 However, given the powerful (if under-documented) JSON features of Snowflake, we can often avoid a more complex Python-based processing pipeline, and query JSON data directly in our ELT pipelines (for example, as part of a **[dbt](https://www.getdbt.com/){:target="_blank"}** project).
 
-Let's take an example dataset and explore 3 use cases for JSON manipulation in Snowflake:
-- How to simple extract values from single-level JSON if we know the name of the keys ahead of time (sort of as a warm up)
-- How to extract values from known JSON keys that are nested one or more levels deep (fun!)
+In this post, we'll take an example dataset and explore 3 use cases for JSON manipulation in Snowflake:
+- How to extract simple values from single-level JSON if we know the name of the keys ahead of time (sort of as a warm up)
+- How to extract values from known JSON keys that are nested one or more levels deep
 - How to extract the keys _and_ values from JSON dictionaries, even nested ones
 
 ### Getting the Data
 
-For the examples below, we'll assume the following data, which we get straight from the [Snowflake support documentation](https://support.snowflake.net/s/article/json-data-parsing-in-snowflake).
+For the examples below, we'll assume the following data, which we took straight from the [Snowflake support documentation](https://support.snowflake.net/s/article/json-data-parsing-in-snowflake).
 
 
 ```json
@@ -163,9 +163,9 @@ For the examples below, we'll assume the following data, which we get straight f
    ]
 }
 ```
-(Download [json_sample_data2.json](assets/data/json_sample_data2.json))
+(Download [json_sample_data2.json](/assets/data/json_sample_data2.json))
 
-Notice how this data actually includes 3 records for persons, the places they lived in during one or more years and their children, if any.
+Notice how this data actually includes records for **3** persons, the places they lived in during one or more years and their children, if any.
 
 
 We'll upload this data file to Snowflake using the `SnowSQL` command line utlity, which creates a gzip compressed copy of our source file from above in the `@~/json/` user directory, as `json_sample_data2.json.gz`.
@@ -256,12 +256,12 @@ We notice that `Anna Karenina` has no children. (Apparently, we are not followin
 
 ### One Level
 Let's extract values from the nested `children` dictionary, given that we know the key names we're interested in.
-We do this using the `lateral flatten` function, which expands each record in the `children` dictionary into a row, so that each person is shown along with each of their children's records.
+We do this using the `lateral flatten` [function](https://docs.snowflake.net/manuals/user-guide/json-basics-tutorial-flatten.html), which expands each record in the `children` dictionary into a row, so that each person is shown along with each of their children's records.
 
 We then extract the values for the `name`, `gender` and `age` keys.
 There is also a handy built-in `index` that we can use to keep track of each child record.
 
-Notice that we also specify the `outer` parameter in the `flatten` function to be `true`, which makes sure that we don't drop the childless `Anna Karenina` record.
+Notice that we also specify the `outer` parameter in the `flatten` function to be `true`, which makes sure that we don't drop the childless `Anna Karenina` record (akin to a `left outer join` if we're joining tables).
 
 ```sql
 select
@@ -287,7 +287,7 @@ from
 ```
 
 ### Multiple Levels
-Let's take this one level deeper, by analyzing the cities our persons lived in. If we take a closer look, we see that the `citiesLived` key actually contains another array made up of one dictionary per place/country, containing a `place` key denoting the city or country name and an array of the years the person lived in that place.
+Let's take this [one level deeper](https://www.youtube.com/watch?v=XuzpsO4ErOQ), by analyzing the cities our persons lived in. If we take a closer look, we see that the `citiesLived` key actually contains another array made up of one dictionary per place/country, containing a `place` key denoting the city or country name and an array of the years the person lived in that place, `yearsLived`.
 
 We can unroll both nested levels in one statement, by chaining `flatten` functions together.
 
