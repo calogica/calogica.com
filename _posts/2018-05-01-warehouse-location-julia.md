@@ -27,9 +27,6 @@ D = [0 10 15 20 18;
     ]
 ```
 
-
-
-
     5×5 Array{Int64,2}:
       0  10  15  20  18
      10   0  20  15  10
@@ -48,16 +45,12 @@ To convert this to a binary coverage vector $$A$$, we convert each distance into
 A = [Int(D[i, j] <= max_miles) for i=1:m, j=1:m]
 ```
 
-
-
-
     5×5 Array{Int64,2}:
      1  1  0  0  0
      1  1  0  0  1
      0  0  1  1  0
      0  0  1  1  1
      0  1  0  1  1
-
 
 
 Now we can model this problem using the [JuMP](https://www.juliaopt.org/) package and the (open source) `Cbc` solver:
@@ -67,9 +60,9 @@ Now we can model this problem using the [JuMP](https://www.juliaopt.org/) packag
 using JuMP, Cbc
 ```
 
-
 ```julia
 model = Model(solver=CbcSolver())
+# model = Model(solver=GLPKMathProgInterface.GLPKSolverMIP())
 
 # decision variable (binary): whether to build warehouse near distribution center i
 @variable(model, y[1:m], Bin)
@@ -84,9 +77,6 @@ model = Model(solver=CbcSolver())
 model
 ```
 
-
-
-
 $$ \begin{alignat*}{1}\min\quad & y_{1} + y_{2} + y_{3} + y_{4} + y_{5}\\
 \text{Subject to} \quad & y_{1} + y_{2} \geq 1\\
  & y_{1} + y_{2} + y_{5} \geq 1\\
@@ -98,7 +88,6 @@ $$ \begin{alignat*}{1}\min\quad & y_{1} + y_{2} + y_{3} + y_{4} + y_{5}\\
  $$
 
 
-
 We have an additional constraint that at least 1 warehouse should be within 10 miles of distribution center 1, but our activity matrix $$A$$ already covers that, so technically we do not need this explicit constraint.
 
 
@@ -106,40 +95,32 @@ We have an additional constraint that at least 1 warehouse should be within 10 m
 @constraint(model, y[1] + y[2] >= 1)
 ```
 
-
-
-
 $$ y_{1} + y_{2} \geq 1 $$
-
-
 
 
 ```julia
 # Solve problem using MIP solver
 status = solve(model)
 ```
-
-
-
-
     :Optimal
 
 
-
-
 ```julia
-println("Total # of warehouses: ", getobjectivevalue(model))
+println("Total # of warehouses: ", JuMP.getobjectivevalue(model))
 
 println("Build warehouses at distribution center(s):")
 
-[i for i=1:m if getvalue(y[i]) == 1 ]
+for i=1:m 
+    if JuMP.getvalue(y[i]) == 1 
+        println("Warehouse $i")
+    end
+end
 ```
-
-    Total # of warehouses: 2.0
-    Build warehouses at distribution center(s):
-
-    2-element Array{Int64,1}:
-     2
-     3
+```
+Total # of warehouses: 2.0
+Build warehouses at distribution center(s):
+Warehouse 2
+Warehouse 3
+```
 
 We should build warehouses at distribution centers 2 and 3.

@@ -18,7 +18,7 @@ using Combinatorics
 
 We start with a little helper function to calculate "happiness" of a table, determined by how close the guests are (by their letter):
 ```julia
-function happiness(table):
+function happiness(table)
     """
     Find the happiness of the table
     - by calculating the maximum distance between the letters
@@ -92,18 +92,15 @@ idx_possible_tables = 1:num_possible_tables
 @variable(m, table_assignment[idx_possible_tables], Bin)
 
 # Objective: maximize happiness = minimize happiness value
-@objective(m, Min, sum([happiness(possible_tables[t]) * table_assignment[t]
-    for t in idx_possible_tables]))
+@objective(m, Min, sum([happiness(possible_tables[t]) * table_assignment[t] for t in idx_possible_tables]))
 
-@constraint(m, sum([table_assignment[t]
-    for t in idx_possible_tables]) <= max_tables)
+@constraint(m, sum([table_assignment[t] for t in idx_possible_tables]) <= max_tables)
 
 
-# because this is a set partitioning problem, we enforce a strict equality constraint
+# because this is a set partitioning problem, we enforce a strict equality constraint 
 # - i.e. every guest has to be seated
 for guest in guests
-    @constraint(m, sum([table_assignment[t] for t in idx_possible_tables
-        if guest in possible_tables[t]]) == 1)
+    @constraint(m, sum([table_assignment[t] for t in idx_possible_tables if guest in possible_tables[t]]) == 1)
 end
 
 ;
