@@ -6,7 +6,7 @@ categories: [python, pymc3]
 comments: true
 ---
 {: .notice--info}
-This post is also available as a [Jupyter Notebook on Github](http://nbviewer.jupyter.org/github/clausherther/public/blob/master/probabilistic_programming/Dirichlet%20Multinomial%20Example.ipynb). 
+This post is also available as a [Jupyter Notebook on Github](http://nbviewer.jupyter.org/github/clausherther/public/blob/master/Dirichlet%20Multinomial%20Example.ipynb). 
 
 As part of a longer term project to learn Bayesian Statistics, I'm currently reading [Bayesian Data Analysis, 3rd Edition](http://www.stat.columbia.edu/~gelman/book/) by Andrew Gelman, John Carlin, Hal Stern, David Dunson, Aki Vehtari, and Donald Rubin, commonly known as **BDA3**.
 Although I've been using Bayesian statistics and probabilistic programming languages, like [PyMC3](https://docs.pymc.io/), in projects for the last year or so, this book forces me to go beyond a pure practioner's approach to modeling, while still delivering very practical value.
@@ -16,7 +16,7 @@ Below are a few take aways from the earlier chapters in the book I found interes
 We'll cover:
 - Some common **conjugate distributions**
 - An example of the **Dirichlet-Multinomial** distribution using dice rolls
-- Two examples involing **polling data** from BDA3
+- Two examples involving **polling data** from BDA3
 
 ## Conjugate Distributions
 In Chapter 2 of the book, the authors introduce several choices for prior probability distributions, along with the concept of **conjugate distributions** in section 2.4. 
@@ -623,4 +623,4 @@ While that was a sort of round-about way to show that Bush lost support during t
 If you have any thoughts or feedback on this post, please let me know!
 
 {: .notice--info}
-This post is also available as a [Jupyter Notebook on Github](http://nbviewer.jupyter.org/github/clausherther/public/blob/master/probabilistic_programming/Dirichlet%20Multinomial%20Example.ipynb). 
+This post is also available as a [Jupyter Notebook on Github](http://nbviewer.jupyter.org/github/clausherther/public/blob/master/Dirichlet%20Multinomial%20Example.ipynb). 
