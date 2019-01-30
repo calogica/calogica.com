@@ -28,7 +28,7 @@ For example, a 4-day workshop could look like this:
 - Analytical vs Operational Data Demands, Data SLAs
 - Loading data incrementally
 - Accessing data
-- Real-time data, and do you need it?
+- Real-time data, and do really you need it?
 - Optimizing for performance, readability, maintainability
 
 ### Benefits of Dimensional Modeling
@@ -70,7 +70,7 @@ For example, a 4-day workshop could look like this:
 - Approaching Data Engineering like Software Development
     - Automated Testing
     - Version Control & Managing the Release Process
-    
+
 - Documentation
 
 ### SQL v3: Debugging
@@ -79,6 +79,5 @@ For example, a 4-day workshop could look like this:
 - Performance tuning 
     - Profiler
     - Query Plans
-
 
 Shoot us an [email](mailto: training@calogica.com) to let us tailor your workshop and for details on availability and pricing!
