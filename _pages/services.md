@@ -1,6 +1,6 @@
 ---
 layout: single
-title: Services
+title: Consulting Services
 permalink: /services
 author_profile: true
 toc: true

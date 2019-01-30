@@ -1,6 +1,8 @@
 main:
-  - title: "Services"
+  - title: "Consulting Services"
     url: /services
+  - title: "Training"
+    url: /training
   - title: "Clients"
     url: /clients
   - title: "About Us"
