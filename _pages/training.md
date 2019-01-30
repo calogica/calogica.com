@@ -19,6 +19,7 @@ For example, a 4-day workshop could look like this:
 - Types of Database objects
     - Tables/Views
     - Databases/Schemas
+- Formatting SQL
 
 ### The Modern Analytics Data Stack
 - Flipping the T in ETL --> ELT
@@ -57,23 +58,20 @@ For example, a 4-day workshop could look like this:
 - JSON / Nested Arrays
 
 ### dbt - Data Build Tool
-- Encapsulation in Software Development
-    - Functions
-    - Modules
-    - Packages
-
-- Equivalents in SQL and dbt
+- Anatomy of a dbt Project
+- Design Patterns
+- Encapsulation and Reuse in SQL and dbt
     - CTEs
     - Macros
     - Models
     - Ephemeral vs persisted
     - Packages
 
-- Anatomy of a dbt Project
-
 - Approaching Data Engineering like Software Development
-    - Got Git?
-    - What's a Pull Request?
+    - Automated Testing
+    - Version Control & Managing the Release Process
+    
+- Documentation
 
 ### SQL v3: Debugging
 - Debugging techniques
