@@ -14,12 +14,12 @@ For example, a 4-day workshop could look like this:
 
 ### SQL v1: The Bread & Butter Stuff
 - Anatomy of a SQL statement
-    - Hands-on SQL Session
+- Hands-on SQL Session
 - Expressing a business question as set logic
 - Types of Database objects
     - Tables/Views
     - Databases/Schemas
-- Formatting SQL
+- SQL Style Guide
 
 ### The Modern Analytics Data Stack
 - Flipping the T in ETL --> ELT
