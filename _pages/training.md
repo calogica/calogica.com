@@ -67,7 +67,7 @@ For example, a 4-day workshop could look like this:
     - Ephemeral vs persisted
     - Packages
 
-- Approaching Data Engineering like Software Development
+- Data Engineering as Software Development
     - Automated Testing
     - Version Control & Managing the Release Process
 
