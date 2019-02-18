@@ -232,18 +232,18 @@ m2 = Model(with_optimizer(Cbc.Optimizer))
 @variable(m2, plant >= 0, Bin)
 ```
 
-Then we multiply the profict vector by the vector of `x` variables and `sum` across.
+Then to add our objective, to maximize profit, we multiply the profit-per-product vector by the vector of `x` variables and `sum` across.
 
 ```julia
 # Objective: maximize profit
 @objective(m2, Max, sum(profit * x))
 ```
 
-In this next section, we loop through all available plants and evaluate which plants' constraint we're adding via Julia's [ternary operator](https://docs.julialang.org/en/v1.0/manual/control-flow/#man-conditional-evaluation-1). We _could_ easily extend this to any number of plants and adjust our logic accordingly.
+In this next section, we loop through all available plants and evaluate which plant's constraint we're adding via Julia's [ternary operator](https://docs.julialang.org/en/v1.0/manual/control-flow/#man-conditional-evaluation-1). We _could_ easily extend this to any number of plants and adjust our logic accordingly.
 
 ```julia
 # Constraint: don't exceeed production time
-for c = 1:size(production_time,1)
+for c = 1:size(production_time, 1)
     v = c==2 ? 1-plant : plant
     @constraint(m2, production_time[c,1] * x .<= (available_production_time[c] + M*v))
 end
@@ -256,7 +256,7 @@ Lastly, we add the remaining constraints using [vecorized dot operators](https:/
 @constraint(m2, x .<= M * y)
 ```
 
-(This last bit uses the Julia broadcast inequality operator `.<=` so we don't have to write a loop to implement this constraint, which makes sure we don't calculate production rates for any products we're not actually planning on making.)
+(This last bit uses the Julia _broadcast_ inequality operator `.<=` so we don't have to write a loop to implement this constraint, which makes sure we don't calculate production rates for any products we're not actually planning on making.)
 
 Lastly, we make sure that we don't make more than 2 products, as required:
 
@@ -264,7 +264,7 @@ Lastly, we make sure that we don't make more than 2 products, as required:
 @constraint(m2, sum(y) <= 2)
 ```
 
-And, behold, here's the full model, which you better believe matches the model we implemented using the direct method:
+And, behold, here's the full model, which matches the model we implemented using the direct method:
 
 $$
 \begin{alignat*}{1}\max\quad & 5 x_{1} + 7 x_{2} + 3 x_{3}\\
