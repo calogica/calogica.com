@@ -1,6 +1,6 @@
 ---
 title:  "Multi-Warehouse eCommerce Order Fulfillment, Pt. 1"
-date:   2019-02-23 8:00AM
+date:   2019-02-28 8:00AM
 excerpt: "We look at how we can use Powersets, Combinations and Permutations to calculate the number of ways we can split products in an order across multiple warehouses."
 categories: [python]
 comments: true
