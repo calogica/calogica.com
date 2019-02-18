@@ -81,7 +81,7 @@ Before we start, let's make sure we have all the required packages installed, vi
 
 ```julia
 using Pkg
-Pkg.add("JuMP") # 0.18
+Pkg.add("JuMP")
 Pkg.add("Cbc")
 ```
 
