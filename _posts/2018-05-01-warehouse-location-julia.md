@@ -6,7 +6,11 @@ excerpt: "We solve a textbook optimization example involving planning multiple w
 mathjax: true
 ---
 
+{: .notice--info}
+This post has been upgraded to use Julia 1.1 and JuMP 0.19.
+
 ## Location of Warehouses
+
 This is based on _Example 5.1 (Location of Warehouses)_ from [Applied Linear Programming](https://www.wiley.com/en-us/Applied+Integer+Programming%3A+Modeling+and+Solution-p-9780470373064){:target="_blank"}
 
 A firm has 5 distribution centers and we want to determine which subset of these should serve as a site for a warehouse. The goal is the build a minimum number of warehouses that can cover all distribution centers so that every warehouse is within 10 miles of each distribution center.
@@ -34,12 +38,9 @@ D = [0 10 15 20 18;
      20  15   8   0   5
      18  10  17   5   0
 
-
-
 For example, it is *18* miles between distribution centers *1* (column 1) and *5* (row 5).
 
 To convert this to a binary coverage vector $$A$$, we convert each distance into a binary variable indicating whether the distribution centers are 10 or fewer miles from one another:
-
 
 ```julia
 A = [Int(D[i, j] <= max_miles) for i=1:m, j=1:m]
@@ -52,17 +53,16 @@ A = [Int(D[i, j] <= max_miles) for i=1:m, j=1:m]
      0  0  1  1  1
      0  1  0  1  1
 
-
 Now we can model this problem using the [JuMP](https://www.juliaopt.org/) package and the (open source) `Cbc` solver:
 
 (First we import the relevant packages)
+
 ```julia
 using JuMP, Cbc
 ```
 
 ```julia
-model = Model(solver=CbcSolver())
-# model = Model(solver=GLPKMathProgInterface.GLPKSolverMIP())
+model = Model(with_optimizer(Cbc.Optimizer))
 
 # decision variable (binary): whether to build warehouse near distribution center i
 @variable(model, y[1:m], Bin)
@@ -87,9 +87,7 @@ $$ \begin{alignat*}{1}\min\quad & y_{1} + y_{2} + y_{3} + y_{4} + y_{5}\\
 \end{alignat*}
  $$
 
-
 We have an additional constraint that at least 1 warehouse should be within 10 miles of distribution center 1, but our activity matrix $$A$$ already covers that, so technically we do not need this explicit constraint.
-
 
 ```julia
 @constraint(model, y[1] + y[2] >= 1)
@@ -97,30 +95,26 @@ We have an additional constraint that at least 1 warehouse should be within 10 m
 
 $$ y_{1} + y_{2} \geq 1 $$
 
-
 ```julia
 # Solve problem using MIP solver
-status = solve(model)
+optimize!(model)
 ```
-    :Optimal
-
 
 ```julia
-println("Total # of warehouses: ", JuMP.getobjectivevalue(model))
+println("Total # of warehouses: ", objective_value(model))
 
 println("Build warehouses at distribution center(s):")
 
-for i=1:m 
-    if JuMP.getvalue(y[i]) == 1 
+for i=1:m
+    if value(y[i]) == 1 
         println("Warehouse $i")
     end
 end
 ```
-```
-Total # of warehouses: 2.0
-Build warehouses at distribution center(s):
-Warehouse 2
-Warehouse 3
-```
+
+    Total # of warehouses: 2.0
+    Build warehouses at distribution center(s):
+    Warehouse 2
+    Warehouse 3
 
 We should build warehouses at distribution centers 2 and 3.

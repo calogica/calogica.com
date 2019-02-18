@@ -5,14 +5,14 @@ excerpt: "We try to solve a plant production example problem using linear progra
 categories: [julia, optimization]
 comments: true
 ---
+{: .notice--info}
+This post has been upgraded to use Julia 1.1 and JuMP 0.19.
+
 I've been trying to teach myself **Julia** and **Linear Programming/Optimization** via Julia, so I've been reading a number of books on both topics. Among them is the excellent [Introduction to Operations Research](https://smile.amazon.com/gp/product/9339221850/ref=oh_aui_search_detailpage?ie=UTF8&psc=1) by Hillier & Lieberman. It presents a range of Operations Research issues and is implementation agnostic, but has a number of examples drawn from business that make for good projects to implement on your own.
 
 Surprisingly, there aren't a lot of practical examples out there implementing business problems using [JuMP](https://www.juliaopt.org/) or other packages (e.g. PuLP in Python). Given the immense business value of Linear Programming, I can only ascribe this to the current fascination with ML and Deep Learning taking up otherwise valuable blog real estate.
 
 So, to add to the small canon of LP example posts, I've taken an example from pg. 617, "Making Choices When the Decision Variables Are Continuous" about a production challenge faced by the _Good Products Company_ that I attempted to implement in Julia, using the JuMP package.
-
-{: .notice--info}
-Note: JuMP is getting a major [API overhaul](https://discourse.julialang.org/t/mathoptinterface-and-upcoming-breaking-changes-in-jump-0-19/4874), along with the rest of Julia and package ecosystem. However, for purpose of this blog post, I'm sticking with **Julia 0.64** and **JuMP 0.18**. When the dust settles and packages are fully ported to Julia 1.0, I'll be sure to revisit the post.
 
 Here's the setup (from pg. 617):
 
@@ -74,27 +74,27 @@ We choose $M$ to be `10,000`, although according to the book, 9-10 seems to be e
 ```julia
 M = 1e4
 ```
+
 ### Now the Model:
 
 Before we start, let's make sure we have all the required packages installed, via:
+
 ```julia
+using Pkg
 Pkg.add("JuMP") # 0.18
 Pkg.add("Cbc")
 ```
 
-```julia
-Pkg.status("JuMP")
-```
-Should yield
-```
- - JuMP                          0.18.2
-```
+(Or, use the new package manager introduced in Julia 1.0.)
 
 Now, we set up the model using the open source `Cbc` solver, although for this problem any linear solver _should_ work.
+
 ```julia
-m = Model(solver=CbcSolver())
+m = Model(with_optimizer(Cbc.Optimizer))
 ```
+
 Then we set up the `x` and `y` constraints, along with our profit objective that we'd like to maximize:
+
 ```julia
 # Product quantity variables
 @variable(m, x[1:3] >= 0)
@@ -117,7 +117,9 @@ The inverse is tue for $y_4 = 1$ and we effectively get the required _either/or_
 # Production Restriction Plant 2
 @constraint(m, 4x[1] + 6x[2] + 2x[3] <= 40 + M*(1-y[4]))
 ```
+
 Then we add the maximum sales capacity for each product we're given:
+
 ```julia
 # Sales Capacity:
 @constraint(m, x[1] <= 7)
@@ -126,6 +128,7 @@ Then we add the maximum sales capacity for each product we're given:
 ```
 
 And we make sure we only make 2 of the 3 products, as required:
+
 ```julia
 # Only make 2 products
 @constraint(m, y[1]+ y[2] + y[3] <= 2)
@@ -133,6 +136,7 @@ And we make sure we only make 2 of the 3 products, as required:
 
 Lastly, we make sure we calculate production rates for products we actually intend to make, again employing "Big M".
 So, if $y_i$ is 0, i.e. we don't make the product, we shouldn't calculate a value for $x_i$ which is enforced by $x_i <= 0$. However, for $y_i = 1$, the constraint becomes $x_i <= 10,000$ and is always satisfied in our example.
+
 ```julia
 for i=1:3
     @constraint(m, x[i] <= M*y[i])
@@ -140,9 +144,11 @@ end
 ```
 
 Print the entire model and make sure it matches your requirements before solving:
+
 ```julia
 @show m
 ```
+
 $$
 \begin{alignat*}{1}\max\quad & 5 x_{1} + 7 x_{2} + 3 x_{3}\\
 \text{Subject to} \quad & 3 x_{1} + 4 x_{2} + 2 x_{3} - 10000 y_{4} \leq 30\\
@@ -160,8 +166,12 @@ $$
 $$
 
 Now we solve and retrieve our variable values:
+
 ```julia
-status = solve(m)
+optimize!(m)
+```
+
+```julia
 println("Profit: ", getobjectivevalue(m))
 println("Warehouse: ", getvalue(y[4]) == 1 ? "Plant 2": "Plant 1")
 for i=1:3
@@ -171,21 +181,22 @@ for i=1:3
     println("x $i qty: ", getvalue(x[i]))
 end
 ```
-```
-Profit: 54.50000000000114
-Warehouse: Plant 2
-y 1: 1.0
-y 2: 0.0
-y 3: 1.0
-x 1 qty: 5.500000000000061
-x 2 qty: 0.0
-x 3 qty: 9.0
-```
+
+    Profit: 54.50000000000114
+    Warehouse: Plant 2
+    y 1: 1.0
+    y 2: 0.0
+    y 3: 1.0
+    x 1 qty: 5.500000000000061
+    x 2 qty: 0.0
+    x 3 qty: 9.0
+
 Thus, we make `5.5` units of `Product 1` and `9` units of `product 3` at `Plant 2` for a total profit of `$54,500`, which matches the solution provided in the book. Nicely done!
 
 While this was fun, it's easy to see how explicitly coding each variable gets tedious quickly and certainly won't scale well. So, let's see how we can improve this implementation using matrices!
 
 ## Matrix Method
+
 Using the Matrix-based approach, we use Linear Algebra to multiply a matrix of (decision) variables by a matrix of cost or profit variables.
 Since we can construct matrices easily programmatically or from data stored in databases or data files, this makes dealing with a large number of variables much more feasible.
 
@@ -206,6 +217,7 @@ sales_potential = [7, 5, 9]
 Notice how we simply translate the rows and columns from the table into our matrix rows and columns. (Actually, I'm lying, it took me about half an hour or more to get this right, but it is pretty obvious in hindsight.)
 
 ### Model
+
 Again, we set up our base model and variables. Here I'm using a slightly different approach, using a variable to denote the upper bound for our product variables, and I've implemented the $plant$ variable as a standalone variable instead of $y_4$.
 "Big M" remains at `10,000`.
 
@@ -219,11 +231,14 @@ m2 = Model(solver=CbcSolver())
 
 @variable(m2, plant >= 0, Bin)
 ```
+
 Then we multiply the profict vector by the vector of `x` variables and `sum` across.
+
 ```julia
 # Objective: maximize profit
 @objective(m2, Max, sum(profit * x))
 ```
+
 In this next section, we loop through all available plants and evaluate which plants' constraint we're adding via Julia's [ternary operator](https://docs.julialang.org/en/v1.0/manual/control-flow/#man-conditional-evaluation-1). We _could_ easily extend this to any number of plants and adjust our logic accordingly.
 
 ```julia
@@ -233,15 +248,18 @@ for c = 1:size(production_time,1)
     @constraint(m2, production_time[c,1] * x .<= (available_production_time[c] + M*v))
 end
 ```
+
 Lastly, we add the remaining constraints using [vecorized dot operators](https://docs.julialang.org/en/v1.0/manual/mathematical-operations/#man-dot-operators-1).
 
 ```julia
 @constraint(m2, x .<= sales_potential)
 @constraint(m2, x .<= M * y)
 ```
+
 (This last bit uses the Julia broadcast inequality operator `.<=` so we don't have to write a loop to implement this constraint, which makes sure we don't calculate production rates for any products we're not actually planning on making.)
 
 Lastly, we make sure that we don't make more than 2 products, as required:
+
 ```julia
 @constraint(m2, sum(y) <= 2)
 ```
@@ -266,30 +284,35 @@ $$
 $$
 
 Again, we solve and retrieve our variable values, which match our earlier solution.
+
 ```julia
-status = solve(m2)
-println("Profit: ", getobjectivevalue(m2))
-println("Warehouse: ", getvalue(plant) == 1 ? "Plant 2": "Plant 1")
-for i=1:3
-    println("y $i: ", getvalue(y[i]))
-end
-for i=1:3
-    println("x $i qty: ", getvalue(x[i]))
-end
-```
-```
-Profit: 54.50000000000114
-Warehouse: Plant 2
-y 1: 1.0
-y 2: 0.0
-y 3: 1.0
-x 1 qty: 5.500000000000061
-x 2 qty: 0.0
-x 3 qty: 9.0
+optimize!(m2)
 ```
 
+```julia
+println("Profit: ", objective_value(m2))
+println("Warehouse: ", value(plant) == 1 ? "Plant 2" : "Plant 1")
+for i=1:3
+    println("y $i: ", value(y[i]))
+end
+for i=1:3
+    println("x $i qty: ", value(x[i]))
+end
+```
+
+    Profit: 54.50000000000114
+    Warehouse: Plant 2
+    y 1: 1.0
+    y 2: 0.0
+    y 3: 1.0
+    x 1 qty: 5.500000000000061
+    x 2 qty: 0.0
+    x 3 qty: 9.0
+
 ## Conclusion
+
 Hopefully this all made sense and highlighted a few things:
+
 - JuMP is an amazing package to implement LP problems since it allows us to write Julia code matching the mathematical notation almost line by line
 - The Matrix Method, while maybe a little harder to untuitively grasp initially provides a robust and scalable approach to solving large liner models
 
