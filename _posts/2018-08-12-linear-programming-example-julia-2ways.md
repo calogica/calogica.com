@@ -172,13 +172,13 @@ optimize!(m)
 ```
 
 ```julia
-println("Profit: ", getobjectivevalue(m))
-println("Warehouse: ", getvalue(y[4]) == 1 ? "Plant 2": "Plant 1")
+println("Profit: ", objective_value(m))
+println("Warehouse: ", value(y[4]) == 1 ? "Plant 2" : "Plant 1")
 for i=1:3
-    println("y $i: ", getvalue(y[i]))
+    println("y $i: ", value(y[i]))
 end
 for i=1:3
-    println("x $i qty: ", getvalue(x[i]))
+    println("x $i qty: ", value(x[i]))
 end
 ```
 
@@ -224,7 +224,7 @@ Again, we set up our base model and variables. Here I'm using a slightly differe
 ```julia
 M = 1e4
 
-m2 = Model(solver=CbcSolver())
+m2 = Model(with_optimizer(Cbc.Optimizer))
 
 @variable(m2, x[1:n_products] >= 0)
 @variable(m2, y[1:n_products] >= 0, Bin)
