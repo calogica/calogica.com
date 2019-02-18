@@ -13,6 +13,7 @@ We offer customized 3-4 day workshops, tailored to bring your team of data analy
 For example, a 4-day workshop could look like this:
 
 ### SQL v1: The Bread & Butter Stuff
+
 - Anatomy of a SQL statement
 - Hands-on SQL Session
 - Expressing a business question as set logic
@@ -22,6 +23,7 @@ For example, a 4-day workshop could look like this:
 - SQL Style Guide
 
 ### The Modern Analytics Data Stack
+
 - Flipping the T in ETL --> ELT
 - MPP databases and how they're not MySQL
 - Distributing, partitioning, clustering data
@@ -32,6 +34,7 @@ For example, a 4-day workshop could look like this:
 - Optimizing for performance, readability, maintainability
 
 ### Benefits of Dimensional Modeling
+
 - What is a Dimensional Model?
     - Normalization, 3rd Normal Form (3NF)
     - Denormalization
@@ -44,6 +47,7 @@ For example, a 4-day workshop could look like this:
 - Surrogate Keys, do you need them?
 
 ### SQL v2: More Fancy
+
 - Data Warehouse Query Strategies
 - Analytical Functions
 - Moving Averages, Cumulative Totals 
@@ -58,6 +62,7 @@ For example, a 4-day workshop could look like this:
 - JSON / Nested Arrays
 
 ### dbt - Data Build Tool
+
 - Anatomy of a dbt Project
 - Design Patterns
 - Encapsulation and Reuse in SQL and dbt
@@ -74,6 +79,7 @@ For example, a 4-day workshop could look like this:
 - Documentation
 
 ### SQL v3: Debugging
+
 - Debugging techniques
     - Troubleshooting lost rows
 - Performance tuning 
