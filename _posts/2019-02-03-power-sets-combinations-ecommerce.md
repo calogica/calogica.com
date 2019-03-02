@@ -307,16 +307,16 @@ inventory = df_inventory.values
 ```
 ```python
 [['W1', 'P1', 10.0],
-       ['W1', 'P2', 2.0],
-       ['W1', 'P3', 2.0],
-       ['W1', 'P4', 2.0],
-       ['W2', 'P1', 5.0],
-       ['W2', 'P2', 5.0],
-       ['W2', 'P3', 5.0],
-       ['W3', 'P1', 5.0],
-       ['W3', 'P2', 5.0],
-       ['W3', 'P3', 5.0],
-       ['W3', 'P4', 5.0]]
+['W1', 'P2', 2.0],
+['W1', 'P3', 2.0],
+['W1', 'P4', 2.0],
+['W2', 'P1', 5.0],
+['W2', 'P2', 5.0],
+['W2', 'P3', 5.0],
+['W3', 'P1', 5.0],
+['W3', 'P2', 5.0],
+['W3', 'P3', 5.0],
+['W3', 'P4', 5.0]]
 ```
 
 Then we'll set up a helper function that returns the inventory quantity for a given product and warehouse:

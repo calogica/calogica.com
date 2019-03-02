@@ -59,12 +59,6 @@ search: true
 
 # Build settings
 
-comments:
-  provider: "disqus"
-  disqus:
-    shortname: "calogica-blog"
-
-
 markdown: kramdown
 
 theme: minimal-mistakes-jekyll
