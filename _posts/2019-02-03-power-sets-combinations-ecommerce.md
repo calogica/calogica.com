@@ -1,6 +1,6 @@
 ---
 title:  "Multi-Warehouse eCommerce Order Fulfillment, Pt. 1"
-date:   2019-02-28 8:00AM
+date:   2019-03-02 8:00AM
 excerpt: "We look at how we can use Powersets, Combinations and Permutations to calculate the number of ways we can split products in an order across multiple warehouses."
 categories: [python]
 comments: true
@@ -10,6 +10,12 @@ In this post, we look at how we can use Powersets, Combinations and Permutations
 
 In the beginning of every eCommerce startup, getting the orders out the door fast enough is the second best problem to have, right after getting "too many orders".
 
+Fulfillment life looks simple at this point:
+
+![ecommerce_fulfillment](/assets/images/ecommerce_fulfillment.jpg)
+
+<small>[[image credit](https://biznology.com/2017/10/3-biggest-costliest-e-commerce-order-fulfillment-mistakes/)]</small>
+
 However, once the startup grows up a little and has managed the basic tackling and blocking of order fulfillment, pretty soon Operations teams start on projects to optimize warehouse processes. 
 
 If the business is lucky enough to need more than one fulfillment center, we now have twice (or more) as many challenges. From the best location (hint: as a general rule, East of the Mississippi is [where all the people live](https://www.reddit.com/r/MapPorn/comments/7lfecf/population_density_map_of_the_us_992x793/)), to figuring out the optimal [inventory and safety stock](http://egon.cheme.cmu.edu/ewo/docs/SnyderEWO_081113.pdf) levels at each warehouse, there is no shortage of optimization challenges.
@@ -17,12 +23,18 @@ If the business is lucky enough to need more than one fulfillment center, we now
 ## Split Shipments & Cross Shipping
 One of those challenges that's been occupying our minds for a while, is how to optimize (and really, minimize) split shipments.
 
-**Split shipments** can happen in **multi-warehouse** settings (sometimes known as multi-echelon) when an order has to be split, i.e. fulfilled from more than one warehouse, because we didn't have enough, or the right mix of inventory in any one location.
 
-**Cross shipping** is the scenario where we have to fulfill an order from a warehouse other than the primary or preferred fulfillment location. For example, we may have a warehouse in Washington State (WA) and one in Pennsylvania (PA); however, because of inventory constraints, we may have to ship an order for a customer in NYC from our WA warehouse, rather than from geographically closer PA. 
+**Split shipments** can happen in **multi-warehouse** settings when an order has to be split, i.e. fulfilled from more than one warehouse, because we didn't have enough, or the right mix of inventory in any one location.
+
+![multi warehouse fulfillment](/assets/images/msi.png)
+
+<small>[[image credit](https://bagisto.com/en/e-commerce-inventory-split/)]</small>
+
+**Cross shipping** is the scenario where we have to fulfill an order from a warehouse other than the primary or preferred fulfillment location. For example, we may have a warehouse in the US in Washington State (WA) and one in Pennsylvania (PA); however, because of inventory constraints, we may have to ship an order for a customer in New York City from our WA warehouse, rather than from geographically closer PA. 
 
 Both of these are often side effects of free shipping offers.
-> To offer free shipping, some retailers mandate a minimum order purchase. This drives up the number of items per order, but also increases the chances that one or more items will be out of stock. [[source]](https://www.supplychaindive.com/news/shipment-to-order-KPI-retail-fulfillment/543050/)
+> To offer free shipping, some retailers mandate a minimum order purchase. This drives up the number of items per order, but also increases the chances that one or more items will be out of stock. 
+<small>[[source]](https://www.supplychaindive.com/news/shipment-to-order-KPI-retail-fulfillment/543050/)</small>
 
 As a rule, split shipments, i.e. shipping more than 1 shipment for a single order is more expensive than a single package even if we have to cross ship the order. With most carriers, such as Fedex or UPS, the overhead cost per package is typically more than the variable cost as a result of weight or shipping distance.
 
@@ -56,7 +68,8 @@ Let's consider the following setup:
 Let's use Python to set up some sample data for our example:
 
 (but, first let's import some libraries we'll need throughout this post...)
-```
+
+```python
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -95,7 +108,7 @@ data_orders_products = [{"order_id": 1, "product_id": "P1", "qty": 1.0},
                          {"order_id": 5, "product_id": "P1", "qty": 1.0}
                       ]
 ```
-In most production scenarios, this data will likely come from a database, so let's turn this sample data into pandas dataframes so we can work with tabulr data:
+In most production scenarios, this data will likely come from a database, so let's turn this sample data into pandas dataframes so we can work with tabular data:
 
 ```python
 df_orders = pd.DataFrame(data_orders_products)
@@ -157,10 +170,12 @@ If you had sourced this data from your production database or a data warehouse, 
 
 ### Product Combinations
 
-Before we can figure out the ways to split and order, we first need to calculate the possible ways we can combine the products in each order. 
+Before we can figure out the ways to **split** an **order**, we first need to calculate the possible ways we can **combine** the **products** in each order. 
+
 Let's say we have 2 products, `P1` and `P2`, in an order. Intuitively, we could fulfill this order by shipping `P1` by itself and `P2` by itself, or `P1 & P2` together.
+
 So, we'd like to make subsets of these sets of length 1 up to the length = length of the set.
-Turns out, this is known as a Powerset, and one way to calculate this is:
+Turns out, this is known as a **Powerset**, and one way to calculate this is:
 
 ```python
 def powerset(iterable, min_elements=0):
@@ -173,12 +188,13 @@ For example, given a list like `[1,2,3]`, the corresponding powerset would be:
 
 `() (1,) (2,) (3,) (1,2) (1,3) (2,3) (1,2,3)`
 
-Powesets by definition include instances of 0 elements (the empty set) and the `min_elements` argument here supports this; however, for our purposes, we only care about sets with at least 1 element, so we'll parameterize this function accordingly.
+Powesets, by definition, include instances of 0 elements (the empty set) and the `min_elements` argument here supports this; however, for our purposes, we only care about sets with at least 1 element, so we'll parameterize this function accordingly.
 
 We will make use of pandas' ability to broadcast functions to all rows, by using `apply`, instead of writing explicit `for` loops. That way, we'll set ourselves up to scale this to possibly millions of orders from the start.
 
 Since the `powerset` function returns tuples, we'll use a helper function to turn these into lists:
-```
+
+```python
 tuples_to_list = lambda iterable: [list(c) for c in iterable]
 ```
 
@@ -192,7 +208,9 @@ df_orders_products["product_combos"] = df_orders_products.apply(
 
 (Note that `axis=1` tells pandas to apply the function to each row.)
 
-The results are sets of sets of products for each order, containing a minimum of 1 element. Note, for example, that order #4 consists of only 1 product, so the resulting powerset contains a single set of `P3`. Another interesting example is order #5 containing 2 units of `P1`; the corresponding powerset is `[[P1], [P1], [P1, P1]]`.
+The results are sets of sets of products for each order, containing a minimum of 1 element. Note, for example, that order #4 consists of only 1 product, so the resulting powerset contains a single set of `P3`. 
+
+Another interesting example is order #5 containing 2 units of `P1`; the corresponding powerset is `[[P1], [P1], [P1, P1]]`. That is, if a customer orders 2 units of `P1`, we could either ship both from the same warehouse, or ship each unit from a different warehouse.
 
 ```python
 df_orders_products
@@ -212,15 +230,16 @@ Now, for our next trick, we're going to take these sets of ordered products and 
 
 ![yo dawg](/assets/plots/setsofsets.jpg)
 
-The intuition is here is that so far we've figured out how many ways we combine the individual products in our orders, but now we need to know how ways we can ship these groupings, given that we have `n` number of warehouses. 
+The intuition is here is that so far we've figured out how many ways we can combine the individual products in our orders, but now we need to know how ways we can ship these groupings, given that we have `n` number of warehouses. 
 
 We're going to call these `splits` to indicate that they represent the ways we can split an order among our warehouses. We're not yet concerned with _which_ warehouse they could be assigned to, just that given some `n` number of warehouses, and `k` number of product groupings we can split an order `m` ways.
 
-We'll again introduce a function to that. 
+We'll again introduce a function to do that. 
 First, the function calculates all `splits`, which is a powerset of the previously commputed `product_combos`, with a minimum number of elements equal to our number of warehouses.
-Then, we filter these splits to make they:
+
+Then, we filter these splits to make sure that:
 - taken together, they cover the entire order. So, if we have an order consisting of `P1`, `P2` and `P3`, the combination `[P1, P2]` and the the combination `[P2, P3]` together exceed the products ordered, so we don't consider it to be _valid_.
-- don't contain a number of members _exceeding_ our number of warehouses.
+- they don't contain a number of members _exceeding_ our number of warehouses.
 
 ```python
 def get_valid_splits(products, product_combos):
@@ -237,13 +256,14 @@ def get_valid_splits(products, product_combos):
 ```
 
 We, again, apply this function to our dataframe to compute the "valid_splits" column:
+
 ```python
 df_orders_products["valid_splits"] = df_orders_products.apply(
     lambda x: get_valid_splits(x["product_list"], x["product_combos"]), 
     axis=1)
 ```
 
-Let's take a look what does for order #1:
+Let's take a look what that does for order #1:
 - The customer ordered products `[P1, P2, P3]`
 
 - The possible combinations of products (`len > 1`) are:
@@ -274,7 +294,7 @@ So far, we know that we _could_ fulfill order #1 from 2 warehouses like so: `[[P
 
 Remember, in a future post we're looking to determine the _optimal_ order-to-warehouse assignment, in which we might consider shipping distance and costs; so we'll need to know which split can be fulfilled from an actual warehouse.
 
-For now, the only constraint we'll solve for here is looking at whether a warehouse currently carries the product. We're not optimizing over available quantities and order demand, we simply want to make sure the warehouse carries this product at all. 
+For now, the only constraint we'll solve for here is looking at whether a warehouse currently _carries_ the product. We're not optimizing over available quantities and order demand, we simply want to make sure the warehouse carries this product at all. 
 
 In a way, we'll want to restrict the routes we'll calculate by filtering it through the inventory data we've set up. This is somewhat analogous to an `inner join` in database parlance. 
 However, since our products here are nested inside our `valid_splits` tuples, we can't make use of pandas' join syntax.
@@ -330,23 +350,33 @@ def assign_to_warehouses(splits, warehouses, n_splits):
 
 If we consider our example split, `[[P3], [P1, P2]]`, what we're trying to get to is something like this:
 
-```
+```python
 [P3] Warehouse 1, [P1, P2] Warehouse 2
 [P3] Warehouse 2, [P1, P2] Warehouse 1
 ```
 
-```
+```python
 [P3] Warehouse 1, [P1, P2] Warehouse 3
 [P3] Warehouse 3, [P1, P2] Warehouse 1
 ```
 
-```
+```python
 [P3] Warehouse 2, [P1, P2] Warehouse 3
 [P3] Warehouse 3, [P1, P2] Warehouse 2
 ```
 
 Hopefully this example shows why **permutations** come in handy here: sending `P3` from Warehouse 1 and `[P1, P2]` from Warehouse 2 is operationally very different from sending `P3` from Warehouse 2 and `[P1, P2]` from Warehouse 1.
 So, the code above takes the permutation of warehouses and the number of splits we're trying to allocate and aligns with the repeated splits to get something of a cross-product of splits to permutated warehouses.
+
+Moreover, we want to check that the given warehouse actually carries the given product. In a SQL setting, we'd accomplish this via a `left outer join`. However, since we're dealing with Python lists and arrays, we have to create our own mini-implementation of a _join_ in this snippet from the `assign_to_warehouses` function.
+
+In here, we use the `get_inventory` function shown earlier to check each product/warehouse combination. Only if all products are available in all all warehouses, do we consider this a valid route for the split.
+
+```python
+...
+has_inventory = np.alltrue([np.sum(get_inventory(p, wh)) > 0 for prd, wh in possible_assignment_ for p in prd])
+...
+```
 
 As before, we apply this function to our dataframe. Remembering that the `valid_splits` contains not just one split (as our example above), but _all_ valid split for an order, we apply the assignment function in a quick list comprehension `for` loop. 
 
@@ -362,7 +392,7 @@ It's a simple 2 product order, made up `[P1, P4]`, which has valid splits of:
 - shipping [P1, P4] together, or
 - shipping [P1] and [P4] separately
 
-```
+```python
 example_order_routes = df_orders_products[df_orders_products.index == 3]["routes"].values[0]
 ```
 
@@ -379,7 +409,7 @@ for i, order_splits in enumerate(example_order_routes):
 ```
 What we see is that we have 2 valid splits (2 x 1 products, and 1 x 2 products) that result in 9 routes across 3 warehouses:
 
-```
+```python
 Split 1
 	Route 1
 		['P1', 'P4'] ship from W1
