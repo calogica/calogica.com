@@ -25,5 +25,3 @@ We'd love to [chat](/about) with you about how we can help you with your [data c
 Proud to be partnering with:
 
 <img src="/assets/logos/SNO-SnowflakeLogo_blue.png" width="350" />
-
-<img src="/assets/logos/Web_Looker_Logo_Charcoal.png" width="200" />
