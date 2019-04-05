@@ -161,6 +161,7 @@ Using the `alter pipe` command and the `refresh` option we can force a **Snowpip
 alter pipe my_pipe refresh;
 ```
 
+This simple command allows you to force Snowflake to read the staged files and import them in the table specified in the pipe setup. If you have a way to automate the execution of simple SQL command (e.g. via [dbt](https://www.getxbt.com)) then you can automate this!
 
 Since this sends files to a queue, we'll wait a bit for Snowflake to process the queue of staged files, then we'll verify your post-load row row count.
 
