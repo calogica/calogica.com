@@ -10,7 +10,7 @@ Some of our current (and past) consulting clients include:
 ### Omaze
 _(2019)_
 
-We are very excited to be working with the Omaze team build out their analytics data warehouse.
+We are very excited to be working with the Omaze team on building out their analytics data warehouse.
 
 ### Forever 21
 _(2018)_
