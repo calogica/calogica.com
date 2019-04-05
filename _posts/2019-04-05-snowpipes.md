@@ -177,6 +177,33 @@ If files are no longer queued, check to make sure your table has the expected nu
 select count(*) from src.my_source_table;
 ```
 
+Snowflake provides a couple of ways to check on load success and/or errors.
+
+The `COPY_HISTORY` [function](https://docs.snowflake.net/manuals/sql-reference/functions/copy_history.html) provides useful information of load status by file.
+
+```sql
+select *
+from table(information_schema.copy_history(table_name=>'MY_SOURCE_TABLE', 
+  start_time=> dateadd(hours, -24, current_timestamp())));
+```
+
+In our experience this approach often doesn't yield any results. So, if you have `ACCOUNTADMIN` access, you can also query the equivalent view in the ACCOUNTUSAGE schema directly, and also aggregate it to provide a status overview as shown below.
+
+```sql
+use role accountadmin;
+use snowflake;
+
+select
+    convert_timezone('America/Los_Angeles', h.last_load_time)::timestamp_ntz::date as load_date,
+    max(convert_timezone('America/Los_Angeles', h.last_load_time)::timestamp_ntz) as max_load_time,
+    sum(h.row_count) as rows_loaded,
+    sum(h.error_count) as errors
+from account_usage.copy_history h
+where table_name = 'MY_SOURCE_TABLE'
+group by 1
+order by 1;
+```
+
 Hopefully this has given you some insights into using Snowpipes for data pipelines that can't be handled by your favorite data pipeline Saas vendor. 
 
 Snowflake is continuing to build out support for Snowpipes, so stay tuned for updates in this space!
