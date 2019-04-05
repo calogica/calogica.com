@@ -10,12 +10,12 @@ Some of our current (and past) consulting clients include:
 ### Omaze
 _(2019)_
 
-We are very excited to be working with the Omaze team on building out their analytics data warehouse.
+We are very excited to be working with the [Omaze](https://www.omaze.com) team on building out their analytics data warehouse using our favorite data stack, [dbt](https://www.getdbt.com/){:target="_blank"} and Snowflake (migrating from Redshift).
 
 ### Forever 21
 _(2018)_
 
-We helped the Forever 21 eCommerce team build out their analytics data warehouse using dbt on Snowflake and we're very excited about the future of data analytics at Forever 21.
+We helped the Forever 21 eCommerce team build out their analytics data warehouse using [dbt](https://www.getdbt.com/){:target="_blank"} and **Fivetran** on **Snowflake** and we're very excited about the future of data analytics at Forever 21.
 
 ### Wag Walking, Inc.
 _(2018)_
