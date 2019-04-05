@@ -1,6 +1,6 @@
 ---
 title:  "Setting up a data pipeline using Snowflake's Snowpipes"
-date:   2019-04-05 8:00AM
+date:   2019-04-04 8:00AM
 excerpt: "We take a closer look at setting up a data pipeline for file-based data sources using Snowflake's powerful Snowpipes feature."
 categories: [sql, snowflake]
 comments: true
