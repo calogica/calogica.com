@@ -151,7 +151,8 @@ copy into src.my_source_table from @my_stage;
 ```
 
 Confirm that this worked as expected:
-```SQL
+
+```sql
 show pipes;
 ```
 
