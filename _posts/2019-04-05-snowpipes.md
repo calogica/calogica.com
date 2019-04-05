@@ -1,5 +1,5 @@
 ---
-title:  "Setting up a data pipeline using Snowflake's Snowpipes"
+title:  "Setting up a data pipeline using Snowflake's Snowpipes in '10 Easy Steps'"
 date:   2019-04-04 8:00AM
 excerpt: "We take a closer look at setting up a data pipeline for file-based data sources using Snowflake's powerful Snowpipes feature."
 categories: [sql, snowflake]
@@ -122,14 +122,24 @@ For example, you can use a RegEx `pattern` to limit the number of files to load.
 ```sql
 copy into src.my_source_table
   from @my_stage
+  file_format = my_csv_format
   pattern='.*sales.*.csv';
 ;
 ```
 
-If this succeeded, don't forget to clear out your table before setting up the Snowpipe. 
+Since Snowpipes by default only load data staged in the last 7 days, it makes sense to load all files at this point if you have a lot of history to load. We can then use the Snowpipe to incrementally load new files.
+
+Snowflake provides a number of error handling options for the `COPY INTO` command that are worth reviewing.
+For example, we could instruct Snowflake to `continue` loading rows when it encounters errors, or to skip the entire file if it encounters errors loading any rows.
+
 ```sql
-truncate src.my_source_table;
+copy into src.my_source_table
+    from @my_stage
+    file_format = my_csv_format
+    on_error='continue'
 ```
+
+Depending on the option set, the output of this command will provide detailed error information.
 
 ## 8) Create the Snowpipe
 
@@ -145,15 +155,7 @@ Confirm that this worked as expected:
 show pipes;
 ```
 
-## 9) Verify your table is empty 
-
-Before kicking off the **Snowpipe**, let's make sure we don't have previously loaded data in our table.
-
-```sql
-select count(*) from src.my_source_table;
-```
-
-## 10) Force a pipe refresh
+## 9) Force a pipe refresh
 
 Using the `alter pipe` command and the `refresh` option we can force a **Snowpipe** to send any files from its associated stage to an ingestion queue. You can read more [here](https://docs.snowflake.net/manuals/sql-reference/sql/alter-pipe.html).
 
@@ -164,6 +166,8 @@ alter pipe my_pipe refresh;
 This simple command allows you to force Snowflake to read the staged files and import them in the table specified in the pipe setup. If you have a way to automate the execution of simple SQL command (e.g. via [dbt](https://www.getxbt.com)) then you can automate this!
 
 Since this sends files to a queue, we'll wait a bit for Snowflake to process the queue of staged files, then we'll verify your post-load row row count.
+
+## 10) Monitor data loads
 
 We can use the built-in `pipe_status` command to check on our pipe's status and how many files are current in the queue.
 
