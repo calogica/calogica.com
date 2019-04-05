@@ -8,4 +8,4 @@ comments: false
 
 Our favorite songs of the month, or just songs we were listening to at Happy Hour:
 
-<iframe src="https://open.spotify.com/embed/user/augustlights/playlist/4ewDOtk2wQzQFTTV9u2fdI" width="400" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+<iframe src="https://open.spotify.com/embed/user/augustlights/playlist/30jP4YuY8I1PCXS8uHyuFQ" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
