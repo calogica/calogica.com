@@ -10,7 +10,7 @@ In this post, we look at the steps required to set up a data pipeline to ingest 
 
 **Snowpipes** is one of the more unique and powerful, yet somewhat under-documented, or at least not much talked about features in Snowflake.
 
-While we really like [**Fivetran**](https://www.fivetran.com) for handling data ingestion, there are cases where Fivetran's s3 connector doesn't provide quite the flexibility or peformance we're looking for. In particular, if you have a lot of files to ingest (e.g. from a process that generates many smaller files), the Fivetran s3 connector can be slow, to the point where it might be counter-productive.
+While we really like [**Fivetran**](https://www.fivetran.com) for handling data ingestion, there are cases where Fivetran's s3 connector doesn't provide quite the flexibility or performance we're looking for. In particular, if you have a lot of files to ingest (e.g. from a process that generates many smaller files), the Fivetran s3 connector can be slow, to the point where it might be counter-productive.
 
 So, what to do? 
 
@@ -98,13 +98,13 @@ show stages;
 
 ## 6) Review staged files and select data from the files 
 
-Let's make sure security and file formats are both working as expected. The best way is to use the `list` feature to get a listing of files in our staging location. 
+Let's make sure security and file formats are both working as expected. The best way is to use the `list` command to get a listing of files in our staging location. 
 
 ```sql
 list @my_stage;
 ```
 
-You can also query the raw files directly to make sure the delimiters are working as expected, although I wouldn't recommend using this as anything but a way to debug issues, and definitely not to read data files for production purposes. 
+You can also query the raw files directly to make sure the delimiters are working as expected, although we don't recommend using this as anything but a way to debug issues, and definitely not to read data files for production purposes. 
 (More [here](https://docs.snowflake.net/manuals/user-guide/querying-stage.html).)
 
 ```sql
@@ -133,9 +133,7 @@ truncate src.my_source_table;
 
 ## 8) Create the Snowpipe
 
-Ultimately, we want to automate the copy command so we need a Snowpipe that will make this a bit easier to manage.
-
-(More info on [Snowpipes](https://docs.snowflake.net/manuals/sql-reference/sql/create-pipe.html).)
+Ultimately, we want to automate the copy command so we need a Snowpipe that will make this a bit easier to manage. (More info on [Snowpipes](https://docs.snowflake.net/manuals/sql-reference/sql/create-pipe.html).)
 
 ```sql
 create pipe if not exists my_pipe as
