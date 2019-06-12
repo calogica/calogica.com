@@ -1,7 +1,7 @@
 ---
 title:  "Bulk-loading data from pandas DataFrames to Snowflake"
 date:   2019-06-12 8:00AM
-excerpt: "We examine how to bulk-load the contents of a Pandas dataframe to a Snowflake table using the copy command."
+excerpt: "We examine how to bulk-load the contents of a pandas DataFrame to a Snowflake table using the copy command."
 categories: [sql, snowflake, python]
 comments: true
 ---
