@@ -1,5 +1,5 @@
 ---
-title:  "Bulk-loading data from Pandas dataframes to Snowflake'"
+title:  "Bulk-loading data from Pandas dataframes to Snowflake"
 date:   2019-06-12 8:00AM
 excerpt: "We examine how to bulk-load the contents of a Pandas dataframe to a Snowflake table using the copy command."
 categories: [sql, snowflake, python]
@@ -8,17 +8,18 @@ comments: true
 {: .notice--info}
 In this post, we look at options for loading the contents of a Pandas dataframe to a table in Snowflake directly from Python, using the copy command for scalability.
 
-## Snowflake as part of the Data Science worklfow
+## Snowflake as part of the Data Science workflow
 
 As the recent Snow Summit, one of the questions we got to discuss with Snowflake product managers was how to better integrate Snowflake in a data science workflow.
+
 Often this workflow requires:
-1) Sourcing data (often a training dataset for a machine learning project) from our Snowflake data warehouse
-2) Manipulating this data in a pandas dataframe using statistical techniques not available in Snowflake, or using this data as input to train a machine learning model
-3) Loading the output of this model (e.g. a dataset scored using the trained ML model) back into Snowflake by copying a `.csv` file to an S3 bucket, then creating a Snowpipe or other data pipeline process to read that file into a Snowflake destination table.
+1. Sourcing data (often a training dataset for a machine learning project) from our Snowflake data warehouse
+2. Manipulating this data in a pandas dataframe using statistical techniques not available in Snowflake, or using this data as input to train a machine learning model
+3. Loading the output of this model (e.g. a dataset scored using the trained ML model) back into Snowflake by copying a `.csv` file to an S3 bucket, then creating a Snowpipe or other data pipeline process to read that file into a Snowflake destination table.
 
 Much of this work is boilerplate, and once you've done this once it's pretty boring. Thus, an excellent use case for a library to handle this.
 
-While we're still waiting for Snowflake to come out with a fully Snowflake-aware version of Pandas (we, so far, unsuccessfully pitched this as SnowPandas&trade; to the product team), let's take a look at quick and dirty implementation of the read/load steps of the workflow process from above.
+While we're still waiting for Snowflake to come out with a fully Snowflake-aware version of Pandas (we, so far, unsuccessfully pitched this as [SnowPandas&trade;](https://www.youtube.com/watch?v=hhSUandetlE) to the product team), let's take a look at quick and dirty implementation of the read/load steps of the workflow process from above.
 
 ## Reading data from Snowflake in Python
 
@@ -38,14 +39,14 @@ from snowflake.sqlalchemy import URL
 
 ### Creating the Engine
 
-To use SQLAlchemy to connect to Snowflake, we have to first create an `engine` with the correct connection parameter. This engine doesn't have an open connection or uses any Snowflake resources until we explicitly connect, or run queries against it, as we'll see in a bit.
+To use SQLAlchemy to connect to Snowflake, we have to first create an `engine` object with the correct connection parameters. This `engine` doesn't have an open connection or uses any Snowflake resources *until* we explicitly call `connect()`, or run queries against it, as we'll see in a bit.
 
 ```python
 engine = create_engine(URL(
         account=os.getenv("SNOWFLAKE_ACCOUNT"),
         user=os.getenv("SNOWFLAKE_USER"),
         password=os.getenv("SNOWFLAKE_PASSWORD"),
-        role="<role>"
+        role="<role>",
         warehouse="<warehouse>",
         database="<database>",
         schema="<schema>"
@@ -56,7 +57,7 @@ Ideally, our security credentials in this step come from environment variables, 
 
 ### Connect 
 
-Connecting to Snowflake, or really any database SQLAlchemy supports, is as easy as this snippet below. We assume we have our source data, in this case a pre-processed table of training data `training_data` for our model (ideally built using [dbt](https://getdbt.com)).
+Connecting to Snowflake, or really any database SQLAlchemy supports, is as easy as the snippet below. We assume we have our source data, in this case a pre-processed table of training data `training_data` for our model (ideally built using [dbt](https://getdbt.com)).
 
 Note that we're using our `engine` in a Python context manager (`with`) here to make sure the connection gets properly closed and disposed after we're done reading.
 
@@ -83,14 +84,13 @@ for c in df.columns:
 
 This will help us later when we **create** our target table programmatically.
 
-### Do Science Stuff
+### Do Science
 
 Now that have our training data in a nice data frame, we can pass it to other processing functions or models as usual.
  
 For example, some pseudo code for illustration:
 
 ```python
-
 def fancy_machine_learning_model(data):
 
     train_data, test_data = train_test_split(data)
@@ -147,7 +147,7 @@ def upload_to_snowflake(data_frame,
         con.execute(f"copy into {table_name}") 
 ```
 
-First we save our data locally. Note that we're **not** saving the column headers or the index column. Column headers will interfere with the copy command later.
+First we save our data locally. Note that we're **not** saving the column headers or the index column. Column headers will interfere with the `copy` command later.
 
 ```python
 ...
@@ -156,7 +156,7 @@ file_path = os.path.abspath(file_name)
 data_frame.to_csv(file_path, index=False, header=False)
 ...
 ```
-For larger datasets, we'd explore other more scalable options here, such as [dask](https://dask.org/).
+For larger datasets, we'd explore other more scalable options here, such as [dask](https://dask.org/). 
 
 Next, we once again wrap our connection in a context manager:
 ```python
@@ -189,13 +189,13 @@ if truncate:
     con.execute(f"truncate table {table_name}")
 ```
 
-Next, we use a Snowflake `internal` stage to hold our data in prep for the `copy` operation, using the handy [put](https://docs.snowflake.net/manuals/sql-reference/sql/put.html) command
+Next, we use a Snowflake `internal` stage to hold our data in prep for the `copy` operation, using the handy [put](https://docs.snowflake.net/manuals/sql-reference/sql/put.html) command:
 
 ```python
 con.execute(f"put file://{file_path}* @%{table_name}")
 ```
 Depending on operating system, `put` will require different path arguments, so it's worth reading through the docs. 
-In our example, we're upload our file to an internal stage specific to our target table, denoted by the `@%` option.
+In our example, we're uploading our file to an internal stage specific to our target table, denoted by the `@%` option.
 
 Also, note that `put` auto-compresses files by default before uploading and supports threaded uploads. For example, from the docs:
 
@@ -205,12 +205,12 @@ For our example, we'll use the default of `4` threads.
 
 We could also load to and from an `external` stage, such as our own S3 bucket. In that case, we'd have to resort to using `boto3` or another library to upload the file to S3, rather than the `put` command.
 
-Lastly, we execute a simple `copy` command against our target table. Since we loaded our file to a table stage, no other options are necessary in this case.
+Lastly, we execute a simple `copy` command against our target table. Since we've loaded our file to a table stage, no other options are necessary in this case.
 
 ```python
 con.execute(f"copy into {table_name}") 
 ```
 
-Snowflake does not copy the same staged file more than once unless we truncate the table, making this process idempotent. If we wanted to append multiple versions or batches of this data, we would need to change our file name accordingly before the `put` operation.
+Note that Snowflake does *not* copy the same staged file more than once unless we truncate the table, making this process idempotent. If we wanted to append multiple versions or batches of this data, we would need to change our file name accordingly before the `put` operation.
 
 There are many other use cases and scenarios for how to integrate Snowflake into your data science pipelines. Hopefully this post sparked some ideas and helps speed up your data science workflows. Looking forward to hearing your ideas and feedback!
