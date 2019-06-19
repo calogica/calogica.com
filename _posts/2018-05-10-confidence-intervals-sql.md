@@ -14,7 +14,7 @@ As a result, exchange rates for weeks with lower overall sales volume have **hig
 While tools like **Python**, **R** or even **Excel** can help us here, we don't always have the luxury of computing them using a statistical package like R or `scipy`, so we'll also explore an alternative using **SQL**.
 
 ## Proportions as a Beta distribution
-Empirically, a ratio like _exchange rate_ follows a $$beta$$ [distribution](https://stats.stackexchange.com/questions/47771/what-is-the-intuition-behind-beta-distribution){:target="_blank"}, which is often used to describe probabilities such as % heads in a coin toss, or % clicked in an online [A/B testing](https://www.optimizely.com/optimization-glossary/ab-testing/){:target="_blank"} scenario. We can think of the exchange rate as the probability of getting an exchange out all possible tries (sales).
+Empirically, a ratio like _exchange rate_ follows a $$beta$$ [distribution](https://stats.stackexchange.com/questions/47771/what-is-the-intuition-behind-beta-distribution){:target="_blank"}, which is often used to describe probabilities such as % heads in a coin toss, or % clicked in an online [A/B testing](https://www.optimizely.com/optimization-glossary/ab-testing/){:target="_blank"} scenario. We can think of the exchange rate as the probability of getting an exchange out of all possible tries (sales).
 
 Using the canonical coin toss example, let's see what a $$beta$$ distribution looks like in **R**, by parameterizing a $$beta$$ random variable using $\alpha$ and $\beta$, representing heads and tails, respectively.
 
@@ -78,7 +78,7 @@ E.g.
 !["Google Sheet BETAINV"](/assets/plots/google_sheet_beta_quantiles.png "Google Sheet BETAINV")
 
 
-```
+```r
 lb =BETAINV(0.025, 50, 50)
 md =BETAINV(0.5, 50, 50)
 ub =BETAINV(0.975, 50, 50)
@@ -128,36 +128,39 @@ We can then create approximate confidence intervals in SQL as follows:
 
 ```sql
 -- We'll first aggregate our order and exchange data to a weekly level
-with exchange_rate as
-(
-select
-    f.week,
-    sum(f.orders) as orders,
-    sum(f.exchanges) as exchanges,
-    sum(f.exchanges)::float/sum(f.orders) as exchange_rate
-from
-    my_order_and_exchanges_table f
-group by 1
+with exchange_rate as (
+
+    select
+        f.week,
+        sum(f.orders) as orders,
+        sum(f.exchanges) as exchanges,
+        sum(f.exchanges)::float/sum(f.orders) as exchange_rate
+    from
+        my_order_and_exchanges_table f
+    group by 1
+
 ),
 -- then we compute the implied error for each week
-exchange_rate_error as
-(
-select
-    e.*,
-    -- Normal approximation to Beta distribution standard deviation, see:
-    -- https://en.wikipedia.org/wiki/Binomial_proportion_confidence_interval
-    -- 		sqrt( p * (1 - p) / n )
-    sqrt(e.exchange_rate * (1 - e.exchange_rate)/e.orders) as exchange_rate_se
-from
-    exchange_rate e
+exchange_rate_error as (
+
+    select
+        e.*,
+        -- Normal approximation to Beta distribution standard deviation, see:
+        -- https://en.wikipedia.org/wiki/Binomial_proportion_confidence_interval
+        -- 		sqrt( p * (1 - p) / n )
+        sqrt(e.exchange_rate * (1 - e.exchange_rate)/e.orders) as exchange_rate_se
+    from
+        exchange_rate e
+
 ),
 -- as an extension, we'll add a table of z-scores
 -- for different confidence intervals we may want to compute
-z_values as
-(
-select  1.65 as z_value, '90% CI' as z_value_name
-union all
-select  1.96 as z_value, '95% CI' as z_value_name
+z_values as (
+
+    select  1.65 as z_value, '90% CI' as z_value_name
+    union all
+    select  1.96 as z_value, '95% CI' as z_value_name
+
 )
 -- We then apply each z-value to the implied error and subtract/add it
 -- from the exchange rate to get a lower/upper bound

@@ -37,8 +37,8 @@ Note: `random()` can be parameterized with a `seed` but it looks to me that beca
 
 For example:
 ```sql
-with randomly_sorted_users as
-(
+with randomly_sorted_users as (
+
     select
         user_id,
         signup_date,
@@ -46,6 +46,7 @@ with randomly_sorted_users as
                             order by random()) as random_sort
     from
         user_table
+
 )
 select
     user_id,
@@ -55,6 +56,7 @@ from
 where
     random_sort <= 5
 ```
+
 This will yield 10 rows in total, 5 chosen randomly by _signup year_:
 ```
 | #  | user_id                          | signup_date |

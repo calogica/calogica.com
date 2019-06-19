@@ -48,7 +48,7 @@ However, as we know from last time, we should take that with a slight grain of s
 To do that, we'll create a few more calculated fields to mirror the calculations we did in SQL in our last post.
 
 First, we define the standard error metric **Exchange Rate % SE** (again, using the [Normal Approximation](https://en.wikipedia.org/wiki/Binomial_proportion_confidence_interval#Normal_approximation_interval){:target="_blank"}):
-```
+```R
 SQRT(
     [Exchange Rate %] *
     (1 - [Exchange Rate %])/SUM(Orders)

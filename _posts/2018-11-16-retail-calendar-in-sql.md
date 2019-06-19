@@ -54,8 +54,8 @@ Let's start with our base `dates` model, `dates.sql`:
         materialized = 'ephemeral'
     )
 }}
-with dates as
-(
+with dates as (
+
     -- we arbitrarily start on 1/1/2016 and end 53 weeks from now:
     {{ dbt_utils.date_spine(
         datepart="day",
@@ -63,6 +63,7 @@ with dates as
         end_date="dateadd(week, 53, current_date)"
        )
     }}
+
 )
 select
     d.calendar_date,
@@ -99,8 +100,8 @@ We'll parameterize the macro to allow us to chose the _month_ when our fiscal ca
 -- this gets all the dates within a fiscal year 
 -- determined by the given year-end-month
 -- ending on the saturday closest to that month's end date
-with year_month_end as
-(
+with year_month_end as (
+
     select
         -- This, while slightly lazy, accounts for the fact
         -- that most fiscal years end in a month following the calendar year
@@ -111,9 +112,10 @@ with year_month_end as
     where
         d.month_of_year = {{ year_end_month }}
     group by 1,2
+
 ),
-weeks as 
-(
+weeks as (
+
     select
         d.calendar_date as week_start_date,
         dateadd('d', 6, d.calendar_date) as week_end_date
@@ -121,10 +123,11 @@ weeks as
         {{ ref('dates') }} d
     where 
         date_part('dow', d.calendar_date) = {{ week_start_day }}
+
 ),
 -- get all the weeks that start in the month the year ends
-year_week_ends as
-(
+year_week_ends as (
+
     select
         d.year_number-{{ shift_year }} as fiscal_year_number,
         d.week_end_date
@@ -133,10 +136,11 @@ year_week_ends as
     where
         date_part('month', d.week_start_date) = {{ year_end_month }}
     group by 1,2
+
 ),
 -- then calculate which Saturday is closest to month end
-weeks_at_month_end as
-(
+weeks_at_month_end as (
+
     select
         d.fiscal_year_number,
         d.week_end_date,
@@ -151,9 +155,10 @@ weeks_at_month_end as
         year_week_ends d
         join
         year_month_end m on d.fiscal_year_number = m.fiscal_year_number
+
 ),
-fiscal_year_range as 
-(
+fiscal_year_range as  (
+
     select
         fiscal_year_number,
         dateadd('day', 1, 
@@ -163,8 +168,10 @@ fiscal_year_range as
     from
         weeks_at_month_end
     where closest_to_month_end = 1
+
 ),
 fiscal_year_dates as (
+
     select
         d.calendar_date,
         m.fiscal_year_number,
@@ -184,6 +191,7 @@ fiscal_year_dates as (
         fiscal_year_range m on d.calendar_date between m.fiscal_year_start_date and m.fiscal_year_end_date
         join
         weeks w on d.calendar_date between w.week_start_date and w.week_end_date
+
 ),
 {% endmacro %}
 ```
@@ -208,8 +216,8 @@ Using both our _ephemeral_ `dates` model (i.e. we chose to not materialize this 
 -- year ends in January = 1
 -- weeks start on Sunday = 0
 {{ fiscal_year_dates(1, 0) }}
-retail_periods as 
-(
+retail_periods as  (
+
     select
         calendar_date,
         fiscal_year_number as retail_year_number,
@@ -232,6 +240,7 @@ retail_periods as
         (quarter_number * 3) + period_of_quarter as retail_period_number
     from
         fiscal_year_dates
+        
 )
 select
     calendar_date,

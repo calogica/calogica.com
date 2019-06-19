@@ -167,7 +167,7 @@ with engine.connect() as con:
 
 If we need to create the target table (and your use case may vary wildly here), we can make use of pandas `to_sql` method that has the option to create tables on a connection (provided the user's permissions allow it). 
 
-However, note that we do **not** want to use `to_sql` to actually upload any data. The `to_sql` method uses `insert` statements to insert rows of data. Even in it's bulk mode, it will send one line of `values` per row in the dataframe. That's fine for smaller DataFrame, but doesn't scale well.
+However, note that we do **not** want to use `to_sql` to actually upload any data. The `to_sql` method uses `insert` statements to insert rows of data. Even in it's bulk mode, it will send one line of `values` per row in the dataframe. That's fine for smaller DataFrames, but doesn't scale well.
 
 So, instead, we use a header-only DataFrame, via `.head(0)` to force the creation of an empty table. In this example, we also specify to replace the table if it already exists.
 Pandas, via SQLAlchemy, will try to match the DataFrame's data types with corresponding types in Snowflake. For the most part, this will be fine, but we may want to verify the target table looks as expected. 
