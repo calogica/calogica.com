@@ -4,6 +4,9 @@ date:   2018-06-02 10:00AM
 excerpt: "How to calculate approximations of confidence intervals for proportions & probabilities in Tableau"
 categories: [tableau]
 ---
+{: .notice--info}
+Updated: this post now includes instructions and an example Tableau workbook on creating barbell/dumbbell charts.
+
 In our last [post](https://calogica.github.io/sql/2018/05/09/confidence-intervals-sql.html), we discussed calculating approximate confidence intervals for proportions in SQL when we don't have access to statistical distributions, like the $$beta$$ distribution. If you haven't read that one yet, I recommend you head [over there](https://calogica.github.io/sql/2018/05/09/confidence-intervals-sql.html) now to get more context on what we're trying to do.
 
 As we saw, calculating this approximation in SQL is helpful, for example, when we need to use this confidence interval in downstream data pipelines or models.
@@ -72,6 +75,22 @@ Plotting all three shows us, again, that the low order volume during the week of
 
 !["Exchange Rate by Week with CI"](/assets/plots/exchange_rate_conf_int.png "Exchange Rate by Week with CI")
 
-Next time we'll look at how we can create proper error bars using a dumbbell chart, like so:
+A nicer way to visualize these confidence bounds are so-called barbell, or dumbbell charts:
 
-!["Exchange Rate by Week with Error Lollipops"](/assets/plots/exchange_rate_error_bars_tableau.png "Exchange Rate by Week with Error Lollipops")
+!["Exchange Rate by Week with Error Dumbell Chart"](/assets/plots/exchange_rate_error_bars_tableau.png "Exchange Rate by Week with Error Dumbell Chart")
+
+To create those using Tableau, we need to do the following:
+- Create a new metric called `Exchange Rate % Range`, simply calculating the difference between Upper and Lower Bounds, `[Exchange Rate % (Upper Bound)] - [Exchange Rate % (Lower Bound)]`
+- Add `Exchange Rate % (Lower Bound)` and `Exchange Rate % (Upper Bound)` as circles to the left y-axis. 
+
+!["Exchange Rate by Week with CI"](/assets/plots/tableau-barbell-ss1.png "Exchange Rate by Week with CI")
+
+- Add the `Exchange Rate % (Lower Bound)` metric to a second y-axis on the right as a Gannt Chart
+- Add the newly created `Exchange Rate % Range` metric to the size button. This should result in vertical bars the height of the width of the CI.
+
+!["Exchange Rate by Week with CI"](/assets/plots/tableau-barbell-ss2.png "Exchange Rate by Week with CI")
+
+- Right-click on the second y-axis and click on `Synchronize Axis`, then unselect `Show Header`
+- Lastly, add the `Exchange Rate %` metric to the Text button for the Gannt chart, which will show the average Exchange Rate in the center of the CO.
+
+You can download a finished example of the Tableau workbook [here](/assets/example_workbook.twbx).
