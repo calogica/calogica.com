@@ -44,7 +44,7 @@ copy into @backup_stage/my_database/my_schema/my_table/data_
 from my_database.my_schema.my_table
 header = true
 overwrite = true
-max_file_size = 1073741824
+max_file_size = 104857600
 ```
 
 Let's quickly talk about what's going on here:
@@ -52,7 +52,7 @@ Let's quickly talk about what's going on here:
 - By naming the output file `data_`, with no other related options, we specify that we want Snowflake to create **multiple** files, all starting with `data_*`, which allows Snowflake to run this command in parallel in our virtual warehouse (parallel runs are limited by the size of the virtual warehouse).
 - We want the exported files to include table **headers**
 - We're **overwriting** any existing files at that location
-- We specified an **upper limit** of `1GB` per file (`1,024^3 = 1073741824`)
+- We specified an **upper limit** of `100MB` per file (`100*1,024^2 = 104,857,600 bytes`) (See Snowflake's [General File Sizing Recommendations](https://docs.snowflake.net/manuals/user-guide/data-load-considerations-prepare.html#general-file-sizing-recommendations) for more.)
 
 There are many more options to be explored, see the `copy into` [docs for help](https://docs.snowflake.net/manuals/sql-reference/sql/copy-into-location.html).
 
