@@ -3,7 +3,10 @@ title:  "How to Backup Snowflake Data to S3"
 date:   2019-09-09 8:00AM
 excerpt: "How to backup a Snowflake database to S3."
 categories: [sql, snowflake, dbt]
-comments: true
+toc: true
+toc_label: "What we'll cover"
+toc_icon: "snowflake"
+toc_sticky: true
 ---
 
 {: .notice--info}

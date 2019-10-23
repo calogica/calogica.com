@@ -3,7 +3,6 @@ title:  "Multi-Warehouse eCommerce Order Fulfillment, Pt. 1"
 date:   2019-03-02 8:00AM
 excerpt: "We look at how we can use Powersets, Combinations and Permutations to calculate the number of ways we can split products in an order across multiple warehouses."
 categories: [python]
-comments: true
 ---
 {: .notice--info}
 In this post, we look at how we can use Powersets, Combinations and Permutations to calculate the number of ways we can split products in an order across multiple warehouses. We'll make use of Python and pandas to illustrate the concepts in code.

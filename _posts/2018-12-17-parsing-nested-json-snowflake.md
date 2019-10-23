@@ -3,7 +3,10 @@ title:  "Parsing Nested JSON Dictionaries in SQL - Snowflake Edition"
 date:   2018-12-17 8:00AM
 excerpt: "How to parse nested dictionaries in Snowflake table columns using SQL"
 categories: [sql]
-comments: true
+toc: true
+toc_label: " "
+toc_icon: "snowflake"
+toc_sticky: true
 ---
 Over the last couple of months working with clients, we've been working with a few new datasets containing [nested JSON](https://www.stitchdata.com/docs/data-structure/nested-data-structures-row-count-impact).
 In many cases, clients are looking to us to pre-process this data in Python or R to flatten out these nested structures into tabular data before loading to a data warehouse platform, such as Snowflake.

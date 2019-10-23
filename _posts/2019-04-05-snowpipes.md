@@ -3,7 +3,11 @@ title:  "Setting up a data pipeline using Snowflake's Snowpipes in '10 Easy Step
 date:   2019-04-04 8:00AM
 excerpt: "We take a closer look at setting up a data pipeline for file-based data sources using Snowflake's powerful Snowpipes feature."
 categories: [sql, snowflake]
-comments: true
+toc: true
+toc_label: "The Steps"
+toc_icon: "snowflake"
+toc_sticky: true
+
 ---
 {: .notice--info}
 In this post, we look at the steps required to set up a data pipeline to ingest text based data files stored on **s3** into Snowflake using **Snowpipes**.

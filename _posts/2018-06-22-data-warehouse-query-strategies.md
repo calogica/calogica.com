@@ -3,7 +3,6 @@ title:  "An Opinionated Introduction to Data Warehouse Query Strategies, Part 1 
 date:   2018-06-22 10:00AM
 excerpt: "An opinionated introduction to query strategies for data warehouse platforms, such as Redshift, Snowflake and Teradata"
 categories: [sql]
-comments: true
 ---
 I often work with new clients on building out a new data warehouse, or with new analysts accessing an existing data warehouse for the first time. In either case, it's good to be aware of a few common principles when querying large data warehouse tables, especially those on data warehouse specific platforms such as Redshift, Snowflake and Teradata.
 

@@ -95,11 +95,14 @@ defaults:
       mathjax: true
       author_profile: true
       read_time: true
-      comments: true
+      comments: false
       share: true
       related: true
-      sidebar:
-          image: "/assets/images/headshot.jpg"
+      # sidebar:
+      # - title: "Title"
+      #   text: "Some text here."
+      # - title: "Another Title"
+      #   text: "More text here."    
   - scope:
       path: "_pages"
       type: pages

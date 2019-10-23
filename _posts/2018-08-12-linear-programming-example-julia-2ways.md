@@ -3,7 +3,6 @@ title:  "Solving a Production Problem using Linear Programming in Julia - 2 Ways
 date:   2018-08-12 8:00AM
 excerpt: "We try to solve a plant production example problem using linear programming with Julia using two different formulations."
 categories: [julia, optimization]
-comments: true
 ---
 {: .notice--info}
 This post has been upgraded to use Julia 1.1 and JuMP 0.19.

@@ -3,7 +3,6 @@ title:  "Dice, Polls & Dirichlet Multinomials"
 date:   2018-11-27 10:00AM
 excerpt: "We explore a few applications of the Dirichlet Multinomial distribution using PyMC3."
 categories: [python, pymc3]
-comments: true
 ---
 {: .notice--info}
 This post is also available as a [Jupyter Notebook on Github](http://nbviewer.jupyter.org/github/clausherther/public/blob/master/Dirichlet%20Multinomial%20Example.ipynb). 

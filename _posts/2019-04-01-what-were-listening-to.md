@@ -3,7 +3,6 @@ title:  "What Are You Listening To? Vol. 2019/03"
 date:   2019-04-01 8:00AM
 excerpt: "Our favorite songs of the month, or just songs we were listening to at Happy Hour."
 categories: [music]
-comments: false
 ---
 
 Our favorite songs of the month, or just songs we were listening to at Happy Hour:

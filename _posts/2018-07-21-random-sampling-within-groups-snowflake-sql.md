@@ -3,7 +3,6 @@ title:  "Random Sampling Within Groups using SQL"
 date:   2018-07-21 8:00AM
 excerpt: "How to randomly select rows within a subset or group of your data using SQL"
 categories: [sql]
-comments: true
 ---
 Here's just a quick SQL tip I came across today while working on a sample dataset for a take-home exercise.
 
