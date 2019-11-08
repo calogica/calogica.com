@@ -13,11 +13,13 @@ intro:
 
 Working with [clients](/clients) in a variety of industries over the last 15 years, we have extensive experience integrating disparate data sources and developing data warehouses from scratch. We understand "small" to "big" data and can help you build out a scalable data analytics platform.
 
-We have successfully implemented business intelligence tools like Tableau, Looker, Periscope and Mode Analytics.
+We really enjoy working with cloud-based data warehouse platforms like **Snowflake** and **BigQuery** and will help you integrate application data from Postgres, MySQL and all your SaaS platforms into your data warehouse.
 
-We work with relational databases, such as PostgreSQL, MySQL and SQL Server, and really enjoy working with data warehouse platforms like Snowflake and AWS Redshift.
+Using our favorite data transformation tool **dbt**, we help you build a scalable and easy to maintain data pipeline.
 
-We also help our clients build predictive models for Customer Retention, Lifetime Value, Campaign Attribution and Performance, probabilistic Demand Prediction, as well as custom Machine Learning applications in Python or R.
+Whether you use **Tableau**, **Looker**, Periscope or Mode Analytics, we can help implement your business intelligence solution.
+
+For clients with advanced analytics needs, we also help build predictive models for **Customer Lifetime Value**, **Campaign Attribution**, **Demand Forecasts**, as well as custom Machine Learning applications in Python or R.
 
 We'd love to [chat](/about) with you about how we can help you with your [data challenges](/services)!
 
