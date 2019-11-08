@@ -8,7 +8,7 @@ author_profile: true
 ## Our Consultants
 
 ### Claus Herther
-Hi, my name is Claus Herther, and I've been a recovering Fortune 100 employee for over 15 years. I'm now a consultant in business intelligence, data analytics and machine learning.
+Hi, my name is Claus Herther, and I've been a recovering Fortune 100 employee for over 15 years. I started Calogica Data & Analytics to help small & mid size companies develop their business intelligence, data analytics and machine learning capabilities.
 
 My clients include household names, such as Universal Studios and Netflix, as well as lesser known companies that are using data in all kinds of innovative and exciting ways. What excites me at work is when a simple solution has immediate business impact.
 
