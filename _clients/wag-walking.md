@@ -1,6 +1,6 @@
 ---
 title: "Wag Walking, Inc."
-excerpt: "We worked with the Wag data services team on designing a logical data model for their data warehouse, using Kimball-style design principles."
+excerpt: "We worked with the Wag data services team on designing a logical data model for their data warehouse, using modernized Kimball-style design principles."
 header:
   # teaser: assets/clients/wag.jpg
 gallery:
@@ -9,5 +9,6 @@ gallery:
 ---
 
 {% include gallery caption="" %}
+**Tools**: Snowflake, dbt, Fivetran
 
-We worked with the Wag data services team on designing a logical data model for their data warehouse, using **Kimball**-style design principles. As a **Snowflake** partner, we provided guidance on standing up their Snowflake cloud data warehouse instance and on how to best implement a modern data warehouse stack.
+We worked with the Wag data services team on designing a logical data model for their data warehouse, using modernized **Kimball**-style design principles. As a **Snowflake** partner, we provided guidance on standing up their Snowflake cloud data warehouse instance and on how to best implement a modern data warehouse stack.

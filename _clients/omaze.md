@@ -10,8 +10,9 @@ gallery:
 ---
 
 {% include gallery caption="" %}
+**Tools**: Snowflake, dbt, Fivetran, Python
 
 Every Omaze campaign supports an incredible cause and gets you the chance to win a life-changing experience.
 
-We are very excited to be working with the [Omaze](https://www.omaze.com){:target="_blank"} team on building out their analytics data warehouse using our favorite data stack, [dbt](https://www.getdbt.com/){:target="_blank"} and Snowflake (migrating from Redshift).
+We have really enjoyed working with the [Omaze](https://www.omaze.com){:target="_blank"} team this year on building out their analytics data warehouse using our favorite data stack, **dbt** and **Snowflake** (migrating from Redshift) and designing a logical data model, using modernized Kimball-style design principles.
 

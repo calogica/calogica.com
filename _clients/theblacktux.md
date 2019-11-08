@@ -9,6 +9,7 @@ gallery:
 ---
 
 {% include gallery caption="" %}
+**Tools**: Snowflake, Redshift, dbt, Fivetran, Tableau, Mode, Periscope, Python, PyMC3, R
 
 After leading the Data & Analytics team for 2 years and building out its core analytics capabilities, we'll now be focused on taking TBT to the next stage of a data-driven organization.
 
@@ -20,6 +21,6 @@ Some of our favorite projects:
 - Probabilistic Demand Planning Model
 - Marketing attribution modeling
 - Interactive dashboards in Tableau/Periscope/Mode
-- ETL pipelines in Airflow/Python and [dbt](https://www.getdbt.com){:target="_blank"}
+- ETL pipelines in Airflow/Python and **dbt**
 - Data Warehouse v1 in Redshift
-- Data Warehouse Migration to [Snowflake](https://www.snowflake.net/){:target="_blank"}
+- Data Warehouse Migration to **Snowflake**

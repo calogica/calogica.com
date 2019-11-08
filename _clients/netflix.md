@@ -10,6 +10,7 @@ gallery:
 ---
 
 {% include gallery caption="" %}
+**Tools**: Hive, Teradata, Redshift, Tableau, Python
 
 As part of the Content Programming team, our work focused primarily on partnering with the Original Content team on building analytical tools to help drive programming and content acquisition decisions for Netflix Originals.
 This included:

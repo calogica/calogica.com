@@ -10,6 +10,7 @@ gallery:
 ---
 
 {% include gallery caption="" %}
+**Tools**: MicroStrategy, SQL Server
 
 As MicroStrategy consultants, we worked with Universal Studios Hollywood on: 
 - Business Requirements, ETL and Automated Reporting for Theme Park Operations Data Warehouse, using MicroStrategy and SQL Server 2005/SSIS ETL

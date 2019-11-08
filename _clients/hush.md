@@ -10,6 +10,7 @@ gallery:
 ---
 
 {% include gallery caption="" %}
+**Tools**: Snowflake, dbt, Fivetran
 
 We worked with the Hush data team on designing a logical data model for their data warehouse, using Kimball-style design principles.
-While migrating the team to the Snowflake cloud data warehouse  platform we also helped implement the physical model, using our favorite data transformation tool, [dbt](https://www.getdbt.com/){:target="_blank"}. 
+While migrating the team to the Snowflake cloud data warehouse platform we also helped implement the physical model, using our favorite data transformation tool,  **dbt**. 

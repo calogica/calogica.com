@@ -10,8 +10,10 @@ gallery:
 ---
 
 {% include gallery caption="" %}
+**Tools**: Snowflake, dbt, Fivetran
 
 Joymode helps people find fulfillment and joy through inspirational ideas and access to curated products beyond what they already own.
 
-We worked with the Joymodse team on building out their analytics data warehouse using our favorite data stack, [dbt](https://www.getdbt.com/){:target="_blank"} and Snowflake (migrating from MySQL).
+We worked with the Joymode data science team on building out their analytics data warehouse using our favorite data stack, **dbt** and **Snowflake** (migrating from MySQL) and designing a logical data model, using modernized Kimball-style design principles.
+
 

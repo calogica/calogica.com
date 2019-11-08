@@ -10,6 +10,7 @@ gallery:
 ---
 
 {% include gallery caption="" %}
+**Tools**: MicroStrategy, SQL Server
 
 As a MicroStrategy partner, we were engaged at CPK to help with: 
 - Full life-cycle data warehouse development, including data model, ETL procedures, BI schema and reporting layer
