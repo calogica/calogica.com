@@ -8,7 +8,7 @@ categories: [reads]
 ## [Predicting Time to Cook, Arrive, and Deliver at Uber Eats](https://www.infoq.com/articles/uber-eats-time-predictions/?utm_source=email&utm_medium=ai-ml-data-eng&utm_campaign=newsletter&utm_content=11262019)
 Interesting walk-through of Uber Eats' time to delivery prediction models, built on top of its ML platform Michelangelo.
 
-We particularly enjoyed this paragraph, highlighting how a lack of process and domain knowledge will come to bite even the smartest engineers:
+I particularly enjoyed this paragraph, highlighting how a lack of process and domain knowledge will come to bite even the smartest engineers:
 
 > Apparently, it’s not scientific to use 25 mins for all orders from that restaurant regardless whether eaters order 1 dish or 10 dishes - the same goes for  the 5 min setting for all delivery partners’ travel time. As a result, it caused lots of confusion among all the partners, leading to problems such as the inability for eaters to track their food accurately, delivery partners extended waiting period at restaurants or restaurants having no idea where the delivery partner was while the food got cold.
 
