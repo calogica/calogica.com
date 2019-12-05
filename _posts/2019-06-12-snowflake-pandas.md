@@ -9,7 +9,7 @@ In this post, we look at options for loading the contents of a pandas DataFrame 
 
 ## Snowflake as part of the Data Science Workflow
 
-As the recent Snowflake [Summit](https://www.snowflake.com/summit/), one of the questions we got to discuss with Snowflake product managers was how to better integrate Snowflake in a data science workflow.
+As the recent Snowflake [Summit](https://www.snowflake.com/summit/), one of the questions I got to discuss with Snowflake product managers was how to better integrate Snowflake in a data science workflow.
 
 Often this workflow requires:
 1. Sourcing data (often a training dataset for a machine learning project) from our Snowflake data warehouse
@@ -18,7 +18,7 @@ Often this workflow requires:
 
 Much of this work is boilerplate, and once you've done this once it's pretty boring. Thus, an excellent use case for a library to handle this.
 
-While we're still waiting for Snowflake to come out with a fully Snowflake-aware version of pandas (we, so far, unsuccessfully pitched this as [SnowPandas&trade;](https://www.youtube.com/watch?v=hhSUandetlE) to the product team), let's take a look at quick and dirty implementation of the read/load steps of the workflow process from above.
+While I'm still waiting for Snowflake to come out with a fully Snowflake-aware version of pandas (I, so far, unsuccessfully pitched this as [SnowPandas&trade;](https://www.youtube.com/watch?v=hhSUandetlE) to the product team), let's take a look at quick and dirty implementation of the read/load steps of the workflow process from above.
 
 ## Reading data from Snowflake in Python
 
@@ -117,7 +117,7 @@ Let's think of the steps normally required to do that:
 3. **Create** the target table if necessary, or **truncate** the target table if necessary
 3. Run a `copy` command in Snowflake to **load** the data
 
-We could imagine wrapping these steps in a reusable function, like so:
+You could imagine wrapping these steps in a reusable function, like so:
 
 (We'll go over the pertinent bits below)
 

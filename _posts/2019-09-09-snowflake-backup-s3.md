@@ -206,4 +206,4 @@ drop table my_table_bad;
 
 Hopefully, this gave you some idea of how to extend the built-in Snowflake recovery features like Time Travel and Fail-safe with a few alternatives. 
 
-As always, please let us know if you have any feedback or comments!
+As always, please let me know if you have any feedback or comments!

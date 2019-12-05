@@ -20,7 +20,7 @@ However, once the startup grows up a little and has managed the basic tackling a
 If the business is lucky enough to need more than one fulfillment center, we now have twice (or more) as many challenges. From the best location (hint: as a general rule, East of the Mississippi is [where all the people live](https://www.reddit.com/r/MapPorn/comments/7lfecf/population_density_map_of_the_us_992x793/)), to figuring out the optimal [inventory and safety stock](http://egon.cheme.cmu.edu/ewo/docs/SnyderEWO_081113.pdf) levels at each warehouse, there is no shortage of optimization challenges.
 
 ## Split Shipments & Cross Shipping
-One of those challenges that's been occupying our minds for a while, is how to optimize (and really, minimize) split shipments.
+One of those challenges that's been occupying my mind for a while, is how to optimize (and really, minimize) split shipments.
 
 
 **Split shipments** can happen in **multi-warehouse** settings when an order has to be split, i.e. fulfilled from more than one warehouse, because we didn't have enough, or the right mix of inventory in any one location.

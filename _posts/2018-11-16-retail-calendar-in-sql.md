@@ -8,7 +8,7 @@ categories: [sql, dbt]
 {: .notice--info}
 Note: this post has been updated to include handling of 53-week years and refactors some of the calendar logic into a dbt macro for flexibility. Thanks for everyone's feedback!
 
-Working with clients in retail eCommerce, we're often asked to analyze transactions along a type of fiscal calendar optimized for retail and merchandising. This is commonly known as the "4-5-4 Calendar", because it groups weeks (Sun-Sat) into periods of 4, 5 and 4 weeks lengths.
+Working with clients in retail eCommerce, I'm often asked to analyze transactions along a type of fiscal calendar optimized for retail and merchandising. This is commonly known as the "4-5-4 Calendar", because it groups weeks (Sun-Sat) into periods of 4, 5 and 4 weeks lengths.
 
 From the **National Retail Federation** [https://nrf.com/resources/4-5-4-calendar](https://nrf.com/resources/4-5-4-calendar):
 > The 4-5-4 calendar is a guide for retailers that ensures sales comparability between years by dividing the year into months based on a 4 weeks – 5 weeks – 4 weeks format. The layout of the calendar lines up holidays and ensures the same number of Saturdays and Sundays in comparable months. Hence, like days are compared to like days for sales reporting purposes. The 4-5-4 Calendar also establishes Sales Release dates, which have historically been on the first Thursday following the month’s end. In recent years, however, as the flow of information has improved, more companies are releasing sales data earlier in the week.
@@ -268,6 +268,6 @@ Let's take a quick look at the output of this in **Tableau**, which matches up n
 We'll also check to make sure years with 53 weeks, such as 2017, roll up that week into period 12 as expected.
 !["4-5-4 Calendar in Tableau (W53)"](/assets/plots/cal454_tableau_w53.png "4-5-4 Calendar in Tableau (W53")
 
-Note: some retailers rectroactively restate years with 53 weeks. You can see an example of the effect of that on the NRF website [here](https://6a83cd4f6d8a17c1b6dd-0490b3ba35823e24e2c50ce7533598b0.ssl.cf1.rackcdn.com/454%20Calendars/3%20Year%20Calendar%2017-19%20with%202017%20Restated.pdf), where 2017 has been restated with only 52 weeks.
+Note: some retailers retroactively restate years with 53 weeks. You can see an example of the effect of that on the NRF website [here](https://6a83cd4f6d8a17c1b6dd-0490b3ba35823e24e2c50ce7533598b0.ssl.cf1.rackcdn.com/454%20Calendars/3%20Year%20Calendar%2017-19%20with%202017%20Restated.pdf), where 2017 has been restated with only 52 weeks.
 
 Lastly, some retailers and corporate finance departments use other variations of this, such as 5-4-4, which you should be able to implement with minor adjustments using this approach.  

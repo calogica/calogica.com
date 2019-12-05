@@ -14,7 +14,7 @@ In this post, we look at the steps required to set up a data pipeline to ingest 
 
 **Snowpipes** is one of the more unique and powerful, yet somewhat under-documented, or at least not much talked about features in Snowflake.
 
-While we really like [**Fivetran**](https://www.fivetran.com) for handling data ingestion, there are cases where Fivetran's s3 connector doesn't provide quite the flexibility or performance we're looking for. In particular, if you have a lot of files to ingest (e.g. from a process that generates many smaller files), the Fivetran s3 connector can be slow, to the point where it might be counter-productive.
+While I really like [**Fivetran**](https://www.fivetran.com) for handling data ingestion, there are cases where Fivetran's s3 connector doesn't provide quite the flexibility or performance we're looking for. In particular, if you have a lot of files to ingest (e.g. from a process that generates many smaller files), the Fivetran s3 connector can be slow, to the point where it might be counter-productive.
 
 So, what to do? 
 
@@ -24,7 +24,7 @@ Here are the steps to get going:
 
 ## 1) Set up a separate database
 
-We like to set up a separate **database** in Snowflake for any source datasets that don't come in via Fivetran. (Also, we keep all source data outside our data warehouse database to begin with.)
+WIe like to set up a separate **database** in Snowflake for any source datasets that don't come in via Fivetran. (Also, I keep all source data outside our analytics database to begin with, usually in a database called `raw` or something similar.)
 
 For example, let's create a database called `etl`:
 
@@ -196,7 +196,7 @@ from table(information_schema.copy_history(table_name=>'MY_SOURCE_TABLE',
   start_time=> dateadd(hours, -24, current_timestamp())));
 ```
 
-In our experience this approach often doesn't yield any results. So, if you have `ACCOUNTADMIN` access, you can also query the equivalent view in the ACCOUNTUSAGE schema directly, and also aggregate it to provide a status overview as shown below.
+In my experience this approach often doesn't yield any results. So, if you have `ACCOUNTADMIN` access, you can also query the equivalent view in the ACCOUNTUSAGE schema directly, and also aggregate it to provide a status overview as shown below.
 
 ```sql
 use role accountadmin;
@@ -213,6 +213,6 @@ group by 1
 order by 1;
 ```
 
-Hopefully this has given you some insights into using Snowpipes for data pipelines that can't be handled by your favorite data pipeline Saas vendor. 
+Hopefully this has given you some insights into using Snowpipes for data pipelines that can't be handled by your favorite data pipeline SaaS vendor. 
 
 Snowflake is continuing to build out support for Snowpipes, so stay tuned for updates in this space!

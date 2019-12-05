@@ -8,10 +8,10 @@ toc_label: " "
 toc_icon: "snowflake"
 toc_sticky: true
 ---
-Over the last couple of months working with clients, we've been working with a few new datasets containing [nested JSON](https://www.stitchdata.com/docs/data-structure/nested-data-structures-row-count-impact).
-In many cases, clients are looking to us to pre-process this data in Python or R to flatten out these nested structures into tabular data before loading to a data warehouse platform, such as Snowflake.
+Over the last couple of months working with clients, I've been working with a few new datasets containing [nested JSON](https://www.stitchdata.com/docs/data-structure/nested-data-structures-row-count-impact).
+In many cases, clients are looking to pre-process this data in Python or R to flatten out these nested structures into tabular data before loading to a data warehouse platform, such as Snowflake.
 
-However, given the powerful (if under-documented) JSON features of Snowflake, we can often avoid a more complex Python-based processing pipeline, and query JSON data directly in our ELT pipelines (for example, as part of a **[dbt](https://www.getdbt.com/){:target="_blank"}** project).
+However, given the powerful (if under-documented) JSON features of Snowflake, you can often avoid a more complex Python-based processing pipeline, and query JSON data directly in our ELT pipelines (for example, as part of a **[dbt](https://www.getdbt.com/){:target="_blank"}** project).
 
 In this post, we'll take an example dataset and explore 3 use cases for JSON manipulation in Snowflake:
 - How to extract simple values from single-level JSON if we know the name of the keys ahead of time (sort of as a warm up)
@@ -20,7 +20,7 @@ In this post, we'll take an example dataset and explore 3 use cases for JSON man
 
 ### Getting the Data
 
-For the examples below, we'll assume the following data, which we took straight from the [Snowflake support documentation](https://support.snowflake.net/s/article/json-data-parsing-in-snowflake).
+For the examples below, we'll assume the following data, which comes straight from the [Snowflake support documentation](https://support.snowflake.net/s/article/json-data-parsing-in-snowflake).
 
 
 ```json
@@ -389,4 +389,4 @@ Again, we use the `outer` keyword to make sure we don't drop records without `ch
 ## Summary
 I hope this post provided some motivation to look to the JSON query and manipulation features in Snowflake as an alternative to preprocessing pipelines in Python and highlighted the power inherent in a distributed data warehouse platform.
 
-For more on the topic, the [Snowflake documentation](https://docs.snowflake.net/manuals/user-guide/json-basics-tutorial.html) is a good start, or [drop us a line](/about) if you have any questions. 
+For more on the topic, the [Snowflake documentation](https://docs.snowflake.net/manuals/user-guide/json-basics-tutorial.html) is a good start, or [drop me a line](/about) if you have any questions. 
