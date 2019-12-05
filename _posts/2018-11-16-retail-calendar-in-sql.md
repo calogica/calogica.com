@@ -86,7 +86,7 @@ order by 1
 ### Fiscal Calendar
 As we've seen, fiscal calendars usually, at a minimum, differ from the traditional calendar by their start and end dates. On top of that, weeks are often grouped into comparable groupings. 
 
-Since the 4-5-4 calendar is just _one_ of the versions of fiscal calendars we might encounter, we'll encapsulate some of the core logic behind determining fiscal year start and end dates in a **dbt** macro for extensability.
+Since the 4-5-4 calendar is just _one_ of the versions of fiscal calendars we might encounter, we'll encapsulate some of the core logic behind determining fiscal year start and end dates in a **dbt** macro for extensibility.
 
 We'll parameterize the macro to allow us to chose the _month_ when our fiscal calendar ends, and the _weekday_ when our fiscal weeks start (using Sunday=0). That way, we can design fiscal weeks that are independent of the calendar weeks we created earlier in our date dimension. 
 
@@ -201,7 +201,7 @@ In this macro, we essentially construct a calendar grouped into a fiscal year gi
 Now, to group these weeks into the fiscal periods required for our retail calendar, we use this macro in a downstream model.
 
 ### 4-5-4 Periods
-Using both our _ephemeral_ `dates` model (i.e. we chose to not materialize this as a table or view at the moment) and the `fiscal_year_dates` macro, we can calculate the 4-5-4 attributes in a separate **dbt** model (thus, separating the 2 models in 2 files for better organization and reusabilty).
+Using both our _ephemeral_ `dates` model (i.e. we chose to not materialize this as a table or view at the moment) and the `fiscal_year_dates` macro, we can calculate the 4-5-4 attributes in a separate **dbt** model (thus, separating the 2 models in 2 files for better organization and reusability).
 
 `retail_calendar.sql`
 

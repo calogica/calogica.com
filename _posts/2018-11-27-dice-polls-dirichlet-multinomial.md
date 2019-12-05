@@ -8,9 +8,9 @@ categories: [python, pymc3]
 This post is also available as a [Jupyter Notebook on Github](http://nbviewer.jupyter.org/github/clausherther/public/blob/master/Dirichlet%20Multinomial%20Example.ipynb). 
 
 As part of a longer term project to learn Bayesian Statistics, I'm currently reading [Bayesian Data Analysis, 3rd Edition](http://www.stat.columbia.edu/~gelman/book/) by Andrew Gelman, John Carlin, Hal Stern, David Dunson, Aki Vehtari, and Donald Rubin, commonly known as **BDA3**.
-Although I've been using Bayesian statistics and probabilistic programming languages, like [PyMC3](https://docs.pymc.io/), in projects for the last year or so, this book forces me to go beyond a pure practioner's approach to modeling, while still delivering very practical value.
+Although I've been using Bayesian statistics and probabilistic programming languages, like [PyMC3](https://docs.pymc.io/), in projects for the last year or so, this book forces me to go beyond a pure practitioner's approach to modeling, while still delivering very practical value.
 
-Below are a few take aways from the earlier chapters in the book I found interesting. They are meant to hopefully inspire others to learn about Bayesian statistics, without trying to be overly formal about the math. If something doesn't look 100% to the trained mathematicians in the room, please let me know, or just squint a little harder. ;)
+Below are a few take always from the earlier chapters in the book I found interesting. They are meant to hopefully inspire others to learn about Bayesian statistics, without trying to be overly formal about the math. If something doesn't look 100% to the trained mathematicians in the room, please let me know, or just squint a little harder. ;)
 
 We'll cover:
 - Some common **conjugate distributions**

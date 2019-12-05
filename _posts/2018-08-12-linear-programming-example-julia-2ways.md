@@ -313,6 +313,6 @@ end
 Hopefully this all made sense and highlighted a few things:
 
 - JuMP is an amazing package to implement LP problems since it allows us to write Julia code matching the mathematical notation almost line by line
-- The Matrix Method, while maybe a little harder to untuitively grasp initially provides a robust and scalable approach to solving large liner models
+- The Matrix Method, while maybe a little harder to intuitively grasp initially provides a robust and scalable approach to solving large liner models
 
 Let me know if you have any feedback on this. I'm still in the early stages of learning about Linear Programming and Julia, so if you know of a better way to do this, I'd love to hear it!

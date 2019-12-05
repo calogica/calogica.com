@@ -36,7 +36,7 @@ file_format=(type=csv compression='GZIP' field_optionally_enclosed_by='"', skip_
 - Note that we're specifying the `csv` file format, along with `gzip` compression as part of the stage definition. Your business case will vary here, and `parquet` or other format types may be better choices for you.
 - The `skip_header` option here only applies to reading data from this stage, not to unloading data. We **will* specify during our unload process that we want to save table headers with our backups. However, for restore purposes, we want to skip headers. You can leave this option out if you'd rather get the relevant table headers back as the first row when you read from this external stages later.
 
-Find more informtion on creating stages [here](https://docs.snowflake.net/manuals/sql-reference/sql/create-stage.html#external-stages).
+Find more information on creating stages [here](https://docs.snowflake.net/manuals/sql-reference/sql/create-stage.html#external-stages).
 
 ### Copy into Stage
 
@@ -93,8 +93,8 @@ Using this macro, we could loop through a list of database, schemas and tables a
 
 Let's see how that would look in a `dbt` macro.
 - The key components here is the `backups` *dictionary* that specifies a `list` of schemas for each database `key`. In this example, we're backing up 2 databases (`"RAW"` and `"DW"`) with several schemas in each.
-- In this case we're looking to backup *all* tables in each specified schema, so we're using the handy `get_tables_by_prefix` macro from the `dbt_utils` package to get a list of `relations` (i.e. tables) that match our filter. Note that we can exclude tables as well, such as any metadata tables (exluding anything starting with  `FIVETRAN_%`).
-- In this example, we chose to keep up to 31 days of backups, one for each day of the month. Once the momth is over, we simply roll over and start overwriting backups. This is a **very simple** backup scheme, so please make sure this modify this suit your business needs. This is just meant to illustrate that we have access to *some* of Python's date formatting functionality via Jinja to create SQL statements. 
+- In this case we're looking to backup *all* tables in each specified schema, so we're using the handy `get_tables_by_prefix` macro from the `dbt_utils` package to get a list of `relations` (i.e. tables) that match our filter. Note that we can exclude tables as well, such as any metadata tables (excluding anything starting with  `FIVETRAN_%`).
+- In this example, we chose to keep up to 31 days of backups, one for each day of the month. Once the month is over, we simply roll over and start overwriting backups. This is a **very simple** backup scheme, so please make sure this modify this suit your business needs. This is just meant to illustrate that we have access to *some* of Python's date formatting functionality via Jinja to create SQL statements. 
 - Since we ultimately want to operationalize this backup process using a `dbt run-operation`, we wrap our code in a `statement` which allows us to use a `run-operation` to execute SQL that does not exclude a `select` statement.
 
 {% raw %}

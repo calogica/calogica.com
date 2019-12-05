@@ -148,7 +148,7 @@ df_inventory
 | W3        | P4         | 5.0  |
 
 
-Now, to make this work a little better for the combinatoric calculations we need to do later, we need to convert all the product rows for each order into a new column on the order, like so:
+Now, to make this work a little better for the combinatorics we need to do later, we need to convert all the product rows for each order into a new column on the order, like so:
 
 ```python
 # bring order products as list to rows:
@@ -165,7 +165,7 @@ df_orders_products
 | 4            | [P3]         |
 | 5            | [P1, P1]     |
 
-If you had sourced this data from your production database or a data warehouse, you'll probably want to do some of this pre-work *in* the database. For example, splitting multi-unit orders into separate rows or moving rows to columns, for example via a `listagg` function, is often more scalabale in SQL.
+If you had sourced this data from your production database or a data warehouse, you'll probably want to do some of this pre-work *in* the database. For example, splitting multi-unit orders into separate rows or moving rows to columns, for example via a `listagg` function, is often more scalable in SQL.
 
 ### Product Combinations
 
@@ -234,7 +234,7 @@ The intuition is here is that so far we've figured out how many ways we can comb
 We're going to call these `splits` to indicate that they represent the ways we can split an order among our warehouses. We're not yet concerned with _which_ warehouse they could be assigned to, just that given some `n` number of warehouses, and `k` number of product groupings we can split an order `m` ways.
 
 We'll again introduce a function to do that. 
-First, the function calculates all `splits`, which is a powerset of the previously commputed `product_combos`, with a minimum number of elements equal to our number of warehouses.
+First, the function calculates all `splits`, which is a powerset of the previously computed `product_combos`, with a minimum number of elements equal to our number of warehouses.
 
 Then, we filter these splits to make sure that:
 - taken together, they cover the entire order. So, if we have an order consisting of `P1`, `P2` and `P3`, the combination `[P1, P2]` and the the combination `[P2, P3]` together exceed the products ordered, so we don't consider it to be _valid_.

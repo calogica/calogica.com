@@ -294,7 +294,7 @@ So, effectively, this tells how each day incrementally contributed to the store'
 
 
 ## Moving Averages
-A [moving average](https://en.wikipedia.org/wiki/Moving_average) is one of the best ways to smooth out a time series and to remove noise from short-term observations. For example, you may have weekly data and you're interested in whether or not your data is trending on a larger timeframe. A moving average can help you with that by giving you an additional, zoomed out view of your data with which you can now compare your weekly time series data. For similar reasons, moving averages also provide the basis for well-known time series forecast models, such as [ARIMA](https://www.datascience.com/blog/introduction-to-forecasting-with-arima-in-r-learn-data-science-tutorials).
+A [moving average](https://en.wikipedia.org/wiki/Moving_average) is one of the best ways to smooth out a time series and to remove noise from short-term observations. For example, you may have weekly data and you're interested in whether or not your data is trending on a larger time frame. A moving average can help you with that by giving you an additional, zoomed out view of your data with which you can now compare your weekly time series data. For similar reasons, moving averages also provide the basis for well-known time series forecast models, such as [ARIMA](https://www.datascience.com/blog/introduction-to-forecasting-with-arima-in-r-learn-data-science-tutorials).
 
 In SQL, moving averages can be constructed by adding a window to the `avg()` function that specifies a rolling window over the rows. For instance, for a 4-week moving average (4WMA), we're interested in the average over the last 4 rows of our, previously aggregated, weekly data.
 
@@ -422,4 +422,4 @@ sales_4wma - 1.96*sales_4wstd as sales_lower_bound
 ## So, what have we learned
 There are many other ways to employ the power of window functions on a modern data warehouse platform that take advantage of the processing power of distributed/parallel systems. I really encourage new and experienced analysts to explore their SQL options before defaulting to using Python or R.
 
-Using SQL as a structurally simple and easy to put-into-production technology to do advanced analytics, or to preprocess engineered features for your machine learning, is an essential tool in the analyst toolbelt.
+Using SQL as a structurally simple and easy to put-into-production technology to do advanced analytics, or to preprocess engineered features for your machine learning, is an essential tool in the analyst tool belt.

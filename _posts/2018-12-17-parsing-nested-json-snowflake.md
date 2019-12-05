@@ -171,7 +171,7 @@ For the examples below, we'll assume the following data, which we took straight 
 Notice how this data actually includes records for **3** persons, the places they lived in during one or more years and their children, if any.
 
 
-We'll upload this data file to Snowflake using the `SnowSQL` command line utlity, which creates a gzip compressed copy of our source file from above in the `@~/json/` user directory, as `json_sample_data2.json.gz`.
+We'll upload this data file to Snowflake using the `SnowSQL` command line utility, which creates a gzip compressed copy of our source file from above in the `@~/json/` user directory, as `json_sample_data2.json.gz`.
 
 ```
 json_sample_data2.json_c.gz(0.00MB): [##########] 100.00% Done (0.435s, 0.00MB/s).
