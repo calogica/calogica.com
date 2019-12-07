@@ -6,7 +6,7 @@ categories: [reads]
 ---
 
 ## [2020 Crystal Ball: Predictions for the Economy, Politics, Technology, and More | Fortune](https://fortune.com/2019/12/02/2020-predictions-recession-presidential-race-technology-climate-change/)
-Some of the seem more like predictions for the 20s decade (yes, that's happening soon!), but still a good read.
+Some of these seem more like predictions for the 20s decade (yes, that's happening soon!), but still a good read.
 
 ## [Newsvendor Problem – The Tale of the First Formula in the Textbook | Stitch Fix Technology – Multithreaded](https://multithreaded.stitchfix.com/blog/2019/11/21/newsvendor-model/)
 
@@ -16,7 +16,7 @@ My favorite part of this post, aside from it being very good, is that *Eric Cols
 ## [How To Mathematically Win Every Office Bet](https://medium.com/swlh/how-to-mathematically-win-every-office-bet-bf9727f87395)
 
 Unlikely you'll be able to pull this off very often in real life, but a fun read on what is essentially an options strategy for your office bets
-> Suppose we make a second $5 bet with person B, but this time instead of predicting it to rain more than two inches, we bet that it will rain less than four. Now, if it rains 4 or more, we lose $5, and anything less we profit $5. What’s interesting that occurs here is the regions beyond 2 and 4 have conflicting payouts and losses, so when we lose one bet, we win the other. Then, in the region between, we win both.
+> Suppose we make a second \$5 bet with person B, but this time instead of predicting it to rain more than two inches, we bet that it will rain less than four. Now, if it rains 4 or more, we lose $5, and anything less we profit \$5. What’s interesting that occurs here is the regions beyond 2 and 4 have conflicting payouts and losses, so when we lose one bet, we win the other. Then, in the region between, we win both.
 
 This *could* come in handy when betting on some of the 2020 predictions above.
 
