@@ -404,7 +404,7 @@ While we've learned a lot about our data, and Bayesian model by building 4 separ
 In Bayesian modeling, there are a number of techniques and metrics to quantify model performance and to compare models.
 
 PyMC3 and Arviz have some of the most effective approaches built in.
-For example, the atply named "Widely Applicable Information Criterion"[^waic], or WAIC, is a method for
+For example, the aptly named "Widely Applicable Information Criterion"[^waic], or WAIC, is a method for
 >estimating pointwise out-of-sample prediction accuracy from a fitted Bayesian model using the log-likelihood evaluated at the posterior simulations of the parameter values.[^waic-loo]
 
 Lower values of WAIC are better, thus, for predictive accuracy, we would favor our **season** model:
