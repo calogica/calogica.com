@@ -11,7 +11,7 @@ toc_sticky: true
 
 {: .notice--info}
 In this post, we'll model a key NFL football statistic, **Fourth Down Attempts** using Bayesian Modeling and PyMC3. 
-Hopefully, this will part of a series of posts (and accompanying Jupyter notebooks) on exploring NFL stats using a variety of analytics techniques in the coming months.
+Hopefully, this will part of a series of posts (and [accompanying Jupyter notebooks](https://github.com/clausherther/nfl-analysis)) on exploring NFL stats using a variety of analytics techniques in the coming months.
 
 ## Motivation
 I've been looking for a good data science teaching dataset for a while, one that can be used for regression, classification, forecasting and other analytical modeling. The NFL Play-by-Play dataset we'll get to know in more detail below is a great candidate. 
