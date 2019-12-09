@@ -1,7 +1,7 @@
 ---
 title:  "Bayesian Modeling of NFL Football Fourth Down Attempts with PyMC3"
 date:   2019-12-08 8:00AM
-excerpt: "In this post, we'll model a couple of a key NFL football stat, Fourth Down Attempts, using Bayesian Modeling and PyMC3."
+excerpt: "In this post, we'll model a key NFL football stat, Fourth Down Attempts, using Bayesian Modeling and PyMC3."
 categories: [pymc3, python]
 toc: true
 toc_label: "What we'll cover"
