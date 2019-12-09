@@ -25,7 +25,7 @@ Hopefully, time permitting, over the next few months we'll explore it from a few
 {: .notice--info}
 Please note that this isn't a football or a sports analytics blog. While I attempt to bring as much domain knowledge into any analysis, the point of these posts is to present analytical concepts, not to compete with ESPN.com. Having said that, I'd love your [feedback](/about) on how to improve this analysis if you know your way around football stats.
 
-## What are 4th Down Attempts and Conversions?
+## What are Fourth Down Attempts and Conversions?
 
 ![NFL Fourth Down](/assets/images/nfl-fourth-down.jpg)
 
@@ -103,7 +103,7 @@ So, a few takeaways from our data exploration that are worth analyzing further:
 
 ### What is Bayesian Workflow?
 
-For our analysis, we're going to model 4th down attempts and conversions using a Bayesian model:
+For our analysis, we're going to model fourth down attempts and conversions using a Bayesian model:
 > A Bayesian model is a statistical model where you use probability to represent all uncertainty within the model, both the uncertainty regarding the output but also the uncertainty regarding the input (aka parameters) to the model. [^bayes-model]
 
 One advantage to a Bayesian model is that it allows us to draw inferences about our data with many fewer data points than a traditional machine learning model would require. If we wanted to model the percentage of fourth down attempts by football season, using summarized season-level data - i.e. in our case 11 data points - would be sufficient to build a usable model. This has important real-world applications, as so many of the more interesting areas of data science are in the small-to-medium data world. 
