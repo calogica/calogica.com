@@ -129,7 +129,7 @@ Since we'll be building multiple models, we'll employ quantitative approaches to
 [Schad, Betancourt and Vasishth proposed a more formal set of steps in their paper "Principled Bayesian Workflow"[^bayes-workflow] if you're interested in diving deeper here.]
 
 ### Model Data
-For all our models, we'll use summarized fourth down play data. Instead of the individual 32,628 fourth down plays in our play-by-play dataset, we will make our life (and our MCMC samplers life) easier by aggregating those plays by:
+For all our models, we'll use summarized fourth down play data. Instead of the individual 32,628 fourth down plays in our play-by-play dataset, we will make our life (and our MCMC sampler's life) easier by aggregating those plays by:
 - Season
 - Week
 - Team
@@ -141,7 +141,7 @@ For the 11 seasons, at 32 teams with ~16 games each (~10 for 2019), we end up wi
 
 ### Baseline Model
 
-Let's consider to our first question for our dataset: are NFL teams getting more aggressive in "going for it" on fourth down? To try to answer this question, let's think of the **generative process** for fourth down attempts, denoted by $y$. In simple terms, it's a factor of the number of fourth downs a team has over a season, let's use $X$,  and a latent, i.e. unknown, propensity to "go for it", $\theta$
+Let's consider our first question for our dataset: are NFL teams getting more aggressive in "going for it" on fourth down? To try to answer this question, let's think of the **generative process** for fourth down attempts, denoted by $y$. In simple terms, it's a factor of the number of fourth downs a team has over a season, let's use $X$,  and a latent, i.e. unknown, propensity to "go for it", $\theta$
 
 $$y = \theta * X$$
 
@@ -162,7 +162,7 @@ $$y \sim Binomial(n, \theta)$$
 I've written previously about *Beta-Binomial* models and their extension, *Dirichlet-Multinomials* in [Dice, Polls & Dirichlet Multinomials](/python/pymc3/2018/11/27/dice-polls-dirichlet-multinomial.html).
 
 #### Model Building
-As a baseline model, let's set up a simple *Beta-Binomial* model to gauge the latent bias towards "going for it" across *all* seasons, weeks and teams. This is also known as a *pooled* or *fully-pooled* model, since we're combining information across all of our groups. Chris Fonnesbeck wrote a great post, "A Primer on Bayesian Methods for Multilevel Modeling"[^multi-primer], for the PyMC3 docs that we recommend reading for more on this.
+As a baseline model, let's set up a simple *Beta-Binomial* model to gauge the latent bias towards "going for it" across *all* seasons, weeks and teams. This is also known as a *pooled* or *fully-pooled* model, since we're combining information across all of our groups. Chris Fonnesbeck wrote a great post, "A Primer on Bayesian Methods for Multilevel Modeling"[^multi-primer], for the PyMC3 docs that I recommend reading for more on this.
 
 ```python
 with pm.Model() as attempts_base_line_model:
@@ -255,7 +255,7 @@ $$
 Or, expressed in PyMC3:
 
 ```python
-with pm.Model() as attempts_season_beta_binomial_model:
+with pm.Model() as attempts_season_model:
     
     # We use a Beta distribution here, 
     # parameterized to be uniform from 0 to 1
