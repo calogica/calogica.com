@@ -18,7 +18,7 @@ This repo contains [dbt](https://www.getdbt.com) models to transform NFL Play-by
 The repo currently assumes that raw data is loaded to and transformed on a local or remote **PostgreSQL** instance. The load script outlined below and the dbt models could be easily modified to work with other databases supported by dbt such as Snowflake, BigQuery or Redshift. [PRs welcome!](https://github.com/clausherther/nfl-dbt/issues)
 
 ## Update Frequency
-The `nflscrapR-data` repo is updated with some regularity, but since this is a voluntary and free resource (thanks to [Ron Yurko](https://twitter.com/Stat_Ron)!, we can't rely on play data being updated weekly. So, this dataset and the analytical models are best used for teaching and model building purposes, and perhaps less so for weekly decision on sports bets etc.
+The `nflscrapR-data` repo is updated with some regularity, but since this is a voluntary and free resource (thanks to [Ron Yurko](https://twitter.com/Stat_Ron)!), we can't rely on play data being updated weekly. So, this dataset and the analytical models are best used for teaching and model building purposes, and perhaps less so for weekly decision on sports bets etc.
 
 ## Models
 - `dates`: list of all game dates by season and season type (`PRE`, `REG`, `POST`)
