@@ -6,7 +6,7 @@ categories: [reads]
 ---
 
 {: .notice--info}
-Did you know you now [sign up](/signup) for weekly-ish updates to our blog via email?
+Did you know you can now [sign up](/signup) for weekly-ish updates to our blog via email?
 
 ## [An Introduction to Probability and Computational Bayesian Statistics - Essays on Data Science](https://ericmjl.github.io/essays-on-data-science/machine-learning/computational-bayesian-stats/)
 Eric Ma goes deep on the math used in computational Bayesian statistics and probabilistic programming. I'm still working through it, but this already looks like a great resource for building a deeper understanding on what goes on when you press the inference button. 

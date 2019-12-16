@@ -6,7 +6,7 @@ categories: [dbt]
 ---
 
 {: .notice--info}
-Did you know you now [sign up](/signup) for weekly-ish updates to our blog via email?
+Did you know you can now [sign up](/signup) for weekly-ish updates to our blog via email?
 
 In my last post, ["Bayesian Modeling of NFL Football Fourth Down Attempts with PyMC3"](/pymc3/python/2019/12/08/nfl-4thdown-attempts.html), I referenced the `nflscrapR-data` repo where I had sourced the relevant play-by-play for NFL games from 2009 through 2019.
 After initially loading this data to BigQuery and querying the raw tables, I quickly realized that this calls for a clean and repeatable data loading and transformation process if this dataset is to be used for model building or teaching purposes.
