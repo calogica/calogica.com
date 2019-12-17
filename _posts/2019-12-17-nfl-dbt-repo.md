@@ -1,7 +1,7 @@
 ---
 title:  "Introducing the nfl-dbt repo"
 date:   2019-12-16 10:00AM
-excerpt: "Introducing the nfl-dbt repo: analytical models for dbt play-by-play data"
+excerpt: "Introducing the nfl-dbt repo: dbt analytical models for NFL play-by-play data"
 categories: [dbt]
 ---
 
