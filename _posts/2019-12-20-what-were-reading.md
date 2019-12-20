@@ -24,4 +24,4 @@ I've really been enjoying Alex Andorra's series on Bayesian stats. The guests ar
 Cullen Roche, who wrote the very good book "Pragmatic Capitalism", put together the definitive reading list on "Money".
 
 ## [What is Skimo? SkiMo combines performance ski mountaineering, ski running and ski touring](https://alpsinsight.com/stories/what-is-skimo/)
-Colorado seems to be in SkiMo fever, and I've been excited to be getting back into skiing. SkiMo might be a bit much (and gear extensive/expensive), but maybe SkiMo-lite
+Colorado seems to be in SkiMo fever, and I've been excited to be getting back into skiing. SkiMo might be a bit much (and gear extensive/expensive), but maybe SkiMo-lite?
