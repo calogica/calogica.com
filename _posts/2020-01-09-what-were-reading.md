@@ -1,5 +1,5 @@
 ---
-title:  "What We're Reading - 01/09/2019"
+title:  "What We're Reading - 01/09/2020"
 date:   2020-01-08 7:00AM
 excerpt: "What We're Reading - 01/09/2020: articles and posts we enjoyed "
 categories: [reads]
