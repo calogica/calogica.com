@@ -21,7 +21,7 @@ In fact, in the early days of football in America, kicking was a lot more emphas
 Over the course of the next decades, the field goal's importance declined (and with it the score for a goal to the current 3 points), as football evolved from its roots in rugby and soccer.
 
 However, even in modern NFL football, place kickers, i.e. kickers that kick a field goal or kick for the point after a touchdown, are considered by some to be the most important position in football (sorry quarterbacks!) because their plays so often result in scores. 
-In 2017, "kickers accounted for the top 14 scorers and 21 of the top 2"[^why-watch-kickers].
+In 2017, "kickers accounted for the top 14 scorers and 21 of the top 22"[^why-watch-kickers].
 
 ![Justin Tucker](/assets/plots/nfl/field_goal_justin_tucker.jpg)
 
@@ -39,19 +39,19 @@ This XA model filters all plays to just field goals, excluding any extra point a
 
 ### Key columns
 
-The key fields for our analysis thus are:
-- `kick_distance_yards`: this is the actual distance kicked, thus including the 10 yards between the goal line and the actual goal posts, as well as the ~7 yards from the spot of the kick to the line of scrimmage.
+The key fields for our analysis are:
+- `kick_distance_yards`: this is the actual distance kicked, including the 10 yards between the goal line and the actual goal posts, as well as the ~7 yards from the spot of the kick to the line of scrimmage.
 - `kick_angle_horizontal_degrees`: this is the theoretical horizontal angle of the kick based on the kick distance and our model of kick geometry introduced below 
-- `is_field_goal_success`: boolean indicating success of failure of the field goal
+- `is_field_goal_success`: boolean indicating success or failure of the field goal
 - `field_goals`: integer (1 at the row level) counting the total number of FG attempts
 - `successful_field_goals`: integer (0 or 1 at the row level) counting the total number of successful FG attempts
 
 A quick check of the data shows us the ~83% of field goals are successful. That makes sense, seeing coaches typically don't send out a kicker if they don't think they'll be successful.
 If we were trying to predict field goal success using `is_field_goal_success`, this would present a modeling challenge since our 2 classes (true/false) are imbalanced.
-However, since we're not interested in predicting a binary response, instead we're interested in the predicted probabilities, this should not pose a problem for us.
+However, since we're not interested in predicting a binary response, instead we're interested in the predicted probabilities, this hopefully should not pose too big of a problem for us.
 
 ### Reducing Noise
-- In 2014, the height of the field goal post was increased by 5ft. While this likely didn't materially affects field goal percentages (which btw, would be an interesting A/B test analysis), for this post, we'll omit seasons prior to 2014 to keep everything consistent. 
+- In 2014, the height of the field goal post was increased by 5ft. While this likely didn't materially affect field goal percentages (which btw, would be an interesting A/B test analysis), for this post, we'll omit seasons prior to 2014 to keep everything consistent. 
 - We'll also filter out any attempts from more than 63 yards, since only 1 field goal has ever  been made from 64 yards during regular play, and none from further out.
 
 Incidentally, Justin Tucker has made a 69-yard field goal during a training camp and has gone on record that he could hit one from 84.5 yards if the “situation was prime”[^justin-tucker-84], so we'll see what's in store for NFL kickers in the future.
@@ -70,9 +70,9 @@ Mapping this onto a 100 Yard Football field, we see how this translates into fie
 
 
 ## What are we modeling?
-For this post, we're interested in the calculating the **probability of making a field goal**, given what we might know at the time the kicker gets called on to the field. This is similar to our problem setup when we modeled [Fourth Down Attempts](/pymc3/python/2019/12/08/nfl-4thdown-attempts.html). The difference is that this time around, we don't just want to model the latent probability, but we want to model it conditional on a number of external factors. For example, the distance of the kick we're about to attempt is a key contributor to success of failure.
+For this post, we're interested in the calculating the **probability of making a field goal**, given what we might know at the time the kicker gets called on to the field. This is similar to our problem setup when we modeled [Fourth Down Attempts](/pymc3/python/2019/12/08/nfl-4thdown-attempts.html). The difference is that this time around, we don't just want to model the latent probability, but we want to model it conditional on a number of external factors. For example, the distance of the kick we're about to attempt is a key contributor to success or failure.
 
-Thus, one obvious choice for modeling this problem is the data science classic **logistic regression**. In logistic regression, we want to model the **probability of an event** given a number of factors (or features/covariates) so that we can predict a **binary** outcome. (If we have more than two possible outcomes, we would use *multinomial logistic regression*, also sometimes referred to as *softmax* regression.)
+One obvious choice for modeling this problem is the data science classic **logistic regression**. In logistic regression, we want to model the **probability of an event** given a number of factors (or features/covariates) so that we can predict a **binary** outcome. (If we have more than two possible outcomes, we would use *multinomial logistic regression*, also sometimes referred to as *softmax* regression.)
 
 ## ~~Ford v Ferrari~~ Bernoulli v Binomial
 If you've used logistic regression in a machine learning context, you'll have likely used the version implemented in the popular `scikit-learn` package[^sci-kit-log-reg]. In `scikit-learn`, we would have to set up our data so that the response variable is a *binary* outcome. Each row represents what is known as a *Bernoulli* trial, i.e. an individual outcome. So, in our case, each row would have to represent a single kick attempt, including the boolean `is_field_goal_success` as the response variable.
@@ -249,7 +249,7 @@ Breaking down a kick into some basic components, we can reason that we have to c
 - the chance that the kicker misses the goal posts horizontally, i.e. he kicks too far left or right
 - the chance that the kick comes up short
 
-Thus, the probability $p$ is the joint probability of:
+The probability $p$ of making the goal is the joint probability of:
 
 `P(Kick is within the required angle) * P(Kick is not short)`
 
