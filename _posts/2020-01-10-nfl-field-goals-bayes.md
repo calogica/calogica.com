@@ -47,7 +47,7 @@ The key fields for our analysis are:
 - `successful_field_goals`: integer (0 or 1 at the row level) counting the total number of successful FG attempts
 
 A quick check of the data shows us the ~83% of field goals are successful. That makes sense, seeing coaches typically don't send out a kicker if they don't think they'll be successful.
-If we were trying to predict field goal success using `is_field_goal_success`, this would present a modeling challenge since our 2 classes (true/false) are imbalanced.
+If we were trying to predict field goal success using `is_field_goal_success`, this would present a modeling challenge since our two classes (true/false) are imbalanced.
 However, since we're not interested in predicting a binary response, instead we're interested in the predicted probabilities, this hopefully should not pose too big of a problem for us.
 
 ### Reducing Noise
@@ -393,7 +393,7 @@ feature_columns = ["kick_distance_yards", "kick_angle_horizontal_degrees"]
 X = df_train_yards[feature_columns]
 ```
 
-We now want to model 2 values for $\beta$, so we make use of the `shape` parameter to have PyMC3 create as many slope coefficients as we have columns in $X$.
+We now want to model two values for $\beta$, so we make use of the `shape` parameter to have PyMC3 create as many slope coefficients as we have columns in $X$.
 We then compute $z$ as the $dot$ product of $X$ and $\beta$ before again converting $z$ to probabilities via the `invlogit` function:
 
 ```python
@@ -461,7 +461,7 @@ Interestingly, this last model provides the widest uncertainty interval for long
 
 
 ## Model Comparison & Evaluation
-As I mentioned in part 1 of this series, as part of our workflow we should also formally compare the 4 models. Using *leave-one-out cross-validation*[^waic-loo], we see that the last 2 models, logistic regression including kick angle and the model including the interaction term, score best (lowest values for *deviance*):
+As I mentioned in part 1 of this series, as part of our workflow we should also formally compare the 4 models. Using *leave-one-out cross-validation*[^waic-loo], we see that the last two models, logistic regression including kick angle and the model including the interaction term, score best (lowest values for *deviance*):
 
 ![Model Comparison](/assets/plots/nfl/field_goals_results_model_comparison.png)
 
