@@ -40,8 +40,8 @@ This XA model filters all plays to just field goals, excluding any extra point a
 ### Key columns
 
 The key fields for our analysis thus are:
-- `kick_distance_yards`: this is the actual distance kicked, thus including the 10 yards between the goal line and the actual goal posts, well as the ~7 yards from the spot of the kick to the line of scrimmage.
-- `kick_angle_horizontal_degrees`: this is the theoretical horizontal angle of the kick based on distance and our model of kick geometry introduced below 
+- `kick_distance_yards`: this is the actual distance kicked, thus including the 10 yards between the goal line and the actual goal posts, as well as the ~7 yards from the spot of the kick to the line of scrimmage.
+- `kick_angle_horizontal_degrees`: this is the theoretical horizontal angle of the kick based on the kick distance and our model of kick geometry introduced below 
 - `is_field_goal_success`: boolean indicating success of failure of the field goal
 - `field_goals`: integer (1 at the row level) counting the total number of FG attempts
 - `successful_field_goals`: integer (0 or 1 at the row level) counting the total number of successful FG attempts
@@ -51,9 +51,8 @@ If we were trying to predict field goal success using `is_field_goal_success`, t
 However, since we're not interested in predicting a binary response, instead we're interested in the predicted probabilities, this should not pose a problem for us.
 
 ### Reducing Noise
-In 2014, the height of the field goal post was increased by 5ft. While this likely didn't materially affects field goal percentages (which btw, would be an interesting A/B test analysis), for this post, we'll omit seasons prior to 2014 to keep everything consistent. 
-
-We'll also filter out any attempts from more than 63 yards, since only 1 field goal has ever  been made from 64 yards during regular play, and none from further out.
+- In 2014, the height of the field goal post was increased by 5ft. While this likely didn't materially affects field goal percentages (which btw, would be an interesting A/B test analysis), for this post, we'll omit seasons prior to 2014 to keep everything consistent. 
+- We'll also filter out any attempts from more than 63 yards, since only 1 field goal has ever  been made from 64 yards during regular play, and none from further out.
 
 Incidentally, Justin Tucker has made a 69-yard field goal during a training camp and has gone on record that he could hit one from 84.5 yards if the “situation was prime”[^justin-tucker-84], so we'll see what's in store for NFL kickers in the future.
 
@@ -78,9 +77,39 @@ Thus, one obvious choice for modeling this problem is the data science classic *
 ## ~~Ford v Ferrari~~ Bernoulli v Binomial
 If you've used logistic regression in a machine learning context, you'll have likely used the version implemented in the popular `scikit-learn` package[^sci-kit-log-reg]. In `scikit-learn`, we would have to set up our data so that the response variable is a *binary* outcome. Each row represents what is known as a *Bernoulli* trial, i.e. an individual outcome. So, in our case, each row would have to represent a single kick attempt, including the boolean `is_field_goal_success` as the response variable.
 
+```
+| play_id | kick_distance_yards | is_field_goal_success |
+|---------|---------------------|-----------------------|
+| 2278    | 19.0                | True                  |
+| 1336    | 35.0                | True                  |
+| 3290    | 54.0                | True                  |
+| 3034    | 50.0                | True                  |
+| 1121    | 46.0                | False                 |
+| 3687    | 50.0                | True                  |
+| 1964    | 51.0                | True                  |
+| 2826    | 22.0                | True                  |
+| 459     | 25.0                | True                  |
+| 1351    | 47.0                | True                  |
+```
+
 In our `xa_field_goals` dataset we have over 13,500 field goals across 11 regular seasons. That's a "small data" set and computationally likely not challenging in any model. However, depending on the features we want to model, we'd likely be better off with *aggregate* data. 
 
 For example, if  our only feature is `kick_distance_yards`, we'd do well to aggregate all plays by kick distance and sum up the `field_goals` and `successful_field_goals` columns to arrive at a much smaller dataset, with less than 50 rows. These aggregate rows correspond to a *Binomial* representation of the data, which implies that there is a probability $p$ of an event happening, given $n$ attempts and given that we've observed $y$ successful events.
+
+```
+| kick_distance_yards | field_goals | successful_field_goals |
+|---------------------|-------------|------------------------|
+| 18.0                | 17          | 17                     |
+| 19.0                | 123         | 123                    |
+| 20.0                | 251         | 249                    |
+| 21.0                | 300         | 294                    |
+| 22.0                | 332         | 326                    |
+| 23.0                | 368         | 362                    |
+| 24.0                | 294         | 282                    |
+| 25.0                | 358         | 354                    |
+| 26.0                | 317         | 307                    |
+| 27.0                | 369         | 354                    |
+```
 
 While the base implementation of logistic regression in R supports aggregate representation of binary data like this and the associated Binomial response variables natively, unfortunately not all implementations of logistic regression, such as `scikit-learn`, support it.
 
