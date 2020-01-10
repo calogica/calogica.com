@@ -52,7 +52,7 @@ However, since we're not interested in predicting a binary response, instead we'
 
 ### Reducing Noise
 - In 2014, the height of the field goal post was increased by 5ft. While this likely didn't materially affect field goal percentages (which btw, would be an interesting A/B test analysis), for this post, we'll omit seasons prior to 2014 to keep everything consistent. 
-- We'll also filter out any attempts from more than 63 yards, since only 1 field goal has ever  been made from 64 yards during regular play, and none from further out.
+- We'll also filter out any attempts from more than 63 yards, since only one field goal has ever  been made from 64 yards during regular play, and none from further out.
 
 Incidentally, Justin Tucker has made a 69-yard field goal during a training camp and has gone on record that he could hit one from 84.5 yards if the “situation was prime”[^justin-tucker-84], so we'll see what's in store for NFL kickers in the future.
 
@@ -445,7 +445,8 @@ The rest of the model stays the same, but we get an additional $\beta$ parameter
 
 ![Model 4](/assets/plots/nfl/field_goals_model_4_plate_notation.png)
 
-After sampling, we can see that our interaction term coefficient $\beta_2$, while small is reasonably above $0$:
+After sampling, we can see that our interaction term coefficient $\beta_2$, while greater than $0$, is small with a wide uncertainty interval. From an interpretability standpoint, it's also hard to reason about an effect of `yards*angle`, so this additional parameter falls more in the category of feature extraction to improve model fit.
+
 ```
 |      | mean   | sd    | hpd_3% | hpd_97% |
 |------|--------|-------|--------|---------|
