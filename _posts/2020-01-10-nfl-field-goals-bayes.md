@@ -268,9 +268,9 @@ Armed with this information, we can think of the angle of a field goal as the an
 
 ![Field Goal Angle](/assets/plots/nfl/field_goal_angle.jpg)
 
-It gets a little fuzzy when you're trying to determine from which spot a kicker might have actually kicked the ball, since there seems to some leeway for the kicker whether to kick from the center line, or from one of the hashmarks[^field-goal-range]. For this model, let's assume the kicker kicks from one of the hashmarks. 
+It gets a little fuzzy when you're trying to determine from which spot a kicker might have actually kicked the ball, since there seems to be some discretion on whether to kick from the center line, or from one of the hashmarks[^field-goal-range]. For this model, let's assume the kicker kicks from one of the hashmarks. 
 
-From this, we can calculate this angle based on the distance to kicked as:
+From this, we can calculate this angle based on the distance to kick as:
 
 $$\beta = ArcTan(\frac{29.25}{distance})$$
 
