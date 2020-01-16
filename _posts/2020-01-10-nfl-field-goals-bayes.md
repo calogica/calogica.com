@@ -3,6 +3,7 @@ title:  "Bayesian Methods for Modeling Field Goals in NFL Football"
 date:   2020-01-10 8:00AM
 excerpt: "In this post, we'll model field goal attempts in NFL football using Bayesian Methods."
 categories: [pymc3, python]
+comments: true
 ---
 
 

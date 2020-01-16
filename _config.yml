@@ -35,6 +35,11 @@ analytics:
 twitter:
   username               : &twitter "calogica"
 
+comments:
+  provider: "disqus"
+  disqus:
+    shortname: "calogica"
+
 author:
   name             : Claus Herther # *name is a YAML reference pointing to the &anchor earlier
   avatar           : "/assets/images/headshot.jpg"
@@ -49,15 +54,6 @@ author:
 
 logo: "/assets/images/logo.png"
 search: true
-# search_full_content: false # true, false (default)
-# search_provider: # lunr (default), algolia
-# algolia:
-#   application_id: # YOUR_APPLICATION_ID
-#   index_name: # YOUR_INDEX_NAME
-#   search_only_api_key: # YOUR_SEARCH_ONLY_API_KEY
-#   powered_by: # true (default), false
-
-# Build settings
 
 markdown: kramdown
 
@@ -100,14 +96,10 @@ defaults:
       mathjax: true
       author_profile: true
       read_time: true
-      comments: false
+      comments: true
       share: true
       related: true
-      # sidebar:
-      # - title: "Title"
-      #   text: "Some text here."
-      # - title: "Another Title"
-      #   text: "More text here."    
+ 
   - scope:
       path: "_pages"
       type: pages
