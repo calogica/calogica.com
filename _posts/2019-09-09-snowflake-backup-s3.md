@@ -1,7 +1,7 @@
 ---
-title:  "How to Backup Snowflake Data to S3"
+title:  "How to Backup Snowflake Data to S3 or GCS"
 date:   2019-09-09 8:00AM
-excerpt: "How to backup a Snowflake database to S3."
+excerpt: "How to backup a Snowflake database to S3 or GCS."
 categories: [sql, snowflake, dbt]
 toc: true
 toc_label: "What we'll cover"
@@ -10,7 +10,7 @@ toc_sticky: true
 ---
 
 {: .notice--info}
-In this post, we take a look at how to back up data in your Snowflake account to an external s3 location.
+In this post, we take a look at how to back up data in your Snowflake account to an external S3 or external GCS location.
 
 Snowflake has amazing built-in backup functionality, called [Time Travel](https://docs.snowflake.net/manuals/user-guide/data-time-travel.html) that lets you access data *as of* a certain date. In addition, Snowflake protects your data in the event of a system failure or other catastrophic event with its [Fail-safe](https://docs.snowflake.net/manuals/user-guide/data-failsafe.html) feature which allows Snowflake support to restore data for you during the Fail-safe window.
 
@@ -19,10 +19,10 @@ In addition, Snowflake has a near magical ability to `undrop` objects that were 
 However, Time Travel is limited to 1 day for Standard Edition (up to 90 days for Enterprise Edition), while Fail-safe adds 7 days of peace of mind. 
 So, while both Time Travel and Fail-safe are convenient and storage-efficient means of backing up your data, some Snowflake customers, especially those using Standard Edition, may want to back up their data using alternate means.
 
-One easy way is to simply unload your data to an AWS S3 bucket, using Snowflake's built-in `copy into` [command](https://docs.snowflake.net/manuals/sql-reference/sql/copy-into-location.html). Let's explore how to automate this using everyone's favorite data transformation library `dbt` for a number of databases and schemas. (See more on dbt [here](https://www.getdbt.com).)
+One easy way is to simply unload your data to an object storage location, using Snowflake's built-in `copy into` [command](https://docs.snowflake.net/manuals/sql-reference/sql/copy-into-location.html). Let's explore how to automate this using everyone's favorite data transformation library `dbt` for a number of databases and schemas. (See more on dbt [here](https://www.getdbt.com).)
 
-## S3 External Stages
-Snowflake can access external (i.e. in *your* AWS account, and not within Snowflake's AWS environment) S3 buckets for both read and write operations. The easiest way to take advantage of that is to create an `external stage` in Snowflake to encapsulate a few things. (We've used stages in a [previous post](/sql/snowflake/2019/04/04/snowpipes.html) on loading data using Snowpipes.)
+## External Stages
+Snowflake can access external (i.e. in *your* AWS/GCP account, and not within Snowflake's AWS/GCP environment) S3/GCS buckets for both read and write operations. The easiest way to take advantage of that is to create an `external stage` in Snowflake to encapsulate a few things. (We've used stages in a [previous post](/sql/snowflake/2019/04/04/snowpipes.html) on loading data using Snowpipes.)
 
 ### Create S3 Stage
 
@@ -36,14 +36,46 @@ file_format=(type=csv compression='GZIP' field_optionally_enclosed_by='"', skip_
 - Note that we're specifying the `csv` file format, along with `gzip` compression as part of the stage definition. Your business case will vary here, and `parquet` or other format types may be better choices for you.
 - The `skip_header` option here only applies to reading data from this stage, not to unloading data. We **will* specify during our unload process that we want to save table headers with our backups. However, for restore purposes, we want to skip headers. You can leave this option out if you'd rather get the relevant table headers back as the first row when you read from this external stages later.
 
+You can view more information on the stage you just created by running:
+
+```sql
+desc stage backup_stage;
+```
+
+Pay attention to the database and schema in which you create the stage. The fully qualified name for the external stage will be `<database>.<schema>.backup_stage`. Also consider the roles which will be copying data to or from the stage. You can view the grants on the stage with:
+
+```sql
+show grants on stage backup_stage;
+```
+
+The only privilege you'll need to worry about is `USAGE`.
+
+```sql
+grant usage on stage backup_stage to role your_role;
+```
+
 Find more information on creating stages [here](https://docs.snowflake.net/manuals/sql-reference/sql/create-stage.html#external-stages).
+
+### Create GCS Stage
+
+This assumes that you have a Storage Integration already configured for GCS. We can use the same format as for S3:
+
+```sql
+create or replace stage backup_stage url='gcs://my_gc_bucket/snowflake_backup'
+storage_integration = YOUR_GCS_INTEGRATION
+file_format=(type=csv compression="GZIP", field_optionally_enclosed_by='"', skip_header=1);
+```
+
+All of the details for the S3 stage creation are also relevant to the GCS stage.
+
+Find more information on setting up your own integation [here](https://docs.snowflake.net/manuals/user-guide/data-load-gcs-config.html) and on setting up a GCS stage [here](https://docs.snowflake.net/manuals/sql-reference/sql/create-stage.html#external-stages).
 
 ### Copy into Stage
 
-We can now `copy into` our external stage from any Snowflake table:
+We can now `copy into` our external stage from any Snowflake table. This works for either S3 or GCS:
 
 ```sql
-copy into @backup_stage/my_database/my_schema/my_table/data_
+copy into @<your_database>.<your_schema>.backup_stage/my_database/my_schema/my_table/data_
 from my_database.my_schema.my_table
 header = true
 overwrite = true
@@ -51,7 +83,8 @@ max_file_size = 104857600
 ```
 
 Let's quickly talk about what's going on here:
-- We copying *from* a table *into* our external S3 stage, which uses the compressed format specified earlier.
+- We are referencing the fully qualified name of the stage like we would with a table.
+- We are copying *from* a table *into* our external stage, which uses the compressed format specified earlier.
 - By naming the output file `data_`, with no other related options, we specify that we want Snowflake to create **multiple** files, all starting with `data_*`, which allows Snowflake to run this command in parallel in our virtual warehouse (parallel runs are limited by the size of the virtual warehouse).
 - We want the exported files to include table **headers**
 - We're **overwriting** any existing files at that location
@@ -71,21 +104,24 @@ For example:
 {% raw %}
 ```jinja
 {% macro get_backup_table_command(table, day_of_month) %}
-{% set backup_key -%}
-day_{{ day_of_month }}/{{ table.database.lower() }}/{{ table.schema.lower() }}/{{ table.name.lower() }}/data_
-{%- endset %}
-copy into @backup_stage/{{ backup_key }}
-from {{ table.database }}.{{ table.schema }}."{{ table.name.upper() }}"
-header = true
-overwrite = true
-max_file_size = 1073741824;
+
+    {% set backup_key -%}
+      day_{{ day_of_month }}/{{ table.database.lower() }}/{{ table.schema.lower() }}/{{ table.name.lower() }}/data_
+    {%- endset %}
+
+    copy into @<your_database>.<your_schema>.backup_stage/{{ backup_key }}
+    from {{ table.database }}.{{ table.schema }}."{{ table.name.upper() }}"
+    header = true
+    overwrite = true
+    max_file_size = 1073741824;
+
 {% endmacro %}
 ```
 {% endraw %}
 
-In this case, we're creating the `copy into` statement that will back up our given table into an AWS S3 key that looks something like this:
+In this case, we're creating the `copy into` statement that will back up our given table into an object store key that looks something like this:
 
-`s3://my_s3_bucket/snowflake_backup/day_09/dw/shop/dim_product/`
+`[gcs|s3]://my_bucket/snowflake_backup/day_09/dw/shop/dim_product/`
 
 (We're upper-casing the table name in quotes in the `from` clause to guard against reserved words in table names, e.g. such as "ORDER" in the case of Fivetran-sourced Shopify data. 😒)
 
@@ -99,7 +135,7 @@ Let's see how that would look in a `dbt` macro.
 
 {% raw %}
 ```jinja
-{% macro backup_to_s3() %}
+{% macro backup_to_object_store() %}
 
     {%- call statement('backup', fetch_result=true, auto_begin=true) -%}
 
@@ -149,7 +185,7 @@ Let's see how that would look in a `dbt` macro.
 We can then call this from the command line like so,
 
 ```bash
-dbt run-operation backup_to_s3
+dbt run-operation backup_to_object_store
 ```
 which we can then automate in our CI/CD environment of choice, such as **dbt Cloud** or **Gitlab**.
 
@@ -164,7 +200,7 @@ select
     $1 as id, 
     to_timestamp($2, 'yyyy-mm-dd hh24:mi:ss.ff Z') as ts 
 from 
-    @backup_stage/day_09/my_db/my_schema/my_table/
+    @<your_database>.<your_schema>backup_stage/day_09/my_db/my_schema/my_table/
 ```
 
 Which would result in output like this:
@@ -187,7 +223,7 @@ create table my_table_recovered as (
         $1 as id, 
         to_timestamp($2, 'yyyy-mm-dd hh24:mi:ss.ff Z') as ts 
     from 
-        @backup_stage/day_09/my_db/my_schema/my_table/
+        @<your_database>.<your_schema>backup_stage/day_09/my_db/my_schema/my_table/
 
 )
 ```
