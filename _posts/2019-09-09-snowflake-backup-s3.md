@@ -7,6 +7,7 @@ toc: true
 toc_label: "What we'll cover"
 toc_icon: "snowflake"
 toc_sticky: true
+comments: true
 ---
 
 {: .notice--info}
