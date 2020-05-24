@@ -1,0 +1,4 @@
+I"¤<p>On a current project with the data team at <a href="https://quibi.com">Quibi</a>, we were confronted with the challenge of how to incorporate the agility of developing dbt models against our BigQuery data warehouse with a process that gave us peace of mind that the data exposed via our BI tools is audited and accurate before publishing it to data consumers.</p>
+
+<p>I had a lot of fun talking to the dbt Community about this topic at the last dbt Office Hours. I put together a few slides for the talk, available <a href="assets/wap_dbt_bigquery.pdf">here</a>. By now, the folks at Fishtown may have already posted the video, so if youâ€™re interested, check it out!</p>
+:ET
