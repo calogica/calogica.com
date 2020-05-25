@@ -21,7 +21,7 @@ name: Claus Herther
 description: >- # this means to ignore newlines until "baseurl:"
   Calogica Data & Analytics Consulting, Los Angeles.
 baseurl: "" # the subpath of your site, e.g. /blog
-# url: https://calogica.com
+url: https://calogica.com
 github_username:  clausherther
 linkedin_username: clausherther
 timezone: America/Los_Angeles
@@ -46,8 +46,8 @@ author:
   bio              : "Data & Analytics Consulting"
   location         : "Los Angeles, CA"
   email            : "info@calogica.com"
-  # uri              : "http://calogica.com"
-  # home             : "http://calogica.com"
+  uri              : "http://calogica.com"
+  home             : "http://calogica.com"
   github           : "clausherther"
   linkedin         : "clausherther"
   twitter          : *twitter
