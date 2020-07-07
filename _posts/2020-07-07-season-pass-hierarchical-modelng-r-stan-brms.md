@@ -383,7 +383,7 @@ Logistic regression is probably one of the most underrated topics in modern data
 
 (Thanks to the folks at he UCLA Stats department for [this detailed writeup](https://stats.idre.ucla.edu/other/mult-pkg/faq/general/faq-how-do-i-interpret-odds-ratios-in-logistic-regression/) on this topic.)
 
-## Is this right model?
+## Is this the right model?
 
 Back to our model\!
 
