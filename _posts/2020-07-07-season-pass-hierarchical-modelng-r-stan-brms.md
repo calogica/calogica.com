@@ -200,7 +200,7 @@ season_pass_data_grp_pct_bundle %>%
 
 <img src="/assets/plots/r-mlm-season-pass/season_pass_plot_3-1.png" style="display: block; margin: auto auto auto 0;" />
 
-Again, customers in the park have the highest percentage of season passes sold in the bundle. We could argue that since they’re already showing higher motivation to buy a season pass, the upsell to pass bundled with parking is comparatively easier.
+Again, customers in the park have the highest percentage of season passes sold in the bundle. We could argue that since they’re already showing higher motivation to buy a season pass, the upsell to a pass bundled with parking is comparatively easier.
 
 Interestingly, almost 60% of customers contacted via email that purchased a season pass bought it as part of the bundle.
 
@@ -387,7 +387,7 @@ Logistic regression is probably one of the most underrated topics in modern data
 
 Back to our model\!
 
-However, this simple model fails to take `Channel` into consideration and is not actionable from a practical marketing standpoint where channel mix is an ever-present optimization challenge. In other words, while the model itself is fine and appears to be a good fit, it’s not really an appropriate “small world” model for our “large world”, to quote [Richard McElreath](https://books.google.com/books?id=T3FQDwAAQBAJ&pg=PA19&lpg=PA19&dq=mcelreath+small+world+big+world&source=bl&ots=vsrrBaL97W&sig=ACfU3U1qDTwHgFTyEPBmxAhkQmdX5FgC0Q&hl=en&sa=X&ved=2ahUKEwih9c6btbbqAhUVJzQIHXRlD2IQ6AEwC3oECAoQAQ#v=onepage&q=mcelreath%20small%20world%20big%20world&f=false).
+However, this simple model fails to take `Channel` into consideration and is not actionable from a practical marketing standpoint where channel mix is an ever-present optimization challenge. In other words, while the model itself is fine and appears to be a good fit, it’s not really an appropriate “small world” model for our “large world”, to invoke [Richard McElreath](https://books.google.com/books?id=T3FQDwAAQBAJ&pg=PA19&lpg=PA19&dq=mcelreath+small+world+big+world&source=bl&ots=vsrrBaL97W&sig=ACfU3U1qDTwHgFTyEPBmxAhkQmdX5FgC0Q&hl=en&sa=X&ved=2ahUKEwih9c6btbbqAhUVJzQIHXRlD2IQ6AEwC3oECAoQAQ#v=onepage&q=mcelreath%20small%20world%20big%20world&f=false).
 
 Simply modeling `Channel` as another independent (dummy) variable would also likely misrepresent the actual data generating process, since we know from our EDA above that `Channel` and `Promo` seem to depend on one another.
 
@@ -482,7 +482,7 @@ In “R for Marketing Research and Analytics”, the authors also point out that
 
 Interaction terms, however useful, do not fully take advantage of the power of Bayesian modeling. We know from our EDA that email represent a small fraction of our sales. So, when computing the effects of `Email` and `Promo` on `Email`, we don’t fully account for inherent lack of certainty as a result of the difference in sample sizes between channels. A more robust way to model interactios of variables in Bayesian model are *multilevel* models. They offer both the ability to model interactions (and deal with the dreaded collinearity of model parameters) and a built-in way to regularize our coefficient to minimize the impact of outliers and, thus, prevent overfitting.
 
-In our case, it would make the most sense to model this with both varying intercepts and slopes, since we observed that the different channels appear to have overall lower baselines (arguing for varying intercepts) and also show different effects of offering the bundle promotion (arguing for varying slopes). In other cases though, we may need to experiment with different combinations of fixed and varying parameters.
+In our case, it would make the most sense to model this with both **varying intercepts** and **slopes**, since we observed that the different channels appear to have overall lower baselines (arguing for varying intercepts) and also show different effects of offering the bundle promotion (arguing for varying slopes). In other cases though, we may need to experiment with different combinations of fixed and varying parameters.
 
 Luckily, it’s a fairly low-code effort to add grouping levels to our model. We will model both a varying intercept (`1`) and varying slope (`promo`) by `channel`, removing the standard population level intercept (`0`) and slope. (The `||` tells `brms` not to bother to compute correlations.)
 
