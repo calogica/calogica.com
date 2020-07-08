@@ -518,7 +518,7 @@ tidy(promo_channel_model_hierarchical, prob = 0.95)
 
 Another benefit of multi-level models is that each level is explicitly modeled, unlike traditional models where we typically model n-1 coefficients and are always left to interpret coefficients against some un-modeled baseline.
 
-From the output above, we can see that `Email` in general is still performing worse vs the other channels judging from its low negative coefficient, while the effect of the `Bundle` promo for the `Email` channel is significantly positive at \~2 increase in log-odds. However, compared to our single-level interaction models, we see that the hierarchical did a better job constraining the estimate of the effect of offering the bundle in emails by shrinking the estimate a bit towards the group mean.
+From the output above, we can see that `Email` in general is still performing worse vs the other channels judging from its low negative coefficient, while the effect of the `Bundle` promo for the `Email` channel is significantly positive at \~2 increase in log-odds. However, compared to our single-level interaction models, we see that the hierarchical model did a better job constraining the estimate of the effect of offering the bundle in emails by shrinking the estimate a bit towards the group mean.
 
 Visualizing this as a ridge plot, it’s more clear how the `Bundle` effect for `Email` is less certain than for other models, which makes intuitive sense since we have a lot fewer example of email sales to draw on. However, it appears to be the only channel where bundling free parking makes a real difference in season pass sales.
 
