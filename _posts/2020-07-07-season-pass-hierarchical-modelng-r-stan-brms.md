@@ -6,6 +6,9 @@ categories: [r, rstan]
 comments: true
 ---
 
+{: .notice--info}
+Did you know you can now [sign up](/signup) for weekly-ish updates to our blog via email?
+
 ## Overview
 
 In this post we’ll take another look at logistic regression, and in particular multi-level (or hierarchical) logistic regression. We’ve seen Bayesian logistic regression before when we modeled [field goals in NFL football](https://calogica.com/pymc3/python/2019/12/08/nfl-4thdown-attempts.html#team-model) earlier this year, and we used multi-level models before when we looked at [Fourth-Down Attempts in NFL Football by team](https://calogica.com/pymc3/python/2019/12/08/nfl-4thdown-attempts.html#team-model). This time we’ll try to build a bit more intuition around both. Also, this will be the first post I’ll tackle in R\!
@@ -561,3 +564,7 @@ I’ve found these links helpful whenever I’ve worked on multi-level Bayesian 
 - [The Stan User Guide](https://mc-stan.org/users/documentation/)
 - [“FAQ: HOW DO I INTERPRET ODDS RATIOS IN LOGISTIC REGRESSION?”](https://stats.idre.ucla.edu/other/mult-pkg/faq/general/faq-how-do-i-interpret-odds-ratios-in-logistic-regression/)
 - [“R for Marketing Research and Analytics”](http://r-marketing.r-forge.r-project.org/data.html)
+
+{: .notice--info}
+You can find the R Markdown file for this post here:
+https://github.com/clausherther/rstan/blob/master/hierarchical_modelng_r_stan_brms_season_pass.Rmd
