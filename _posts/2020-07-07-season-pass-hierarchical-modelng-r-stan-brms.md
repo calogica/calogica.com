@@ -271,7 +271,7 @@ mcmc_areas(
 
 <img src="/assets/plots/r-mlm-season-pass/plot_base_line_promo_model_areas-1.png" style="display: block; margin: auto auto auto 0;" />
 
-The slope coefficient `promoBundle` is positive and significant (does not contain 0 in the uncertainty interval). The value of `0.39` represents the effect of the `Bundle` treatment in terms of log-odds, i.e. bundling increases the log odds of buying a season pass by `0.39`. We can convert that to a % by exponentiating the coefficients (which we get via `fixef`) to get the % increase of the odds:
+The slope coefficient `promoBundle` is positive and does not contain 0 in the uncertainty interval. The value of `0.39` represents the effect of the `Bundle` treatment in terms of log-odds, i.e. bundling increases the log odds of buying a season pass by `0.39`. We can convert that to a % by exponentiating the coefficients (which we get via `fixef`) to get the % increase of the odds:
 
 ``` r
 exp(fixef(base_line_promo_model))
@@ -473,7 +473,7 @@ Three things immediately come to our attention:
 
 - the `Email` channel is associated with a -3.15 decrease in log odds of selling a season pass (vs the baseline channel `Mail` )
 - however, the interaction term `promoBundle:channelEmail`, i.e. the effect of the `Bundle` promo given the `Email` channel shows a \~3x increase in log-odds over the baseline
-- interestingly, the `Park` channel does not seem to significantly benefit from offering a bundle promotion, shown by it’s small coefficient with uncertainty interval spanning `0`
+- interestingly, the `Park` channel does not seem to meaningfully benefit from offering a bundle promotion, shown by it’s small coefficient with uncertainty interval spanning `0`
 
 So, while `Email` itself has shown to be the least effective sales channel, we see that offering a bundle promotion in emails seems to make the most sense. Perhaps, customers on our email list are more discount motivated than customers in other channels.
 
@@ -518,7 +518,7 @@ tidy(promo_channel_model_hierarchical, prob = 0.95)
 
 Another benefit of multi-level models is that each level is explicitly modeled, unlike traditional models where we typically model n-1 coefficients and are always left to interpret coefficients against some un-modeled baseline.
 
-From the output above, we can see that `Email` in general is still performing worse vs the other channels judging from its low negative coefficient, while the effect of the `Bundle` promo for the `Email` channel is significantly positive at \~2 increase in log-odds. However, compared to our single-level interaction models, we see that the hierarchical model did a better job constraining the estimate of the effect of offering the bundle in emails by shrinking the estimate a bit towards the group mean.
+From the output above, we can see that `Email` in general is still performing worse vs the other channels judging from its low negative coefficient, while the effect of the `Bundle` promo for the `Email` channel is positive at \~2 increase in log-odds. However, compared to our single-level interaction models, we see that the hierarchical model did a better job constraining the estimate of the effect of offering the bundle in emails by shrinking the estimate a bit towards the group mean.
 
 Visualizing this as a ridge plot, it’s more clear how the `Bundle` effect for `Email` is less certain than for other models, which makes intuitive sense since we have a lot fewer example of email sales to draw on. However, it appears to be the only channel where bundling free parking makes a real difference in season pass sales.
 
@@ -554,6 +554,10 @@ So, for anything but the most trivial examples, Bayesian hierarchical models sho
 
 ## Resources
 
+{: .notice--info}
+You can find the R Markdown file for this post here:
+[https://github.com/clausherther/rstan/blob/master/hierarchical_modelng_r_stan_brms_season_pass.Rmd](https://github.com/clausherther/rstan/blob/master/hierarchical_modelng_r_stan_brms_season_pass.Rmd)
+
 I’ve found these links helpful whenever I’ve worked on multi-level Bayesian models and/or R:
 
 - [Richard McElreath’s book, Statistical Rethinking](https://xcelab.net/rm/statistical-rethinking/), including his invaluable [lectures on video](https://github.com/rmcelreath/statrethinking_winter2019)
@@ -564,7 +568,3 @@ I’ve found these links helpful whenever I’ve worked on multi-level Bayesian 
 - [The Stan User Guide](https://mc-stan.org/users/documentation/)
 - [“FAQ: HOW DO I INTERPRET ODDS RATIOS IN LOGISTIC REGRESSION?”](https://stats.idre.ucla.edu/other/mult-pkg/faq/general/faq-how-do-i-interpret-odds-ratios-in-logistic-regression/)
 - [“R for Marketing Research and Analytics”](http://r-marketing.r-forge.r-project.org/data.html)
-
-{: .notice--info}
-You can find the R Markdown file for this post here:
-https://github.com/clausherther/rstan/blob/master/hierarchical_modelng_r_stan_brms_season_pass.Rmd
