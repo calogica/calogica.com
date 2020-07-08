@@ -17,6 +17,25 @@ In this post we’ll take another look at logistic regression, and in particular
 
 R has been a mainstay in statistical modeling and data science for years, but more recently has been pinned into a needless competition with Python. In fact, R has a rich and robust package ecosystem, including some of the best statistical and graphing packages out there. R, along with Python and SQL, should be part of every data scientist’s toolkit. I’ve not used R in quite a while, in favor of Python and the occasional adventure in Julia, but it’s important to recognize that we should use the right tool for the job, not just always the one that’s most convenient. Especially using the `tidyverse` package ecosystem makes data wrangling (and increasingly modeling) code almost trivial and downright fun. I encourage folks that have been away from R for a bit to give it another go\!
 
+
+For this post, I'm using a few R libraries we'll import first:
+
+``` r
+library(tidyverse)
+library(broom)
+library(janitor)
+library(brms)
+library(bayesplot)
+library(hrbrthemes)
+```
+
+We'll also want to use the handsome `ipsum_rc` theme from the `hbrtheme` package as our `ggplot` and `bayesplot` default:
+
+``` r
+theme_set(hrbrthemes::theme_ipsum_rc())
+bayesplot_theme_set(hrbrthemes::theme_ipsum_rc())
+```
+
 ## Marketing Theme Park Season Passes
 
 For this post, we’ll consider simulated sales data for a (hypothetical) theme park from chapter 9 of [“R for Marketing Research and Analytics”](http://r-marketing.r-forge.r-project.org/data.html), which inspired this post. This book really is a wide-ranging collection of statistical techniques to apply in various marketing settings and I often browse it for ideas, even if I don’t use the actual implementation.
@@ -212,6 +231,12 @@ Given the relatively small number of overall email-attributed sales, it makes se
 ## A Baseline Model
 
 In classical modeling, our first instinct here would be to model this as logistic regression, with `bought_pass` as our response variable. So, if we wanted to measure the overall effectiveness of our bundle offer, we’d set up a simple model using the `glm` module and get a `summary` of estimated coefficients. However, as good Bayesians that value interpretable uncertainty intervals, we’ll go ahead and use the excellent `brms` library that makes sampling via RStan quite easy.
+
+We'll set reasonably high value for the number of sampler iterations:
+
+``` r
+iter <- 10000
+```
 
 Instead of relying on the default priors in `brms`, we’ll use a fairly diffuse `Normal` prior for intercept and slope.
 
