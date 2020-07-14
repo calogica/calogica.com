@@ -242,6 +242,9 @@ We'll set reasonably high value for the number of sampler iterations and set a s
 ``` r
 # iterations to use for MCMC sampling
 iter <- 10000
+
+# seed
+set.seed(42)
 ```
 
 Instead of relying on the default priors in `brms`, we’ll use a \(Normal(0, 1)\) prior for intercept and slope.
