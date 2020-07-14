@@ -247,7 +247,7 @@ iter <- 10000
 set.seed(42)
 ```
 
-Instead of relying on the default priors in `brms`, we’ll use a \(Normal(0, 1)\) prior for intercept and slope.
+Instead of relying on the default priors in `brms`, we’ll use a $Normal(0, 1)$ prior for intercept and slope.
 
 Let’s do a quick check to see what that looks like:
 
@@ -267,8 +267,11 @@ ggplot(norm_df, aes(y = fct_rev(prior), x=samples, fill = stat(abs(x) < 2.5))) +
          y  = "stdev")
 ```
 
-<img src="/assets/plots/r-mlm-season-pass/normal_dist_priors.png" style="display: block; margin: auto auto auto 0;" /> This shows us that our \(Normal(0, 1)\) prior reasonably supports effect sizes from \~-2.5 to \~2.5 in log-odds terms, while a `sd` of 5 would likely be too diffuse for a marketing application.
+<img src="/assets/plots/r-mlm-season-pass/normal_dist_priors.png" style="display: block; margin: auto auto auto 0;" /> 
 
+This shows us that our $Normal(0, 1)$ prior reasonably supports effect sizes from \~-2.5 to \~2.5 in log-odds terms, while a `sd` of 5 would likely be too diffuse for a marketing application.
+
+On to the model:
 
 ``` r
 base_line_promo_model <- brm(bought_pass | trials(n) ~ 1 + promo,
