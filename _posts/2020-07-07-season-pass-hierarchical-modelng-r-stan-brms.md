@@ -3,6 +3,10 @@ title: "Multi-level Modeling in RStan and brms (and the Mysteries of Log-Odds)"
 date:   2020-07-05 8:00AM
 excerpt: "In this post we’ll take another look at logistic regression, and in particular multi-level (or hierarchical) logistic regression in RStan brms."
 categories: [r, rstan]
+toc: true
+toc_label: "What we'll cover"
+toc_icon: "university"
+toc_sticky: false
 comments: true
 ---
 
