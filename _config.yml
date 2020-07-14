@@ -19,12 +19,12 @@ title_separator: "|"
 email: info@calogica.com
 name: Claus Herther
 description: >- # this means to ignore newlines until "baseurl:"
-  Calogica Data & Analytics Consulting, Los Angeles.
+  Calogica Data & Analytics Consulting, Los Angeles/Boulder.
 baseurl: "" # the subpath of your site, e.g. /blog
 url: https://calogica.com
 github_username:  clausherther
 linkedin_username: clausherther
-timezone: America/Los_Angeles
+timezone: America/Denver
 
 analytics:
   provider               : "google-universal"
@@ -44,7 +44,7 @@ author:
   name             : Claus Herther # *name is a YAML reference pointing to the &anchor earlier
   avatar           : "/assets/images/headshot.jpg"
   bio              : "Data & Analytics Consulting"
-  location         : "Los Angeles, CA"
+  location         : "Boulder, CO"
   email            : "info@calogica.com"
   uri              : "http://calogica.com"
   home             : "http://calogica.com"
