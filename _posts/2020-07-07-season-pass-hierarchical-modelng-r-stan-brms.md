@@ -25,7 +25,7 @@ For this post, I'm using a few R libraries we'll import first:
 
 ``` r
 library(tidyverse)
-library(broom)
+library(broom.mixed)
 library(janitor)
 library(brms)
 library(bayesplot)
@@ -561,7 +561,7 @@ promo_channel_model_hierarchical <- brm(bought_pass | trials(n) ~ 0 + (1 + promo
 This time we’ll use the `broom` package to `tidy` up the outputs of our model so that we can inspect the varying parameters of our model more easily:
 
 ``` r
-tidy(promo_channel_model_hierarchical, prob = 0.95)
+tidy(promo_channel_model_hierarchical, prob = 0.95, effects = c("ran_vals"))
 ```
 
     ##                           term    estimate  std.error        lower       upper
