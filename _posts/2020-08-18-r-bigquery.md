@@ -21,7 +21,7 @@ con <- dbConnect(
   bigrquery::bigquery(),
   project = "<your_project>",
   dataset = "<your_dataset>",
-  billing = "<<your_billing_project"
+  billing = "<your_billing_project>"
 )
 ```
 
@@ -239,7 +239,7 @@ ggplot(team_home_games,
 
 ## Fourth Downs
 
-Let’s look at a few more ways to visualize this data, inspired by our look at **Fourth Downs** a couple of months ago, to get an idea of how `dplyr` and `dbplyr` can fit into our statistical workflow.
+Let’s look at a few more ways to visualize this data, inspired by our look at [Modeling of NFL Football Fourth Down Attempts](https://calogica.com/pymc3/python/2019/12/08/nfl-4thdown-attempts.html) a couple of months ago, to get an idea of how `dplyr` and `dbplyr` can fit into our statistical workflow.
 
 First, we’ll take our `plays` data in BigQuery and filter to fourth down plays only, while also creating a few columns we’ll use in visualizations later. Note again that `fourth_downs` here does not yet hold any data locally, but is a collection of query instructions, yet to be executed.
 
@@ -290,7 +290,6 @@ ggplot(season_sum_fourth_downs,
        )
 ) +
   geom_line() +
-  # limits = c(0, NA), 
   scale_y_continuous(labels = scales::percent_format(), position = "right") +
   scale_color_discrete(name = "") +
   theme(legend.position="top") +
