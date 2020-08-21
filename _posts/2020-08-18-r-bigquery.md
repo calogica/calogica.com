@@ -8,6 +8,21 @@ comments: true
 
 In recent years, R has made quite the comeback in statistics and data science, largely thanks to a new collection of easy-to-use, yet powerful packages known as the `tidyverse`. These packages, primarily `dplyr` and `ggplot` make data wrangling and visualizing intuitive and fun, even for newcomers to data science. Not only that, they’re robust and powerful for advanced analytics and are employed in many production settings. In this post, we’ll take a look at using packages from the R `tidyverse` to query and visually explore data in Google BigQuery. We’ll primarily use `dplyr` and the slightly confusingly named `dbplyr` packages.
 
+## Libraries
+
+Aside from the main `tidyverse` package, you'll need the following libraries to make this work, most notably `dbplyr`, `bigrquery` and `DBI` to handle database connections. We'll also pick an `hrbrthemes` theme for the ggplot plots.
+
+``` r
+library(tidyverse)
+library(dbplyr)
+library(bigrquery)
+library(DBI)
+
+library(hrbrthemes)
+
+theme_set(hrbrthemes::theme_ipsum_rc())
+```
+
 ## BigQuery Connection
 
 First, we need to set up a connection object to BigQuery we can use for our queries. We will use a service account to authenticate, although you can also use interactive, browser-based authentication.
