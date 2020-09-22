@@ -63,7 +63,6 @@ glimpse(season_pass_data)
     ## $ Promo   <chr> "Bundle", "Bundle", "Bundle", "Bundle", "Bundle", "Bundle", "…
     ## $ Pass    <chr> "YesPass", "YesPass", "YesPass", "YesPass", "YesPass", "YesPa…
 
-
 All 3 columns are character columns, so we’ll want to convert them to useful factor and/or integer columns for modeling.
 
 We’ll use `dplyr` to add a simple 1 count column `n`, and add `factor` columns for `promo` and `channel`. We’ll also convert the `Pass` variable to a Bernoulli style outcome variable of 0s and 1s.
@@ -237,17 +236,15 @@ Given the relatively small number of overall email-attributed sales, it makes se
 
 In classical modeling, our first instinct here would be to model this as logistic regression, with `bought_pass` as our response variable. So, if we wanted to measure the overall effectiveness of our bundle offer, we’d set up a simple model using the `glm` module and get a `summary` of estimated coefficients. However, as good Bayesians that value interpretable uncertainty intervals, we’ll go ahead and use the excellent `brms` library that makes sampling via RStan quite easy.
 
-We'll set reasonably high value for the number of sampler iterations and set a seed for more repeatable sampling results:
+We’ll set reasonably high value for the number of sampler iterations and set a seed for more repeatable sampling results:
 
 ``` r
 # iterations to use for MCMC sampling
 iter <- 10000
-
-# seed
 set.seed(42)
 ```
 
-Instead of relying on the default priors in `brms`, we’ll use a $Normal(0, 1)$ prior for intercept and slope.
+Instead of relying on the default priors in `brms`, we’ll use a \(Normal(0, 1)\) prior for intercept and slope.
 
 Let’s do a quick check to see what that looks like:
 
@@ -261,17 +258,14 @@ norm_df <- as_tibble(data.frame(sd_1 = rnorm(draws, mean = 0, sd = 1),
 ggplot(norm_df, aes(y = fct_rev(prior), x=samples, fill = stat(abs(x) < 2.5))) + 
     stat_halfeye() +
     scale_fill_manual(values = c("gray80", "skyblue")) +
-    # scale_x_continuous(breaks=seq(-10,10,1)) + 
     labs(title = "Normal distribution priors",
          x = "log-odds",
          y  = "stdev")
 ```
 
-<img src="/assets/plots/r-mlm-season-pass/normal_dist_priors.png" style="display: block; margin: auto auto auto 0;" /> 
+<img src="/assets/plots/r-mlm-season-pass/normal_dist_priors-1.png" style="display: block; margin: auto auto auto 0;" /> 
 
-This shows us that our $Normal(0, 1)$ prior reasonably supports effect sizes from \~-2.5 to \~2.5 in log-odds terms, while a `sd` of 5 would likely be too diffuse for a marketing application.
-
-On to the model:
+This shows us that our \(Normal(0, 1)\) prior reasonably supports effect sizes from \~-2.5 to \~2.5 in log-odds terms, while a `sd` of 5 would likely be too diffuse for a marketing application.
 
 ``` r
 base_line_promo_model <- brm(bought_pass | trials(n) ~ 1 + promo,
@@ -279,10 +273,12 @@ base_line_promo_model <- brm(bought_pass | trials(n) ~ 1 + promo,
                                        prior(normal(0, 1), class = b)),
                              data = season_pass_data_grp,
                              family = binomial(link = "logit"),
-                             iter = iter
+                             iter = iter,
+                             cores = 4,
+                             backend="cmdstan",
+                             refresh = 0
                              )
 ```
-
 
 We’ll take a quick look at chain divergence, mostly to introduce the excellent `mcmc` plotting functions from the `bayesplot` package.
 
@@ -295,7 +291,7 @@ mcmc_trace(base_line_promo_model, regex_pars = c("b_"), facet_args = list(nrow =
 We note that our chains show convergence and are well-mixed, so we move on to taking a look at the estimates:
 
 ``` r
-summary(base_line_promo_model)
+summary(base_line_promo_model, prob = 0.89)
 ```
 
     ##  Family: binomial 
@@ -306,11 +302,11 @@ summary(base_line_promo_model)
     ##          total post-warmup samples = 20000
     ## 
     ## Population-Level Effects: 
-    ##             Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
-    ## Intercept      -0.19      0.05    -0.29    -0.09 1.00    17195    12663
-    ## promoBundle     0.39      0.07     0.25     0.53 1.00    19154    13849
+    ##             Estimate Est.Error l-89% CI u-89% CI Rhat Bulk_ESS Tail_ESS
+    ## Intercept      -0.19      0.05    -0.27    -0.11 1.00    14729    13089
+    ## promoBundle     0.39      0.07     0.28     0.50 1.00    16323    13076
     ## 
-    ## Samples were drawn using sampling(NUTS). For each parameter, Bulk_ESS
+    ## Samples were drawn using sample(hmc). For each parameter, Bulk_ESS
     ## and Tail_ESS are effective sample size measures, and Rhat is the potential
     ## scale reduction factor on split chains (at convergence, Rhat = 1).
 
@@ -318,7 +314,7 @@ summary(base_line_promo_model)
 mcmc_areas(
     base_line_promo_model,
     regex_pars = "b_",
-    prob = 0.95, 
+    prob = 0.89, 
     point_est = "median",
     area_method = "equal height"
     ) +
@@ -337,8 +333,8 @@ exp(fixef(base_line_promo_model))
 ```
 
     ##              Estimate Est.Error      Q2.5     Q97.5
-    ## Intercept   0.8256735  1.053192 0.7457843 0.9135012
-    ## promoBundle 1.4732488  1.074321 1.2812300 1.6928569
+    ## Intercept   0.8252316  1.053328 0.7460204 0.9136109
+    ## promoBundle 1.4739224  1.073539 1.2850493 1.6936006
 
 In terms of percent change, we can say that the odds of a customer buying a season pass when offered the bundle are 47% higher than if they’re not offered the bundle.
 
@@ -395,7 +391,7 @@ odds_no_bundle
 ``` r
 odds_bundle/odds_no_bundle
 ```
-    
+
     ## [1] 1.475196
 
 
@@ -406,8 +402,8 @@ exp(fixef(base_line_promo_model))
 ```
 
     ##              Estimate Est.Error      Q2.5     Q97.5
-    ## Intercept   0.8256735  1.053192 0.7457843 0.9135012
-    ## promoBundle 1.4732488  1.074321 1.2812300 1.6928569
+    ## Intercept   0.8252316  1.053328 0.7460204 0.9136109
+    ## promoBundle 1.4739224  1.073539 1.2850493 1.6936006
 
 We can think of `1.47` as the **odds ratio** of Bundle vs NoBundle, where ratio of `1` would indicate no improvement.
 
@@ -439,7 +435,7 @@ newdata <- data.frame(promo = factor(c("NoBundle", "Bundle")), n = 1)
 predict(base_line_promo_model, newdata)[c(1:2)]
 ```
 
-    ## [1] 0.45580 0.54565
+    ## [1] 0.4585 0.5473
 
 Logistic regression is probably one of the most underrated topics in modern data science.
 
@@ -465,7 +461,10 @@ promo_channel_model_interactions <- brm(bought_pass | trials(n) ~ promo*channel,
                                                   prior(normal(0, 1), class = b)),
                                         data = season_pass_data_grp,
                                         family = binomial(link = "logit"),
-                                        iter = iter)
+                                        iter = iter,
+                                        backend="cmdstan",
+                                        cores = 4,
+                                        refresh = 0)
 ```
 
 Again, our model converged well and we observe well-mixed chains in the traceplot:
@@ -479,7 +478,7 @@ mcmc_trace(promo_channel_model_interactions, regex_pars = c("b_"), facet_args = 
 (We’ll forgo convergence checks from here on out for this post, but it’s never a bad idea to inspect your chains for proper mixing and convergence.)
 
 ``` r
-summary(promo_channel_model_interactions)
+summary(promo_channel_model_interactions, prob = 0.89)
 ```
 
     ##  Family: binomial 
@@ -490,32 +489,31 @@ summary(promo_channel_model_interactions)
     ##          total post-warmup samples = 20000
     ## 
     ## Population-Level Effects: 
-    ##                          Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS
-    ## Intercept                    0.23      0.08     0.07     0.38 1.00    16539
-    ## promoBundle                 -0.82      0.11    -1.04    -0.61 1.00    13292
-    ## channelPark                  1.51      0.17     1.18     1.84 1.00    12442
-    ## channelEmail                -2.93      0.19    -3.32    -2.56 1.00    13130
-    ## promoBundle:channelPark      0.14      0.20    -0.25     0.53 1.00    11581
-    ## promoBundle:channelEmail     2.63      0.28     2.09     3.18 1.00    14116
+    ##                          Estimate Est.Error l-89% CI u-89% CI Rhat Bulk_ESS
+    ## Intercept                    0.22      0.08     0.10     0.35 1.00    16399
+    ## promoBundle                 -0.82      0.11    -1.00    -0.64 1.00    13436
+    ## channelPark                  1.51      0.17     1.24     1.78 1.00    12793
+    ## channelEmail                -2.93      0.19    -3.24    -2.63 1.00    13227
+    ## promoBundle:channelPark      0.14      0.20    -0.18     0.46 1.00    11813
+    ## promoBundle:channelEmail     2.63      0.28     2.19     3.08 1.00    13049
     ##                          Tail_ESS
-    ## Intercept                   15435
-    ## promoBundle                 13451
-    ## channelPark                 12977
-    ## channelEmail                11293
-    ## promoBundle:channelPark     12322
-    ## promoBundle:channelEmail    13060
+    ## Intercept                   15553
+    ## promoBundle                 13047
+    ## channelPark                 12602
+    ## channelEmail                12513
+    ## promoBundle:channelPark     11875
+    ## promoBundle:channelEmail    12768
     ## 
-    ## Samples were drawn using sampling(NUTS). For each parameter, Bulk_ESS
+    ## Samples were drawn using sample(hmc). For each parameter, Bulk_ESS
     ## and Tail_ESS are effective sample size measures, and Rhat is the potential
     ## scale reduction factor on split chains (at convergence, Rhat = 1).
-    
 
 ``` r
 mcmc_areas(
     promo_channel_model_interactions,
     regex_pars = "b_",
-    prob = 0.95, # 80% intervals
-    prob_outer = 1, # 99%
+    prob = 0.89,
+    prob_outer = 1,
     point_est = "median",
     area_method = "equal height"
     ) +
@@ -544,65 +542,71 @@ In “R for Marketing Research and Analytics”, the authors also point out that
 
 Interaction terms, however useful, do not fully take advantage of the power of Bayesian modeling. We know from our EDA that email represent a small fraction of our sales. So, when computing the effects of `Email` and `Promo` on `Email`, we don’t fully account for inherent lack of certainty as a result of the difference in sample sizes between channels. A more robust way to model interactios of variables in Bayesian model are *multilevel* models. They offer both the ability to model interactions (and deal with the dreaded collinearity of model parameters) and a built-in way to regularize our coefficient to minimize the impact of outliers and, thus, prevent overfitting.
 
-In our case, it would make the most sense to model this with both **varying intercepts** and **slopes**, since we observed that the different channels appear to have overall lower baselines (arguing for varying intercepts) and also show different effects of offering the bundle promotion (arguing for varying slopes). In other cases though, we may need to experiment with different combinations of fixed and varying parameters.
+In our case, it would make the most sense to model this with both varying intercepts and slopes, since we observed that the different channels appear to have overall lower baselines (arguing for varying intercepts) and also show different effects of offering the bundle promotion (arguing for varying slopes). In other cases though, we may need to experiment with different combinations of fixed and varying parameters.
 
-Luckily, it’s a fairly low-code effort to add grouping levels to our model. We will model both a varying intercept (`1`) and varying slope (`promo`) by `channel`, removing the standard population level intercept (`0`) and slope. (The `||` tells `brms` not to bother to compute correlations.)
+Luckily, it’s a fairly low-code effort to add grouping levels to our model. We will model both a varying intercept (`1`) and varying slope (`promo`) by `channel`, removing the standard population level intercept (`0`) and slope.
 
 ``` r
-promo_channel_model_hierarchical <- brm(bought_pass | trials(n) ~ 0 + (1 + promo || channel),
-                                        prior = c(prior(normal(0, 1), class = sd)),
+promo_channel_model_multilevel <- brm(bought_pass | trials(n) ~ 0 + (1 + promo | channel),
+                                        prior = c(
+                                            prior(normal(0, 1), class = sd)
+                                            ),
                                         data = season_pass_data_grp,
                                         control = list(adapt_delta = 0.95),
                                         family = binomial(link = "logit"),
-                                        iter = iter
+                                        iter = iter,
+                                        cores = 4,
+                                        backend="cmdstan",
+                                        refresh = 0
                                         )
 ```
+
+<img src="/assets/plots/r-mlm-season-pass/plot_promo_channel_model_multilevel_trace-1.png" style="display: block; margin: auto auto auto 0;" />
 
 This time we’ll use the `broom` package to `tidy` up the outputs of our model so that we can inspect the varying parameters of our model more easily:
 
 ``` r
-tidy(promo_channel_model_hierarchical, prob = 0.95, effects = c("ran_vals"))
+tidy(promo_channel_model_multilevel, prob = 0.89, effects = c("ran_vals")) %>% filter(group == "channel")
 ```
 
-    ##                           term    estimate  std.error        lower       upper
-    ## 1        sd_channel__Intercept   1.6474093 0.44083166   0.96718634   2.6675482
-    ## 2      sd_channel__promoBundle   1.2971393 0.41328134   0.68779600   2.2841562
-    ## 3    r_channel[Mail,Intercept]   0.2516302 0.07991207   0.09517577   0.4102641
-    ## 4    r_channel[Park,Intercept]   1.7345214 0.15116990   1.44531211   2.0432732
-    ## 5   r_channel[Email,Intercept]  -2.7998359 0.19085414  -3.18817887  -2.4402991
-    ## 6  r_channel[Mail,promoBundle]  -0.8656247 0.11177860  -1.08634350  -0.6441599
-    ## 7  r_channel[Park,promoBundle]  -0.6770537 0.16946185  -1.01534697  -0.3494785
-    ## 8 r_channel[Email,promoBundle]   1.9538332 0.27617037   1.41420835   2.4971074
-    ## 9                         lp__ -33.4911697 2.28276427 -38.84004397 -30.1020599
+    ## # A tibble: 6 x 9
+    ##   effect   component group  level term     estimate std.error conf.low conf.high
+    ##   <chr>    <chr>     <chr>  <chr> <chr>       <dbl>     <dbl>    <dbl>     <dbl>
+    ## 1 ran_vals cond      chann… Mail  (Interc…    0.250    0.0800   0.0937     0.408
+    ## 2 ran_vals cond      chann… Park  (Interc…    1.75     0.155    1.45       2.06 
+    ## 3 ran_vals cond      chann… Email (Interc…   -2.82     0.193   -3.22      -2.46 
+    ## 4 ran_vals cond      chann… Mail  promoBu…   -0.859    0.113   -1.08      -0.638
+    ## 5 ran_vals cond      chann… Park  promoBu…   -0.695    0.172   -1.04      -0.362
+    ## 6 ran_vals cond      chann… Email promoBu…    1.98     0.276    1.44       2.53
 
 Another benefit of multi-level models is that each level is explicitly modeled, unlike traditional models where we typically model n-1 coefficients and are always left to interpret coefficients against some un-modeled baseline.
 
-From the output above, we can see that `Email` in general is still performing worse vs the other channels judging from its low negative coefficient, while the effect of the `Bundle` promo for the `Email` channel is positive at \~2 increase in log-odds. However, compared to our single-level interaction models, we see that the hierarchical model did a better job constraining the estimate of the effect of offering the bundle in emails by shrinking the estimate a bit towards the group mean.
+From the output above, we can see that `Email` in general is still performing worse vs the other channels judging from its low negative intercept, while the effect of the `Bundle` promo for the `Email` channel is positive at \~2 increase in log-odds. However, compared to our single-level interaction models, we see that the multilevel model did a better job constraining the estimate of the effect of offering the bundle in emails by shrinking the estimate a bit towards the group mean.
 
 Visualizing this as a ridge plot, it’s more clear how the `Bundle` effect for `Email` is less certain than for other models, which makes intuitive sense since we have a lot fewer example of email sales to draw on. However, it appears to be the only channel where bundling free parking makes a real difference in season pass sales.
 
 ``` r
 mcmc_areas(
-    promo_channel_model_hierarchical,
-    regex_pars = "r_",
-    prob = 0.8, # 80% intervals
+    promo_channel_model_multilevel,
+    regex_pars = "r_channel",
+    prob = 0.89,
     point_est = "median",
     area_method = "equal height"
     ) +
     geom_vline(xintercept = 0, color = "red", alpha = 0.6, lwd = .8, linetype = "dashed") +
     labs(
         title = "Effect of Channel and Bundle Promotion",
-        subtitle = "hierarchical model: random intercept and slope"
+        subtitle = "multi-level model: varying intercept and slope"
     )
 ```
 
-<img src="/assets/plots/r-mlm-season-pass/plot_promo_channel_model_hierarchical_areas-1.png" style="display: block; margin: auto auto auto 0;" />
+<img src="/assets/plots/r-mlm-season-pass/plot_promo_channel_model_multilevel_areas-1.png" style="display: block; margin: auto auto auto 0;" />
 
 So, while we’ve seen that email response and take rates are the lowest of all channels, we can confidently tell our marketing partners that offering bundling via email has a positive effect that is worth studying more and gathering more data. Since email tends to be a cheaper alternative to conventional in-home mails, and certainly cheaper than shuttling people into the park, the lower response rate needs to be weighed against channel cost.
 
 ## Model Comparison
 
-It’s worth noting that both the model with interactions and the hierarchical model predict essentially about the same probabilities for bundled sales via email or in the park. We can see from our plots that while the interactions model has more extreme estimates for intercept and interaction term, the hierarchical model constrains both the intercept for each channel and the varying slopes for each channel towards the group mean. So, while in the hierarchical model we estimate a lower slope for email (`1.95` vs `2.63`), we also estimate a slightly higher intercept for email (`-2.80` vs `-2.93`), resulting in roughly the same prediction as the interaction model.
+It’s worth noting that both the model with interactions and the multilevel model predict essentially about the same probabilities for bundled sales via email or in the park. We can see from our plots that while the interactions model has more extreme estimates for intercept and interaction term, the multilevel model constrains both the intercept for each channel and the varying slopes for each channel towards the group mean. So, while in the multilevel model we estimate a lower slope for email (`1.99` vs `2.63`), we also estimate a slightly higher intercept for email (`-2.82` vs `-2.93`), resulting in roughly the same prediction as the interaction model.
 
 ``` r
 newdata_channel <- data.frame(promo = factor(c("Bundle", "Bundle")), 
@@ -612,29 +616,29 @@ predict(promo_channel_model_interactions, newdata_channel)
 ```
 
     ##      Estimate Est.Error Q2.5 Q97.5
-    ## [1,]  0.29060 0.4540506    0     1
-    ## [2,]  0.74175 0.4376831    0     1
+    ## [1,]  0.29150 0.4544646    0     1
+    ## [2,]  0.74305 0.4369625    0     1
 
 ``` r
-predict(promo_channel_model_hierarchical, newdata_channel)
+predict(promo_channel_model_multilevel, newdata_channel)
 ```
 
     ##      Estimate Est.Error Q2.5 Q97.5
-    ## [1,]  0.30500 0.4604189    0     1
-    ## [2,]  0.74815 0.4340864    0     1
+    ## [1,]  0.30065 0.4585522    0     1
+    ## [2,]  0.73850 0.4394626    0     1
 
-The advantage for the hierarchical model in this case really comes from the ability to regularize the model more efficiently, and to be able to more easily interpret the coefficients. In more complex modeling challenges, hierarchical models really shine when there are more than one and/or nested grouping levels (hence “hierarchical”).
+The advantage for the multilevel model in this case really comes from the ability to regularize the model more efficiently, and to be able to more easily interpret the coefficients. In more complex modeling challenges, multilevel models really shine when there are more than one and/or nested grouping levels (hence “multilevel”).
 
 ## Summary
 
 Let’s wrap up with a few take aways:
 
-- Although it might have been obvious in this example dataset, but a first step in modeling is to make sure our model captures the true data generating process adequately, so we can ultimately answer the most meaningful business questions with confidence. So, even a well fitting model may be the wrong model in a given context. Or in short, make sure “small world” represents “large world” appropriately.
-- Interaction terms are an easy first step to add dependencies to our model. However, for larger models with many coefficients, they can become difficult to interpret and don’t easily allow for regularization of parameters.
-- From a modeling perspective, multi-level or hierarchical models are a very flexible way to approach regression models. They allow us to encode relationships that help create stronger estimates by pooling (sharing) data across grouping levels, while also helping to regularize estimates to avoid overfitting.
-- Through libraries like `brms`, implementing hierarchical models in R becomes only somewhat more involved than classical regression models coded in `lm` or `glm`.
+  - Although it might have been obvious in this example dataset, but a first step in modeling is to make sure our model captures the true data generating process adequately, so we can ultimately answer the most meaningful business questions with confidence. So, even a well fitting model may be the wrong model in a given context. Or in short, make sure “small world” represents “large world” appropriately.
+  - Interaction terms are an easy first step to add dependencies to our model. However, for larger models with many coefficients, they can become difficult to interpret and don’t easily allow for regularization of parameters.
+  - From a modeling perspective, multi-level models are a very flexible way to approach regression models. They allow us to encode relationships that help create stronger estimates by pooling (sharing) data across grouping levels, while also helping to regularize estimates to avoid overfitting.
+  - Through libraries like `brms`, implementing multilevel models in R becomes only somewhat more involved than classical regression models coded in `lm` or `glm`.
 
-So, for anything but the most trivial examples, Bayesian hierarchical models should really be our default choice.
+So, for anything but the most trivial examples, Bayesian multilevel models should really be our default choice.
 
 ## Resources
 
