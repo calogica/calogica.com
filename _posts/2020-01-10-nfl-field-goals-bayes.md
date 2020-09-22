@@ -410,7 +410,7 @@ with pm.Model() as model_logit_yards_angle:
     y_obs = pm.Binomial("y_obs", n=n, p=p, observed=y)
 ```
 
-The resulting parameter estimates show that we have a significant negative effect as distance increases and a significant positive effect as the angle increases.
+The resulting parameter estimates show that we have a negative effect as distance increases and a positive effect as the angle increases.
 
 ```
 |      | mean   | sd    | hpd_3% | hpd_97% |
