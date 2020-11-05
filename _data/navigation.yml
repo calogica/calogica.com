@@ -1,4 +1,6 @@
 main:
+  - title: "Blog"
+    url: /blog
   - title: "Consulting Services"
     url: /services
   - title: "Training"
@@ -7,5 +9,3 @@ main:
     url: /clients
   - title: "About Us"
     url: /about
-  - title: "Blog"
-    url: /blog
