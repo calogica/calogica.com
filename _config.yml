@@ -29,7 +29,7 @@ timezone: America/Denver
 analytics:
   provider               : "google-universal"
   google:
-    tracking_id          : UA-118767562-1
+    tracking_id          : G-ZCSD9WFC58
     anonymize_ip         : true
 
 twitter:
