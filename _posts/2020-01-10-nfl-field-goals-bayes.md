@@ -16,17 +16,17 @@ In this post, we'll model field goal attempts in NFL football using Bayesian Met
 ![Jets kicking](/assets/plots/nfl/Jets-field-goal-push.gif)
 
 Based on the name of the game - **foot**ball - international audiences are often bewildered by the amount of running (with the ball in hands!), throwing and catching, and the distinct lack of, well, *kicking* the ball with one's foot.
-In fact, in the early days of football in America, kicking was a lot more emphasized. According to Wikipedia[^wiki-field-goals], 
+In fact, in the early days of football in America, kicking was a lot more emphasized. According to Wikipedia[^wiki-field-goals],
 > In 1883, the scoring system was devised, with field goals counting for five points, and touchdowns and conversions worth four apiece.
 
 Over the course of the next decades, the field goal's importance declined (and with it the score for a goal to the current 3 points), as football evolved from its roots in rugby and soccer.
 
-However, even in modern NFL football, place kickers, i.e. kickers that kick a field goal or kick for the point after a touchdown, are considered by some to be the most important position in football (sorry quarterbacks!) because their plays so often result in scores. 
+However, even in modern NFL football, place kickers, i.e. kickers that kick a field goal or kick for the point after a touchdown, are considered by some to be the most important position in football (sorry quarterbacks!) because their plays so often result in scores.
 In 2017, "kickers accounted for the top 14 scorers and 21 of the top 22"[^why-watch-kickers].
 
 ![Justin Tucker](/assets/plots/nfl/field_goal_justin_tucker.jpg)
 
-However, their worth as measured in salary doesn't necessarily reflect that. Players on specialty teams are typically on the bottom end of the NFL Salary Rankings. The Baltimore Ravens paid the league's current highest ranked kicker, Justin Tucker (above) an average of \\$5 million per season, while the Seahawks rewarded top quarterback Russell Wilson with \\$35 million per season[^salary-rankings].
+However, their worth as measured in salary doesn't necessarily reflect that. Players on special teams are typically on the bottom end of the NFL Salary Rankings. The Baltimore Ravens paid the league's current highest ranked kicker, Justin Tucker (above) an average of \\$5 million per season, while the Seahawks rewarded top quarterback Russell Wilson with \\$35 million per season[^salary-rankings].
 
 
 ## Getting Play-by-Play Data
@@ -34,7 +34,7 @@ However, their worth as measured in salary doesn't necessarily reflect that. Pla
 ### The nfl-dbt repo
 As in our last post on [Fourth Down Attempts](/pymc3/python/2019/12/08/nfl-4thdown-attempts.html), we'll use data from the NFL Play-by-Play dataset in the [nfl-dbt repo](/dbt/2019/12/16/nfl-dbt-repo.html).
 
-For this post, I recently added a new model to the repo, under the umbrella of *transformed aggregates* (XA), that captures some key stats for field goals. You can find this model, `xa_field_goals` in the [repo](https://github.com/clausherther/nfl-dbt/blob/master/models/analysis/xa_field_goals.sql). 
+For this post, I recently added a new model to the repo, under the umbrella of *transformed aggregates* (XA), that captures some key stats for field goals. You can find this model, `xa_field_goals` in the [repo](https://github.com/clausherther/nfl-dbt/blob/master/models/analysis/xa_field_goals.sql).
 
 This XA model filters all plays to just field goals, excluding any extra point attempts. It also adds two computed columns for the horizontal and vertical angles of a field goal kick based on the kick distance - features that we'll explore later in an attempt at a geometric model.
 
@@ -42,7 +42,7 @@ This XA model filters all plays to just field goals, excluding any extra point a
 
 The key fields for our analysis are:
 - `kick_distance_yards`: this is the actual distance kicked, including the 10 yards between the goal line and the actual goal posts, as well as the ~7 yards from the spot of the kick to the line of scrimmage.
-- `kick_angle_horizontal_degrees`: this is the theoretical horizontal angle of the kick based on the kick distance and our model of kick geometry introduced below 
+- `kick_angle_horizontal_degrees`: this is the theoretical horizontal angle of the kick based on the kick distance and our model of kick geometry introduced below
 - `is_field_goal_success`: boolean indicating success or failure of the field goal
 - `field_goals`: integer (1 at the row level) counting the total number of FG attempts
 - `successful_field_goals`: integer (0 or 1 at the row level) counting the total number of successful FG attempts
@@ -52,7 +52,7 @@ If we were trying to predict field goal success using `is_field_goal_success`, t
 However, since we're not interested in predicting a binary response, instead we're interested in the predicted probabilities, this hopefully should not pose too big of a problem for us.
 
 ### Reducing Noise
-- In 2014, the height of the field goal post was increased by 5ft. While this likely didn't materially affect field goal percentages (which btw, would be an interesting A/B test analysis), for this post, we'll omit seasons prior to 2014 to keep everything consistent. 
+- In 2014, the height of the field goal post was increased by 5ft. While this likely didn't materially affect field goal percentages (which btw, would be an interesting A/B test analysis), for this post, we'll omit seasons prior to 2014 to keep everything consistent.
 - We'll also filter out any attempts from more than 63 yards, since only one field goal has ever  been made from 64 yards during regular play, and none from further out.
 
 Incidentally, Justin Tucker has made a 69-yard field goal during a training camp and has gone on record that he could hit one from 84.5 yards if the “situation was prime”[^justin-tucker-84], so we'll see what's in store for NFL kickers in the future.
@@ -93,7 +93,7 @@ If you've used logistic regression in a machine learning context, you'll have li
 | 1351    | 47.0                | True                  |
 ```
 
-In our `xa_field_goals` dataset we have over 13,500 field goals across 11 regular seasons. That's a "small data" set and computationally likely not challenging in any model. However, depending on the features we want to model, we'd likely be better off with *aggregate* data. 
+In our `xa_field_goals` dataset we have over 13,500 field goals across 11 regular seasons. That's a "small data" set and computationally likely not challenging in any model. However, depending on the features we want to model, we'd likely be better off with *aggregate* data.
 
 For example, if  our only feature is `kick_distance_yards`, we'd do well to aggregate all plays by kick distance and sum up the `field_goals` and `successful_field_goals` columns to arrive at a much smaller dataset, with less than 50 rows. These aggregate rows correspond to a *Binomial* representation of the data, which implies that there is a probability $p$ of an event happening, given $n$ attempts and given that we've observed $y$ successful events.
 
@@ -178,7 +178,7 @@ n = df_train_yards["field_goals"].values
 y = df_train_yards["successful_field_goals"].values
 
 with pm.Model() as model_logit_yards:
-    
+
     α = pm.Normal("α", mu=0, sd=1)
     β = pm.Normal("β", mu=0, sd=1)
 
@@ -225,7 +225,7 @@ Plotting our model parameter $p$ against yards kicked, we get the following mode
 
 ![Model 1 Results](/assets/plots/nfl/field_goals_results_model_1.png)
 
-We see that our baseline model does a pretty good job modeling the observed data. However, it doesn't do a good job modeling the attempts very close to the goal, and those a lot further out. 
+We see that our baseline model does a pretty good job modeling the observed data. However, it doesn't do a good job modeling the attempts very close to the goal, and those a lot further out.
 For attempts close the goal line we have to remember that no field goal in our dataset has been attempted at anything less than 18 yards. (In that scenario, the line of scrimmage is at the 1 yard line.) So, remembering the way we calculated the probabilities of making the kick earlier, we see that given our model, the best we can do is ~98%,
 
 ```python
@@ -269,7 +269,7 @@ Armed with this information, we can think of the angle of a field goal as the an
 
 ![Field Goal Angle](/assets/plots/nfl/field_goal_angle.jpg)
 
-It gets a little fuzzy when you're trying to determine from which spot a kicker might have actually kicked the ball, since there seems to be some discretion on whether to kick from the center line, or from one of the hashmarks[^field-goal-range]. For this model, let's assume the kicker kicks from one of the hashmarks. 
+It gets a little fuzzy when you're trying to determine from which spot a kicker might have actually kicked the ball, since there seems to be some discretion on whether to kick from the center line, or from one of the hashmarks[^field-goal-range]. For this model, let's assume the kicker kicks from one of the hashmarks.
 
 From this, we can calculate this angle based on the distance to kick as:
 
@@ -313,7 +313,7 @@ $$\beta = ArcTan(\frac{29.25}{distance})$$
 
 $$\alpha = ArcTan(\frac{10.74}{distance})$$
 
-$$\mbox{Pr}\left(|\mbox{angle}| < (ArcTan(\frac{29.25}{distance}) - ArcTan(\frac{10.74}{distance}))\right)$$ 
+$$\mbox{Pr}\left(|\mbox{angle}| < (ArcTan(\frac{29.25}{distance}) - ArcTan(\frac{10.74}{distance}))\right)$$
 
 $$= 2\Phi\left(\frac{ArcTan(\frac{29.25}{distance}) - ArcTan(\frac{10.74}{distance})}{\sigma_{\rm angle}}\right) - 1$$
 
@@ -333,7 +333,7 @@ Overlaying the modeled probabilities for a few values for kicker variance by yar
 ![Kick Angle Probabilities by Yard](/assets/plots/nfl/field_goal_kick_angle_horizontal_probab_yards.png)
 
 ### Force of Kick
-We can characterize the second component of our geometry-based model as the force of the kick, or the probability that the kick will be kicked hard enough to make the distance to the goal, plus a foot. Unlike Andrew's golf putt model, we're not concerned with overshooting the goal, and only concerned about coming up short.  
+We can characterize the second component of our geometry-based model as the force of the kick, or the probability that the kick will be kicked hard enough to make the distance to the goal, plus a foot. Unlike Andrew's golf putt model, we're not concerned with overshooting the goal, and only concerned about coming up short.
 
 So, again borrowing from Andrew's work, we could formulate the probability of making it over the goal by 1 foot as:
 
@@ -375,7 +375,7 @@ with pm.Model() as model_geo:
 
     p = pm.Deterministic("p", p_angle * p_distance)
 
-    y_obs = pm.Binomial("y_obs", n=n, p=p, observed=y)    
+    y_obs = pm.Binomial("y_obs", n=n, p=p, observed=y)
 ```
 
 After sampling, we compare our posterior, including uncertainty estimates (via a 95% HPD), to the observed values. Compared to our baseline model, the geometry-based model does a better job modeling the probabilities for shorter kicks, but as we saw in our setup, fails to adequately account for the intricacies of longer kicks.
@@ -435,7 +435,7 @@ Continuing our matrix-based setup from the prior model, we just need to add the 
 
 ```python
 df_train_yards["kick_distance_yards_angle"] = (
-    df_train_yards["kick_distance_yards"] * 
+    df_train_yards["kick_distance_yards"] *
     df_train_yards["kick_angle_horizontal_degrees"]
 )
 
